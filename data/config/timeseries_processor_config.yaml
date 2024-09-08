@@ -1,0 +1,36 @@
+# timeseries_processor_config.yaml
+
+# Input window and forecast horizon settings for rolling windows
+input_window: 512  # Maximum context window (input sequence length for the model)
+forecast_horizon: 720  # Forecast horizon (how many steps ahead to predict)
+
+# Imputation settings for handling missing data
+impute_method: 'mean'  # Options: 'mean', 'median', 'ffill' (forward fill), 'bfill' (backward fill)
+
+# Patch size configuration
+min_patch_size: 2  # Minimum patch size for rolling windows
+max_patch_size: 64  # Maximum patch size
+
+# Predefined patch sizes based on time series frequency
+frequency_patch_map:
+  seconds: 64
+  minutes: 32
+  hours: 16
+  days: 8
+  weeks: 4
+  months: 2
+
+# Normalization settings
+normalization: 'zscore'  # Options: 'zscore' (Z-score normalization), 'minmax' (Min-Max normalization)
+
+# Dataset frequency (used for calculating rolling windows and patch size)
+dataset_frequency: 'hours'  # Frequency of the time series data (used for windowing and patching)
+
+# Rolling window settings
+rolling_window:
+  use_rolling_window: true  # Enable/disable rolling windows for time series segmentation
+  window_size: 512  # Window size for rolling windows (should match input_window)
+  forecast_horizon: 720  # Horizon for rolling windows (used for forecasting)
+
+# Paths and external configurations
+config_file_path: 'data/dataloader_config.yaml'  # Path to the DataLoader configuration file
