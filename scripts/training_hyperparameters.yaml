@@ -1,0 +1,32 @@
+# Final Hyperparameter Tuning Configuration for N-BEATS + TCN Hybrid Model
+
+# Model Architecture Parameters
+model:
+  input_window: 24  # Number of time steps for the input window
+  forecast_horizon: 4  # Number of time steps to predict in the forecast
+  
+  # TCN (Temporal Convolutional Network) Configuration
+  tcn_channels: [64, 128]  # Number of channels in the TCN layers
+  tcn_kernel_size: 3  # Kernel size for the TCN layers
+  tcn_dropout: 0.2  # Dropout rate for the TCN layers
+  tcn_layers: 4  # Final selection for the number of TCN layers
+  tcn_dilation_rates: [1, 2, 4, 8]  # Dilation rates for TCN layers
+  
+  # N-BEATS Configuration
+  nbeats_blocks: 3  # Number of N-BEATS blocks
+  nbeats_neurons: 64  # Number of neurons per layer in N-BEATS
+
+# Training Parameters
+training:
+  learning_rate: 3e-4  # Final learning rate selected
+  weight_decay: 1e-3  # Final weight decay selected
+  batch_size: 64  # Final batch size selected
+  epochs: 50  # Number of epochs for training
+
+# Optimization Techniques
+optimization:
+  learning_rate_scheduler:
+    type: cosine_annealing  # Type of learning rate scheduler
+    warmup_steps: 10000  # Number of warmup steps before applying cosine annealing
+  gradient_clipping: 3.0  # Final gradient clipping value selected
+  dropout: 0.2  # Final dropout rate selected for regularization
