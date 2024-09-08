@@ -1,82 +1,70 @@
 import torch
 import torch.nn as nn
+from .tcn import TemporalConvNet  # Assuming TemporalConvNet is in the same directory as tcn.py
+from .nbeats import NBeatsBlock   # Assuming NBeatsBlock is in the same directory as nbeats.py
 
-class NBeatsBlock(nn.Module):
-    def __init__(self, input_size, output_size, hidden_units, num_layers=3):
+class HybridNBeatsTCNModel(nn.Module):
+    def __init__(self, input_size, output_size, hidden_units, stack_depth, tcn_channels, tcn_kernel_size, tcn_dropout=0.2):
         """
-        Single block of the N-BEATS model, consisting of fully connected layers.
+        Hybrid N-BEATS + TCN Model for Time Series Forecasting.
 
-        :param input_size: Size of the input time series (number of features).
-        :param output_size: Size of the output (forecast horizon).
-        :param hidden_units: Number of units in the hidden layers.
-        :param num_layers: Number of fully connected layers in each block (default: 3).
+        Combines a Temporal Convolutional Network (TCN) to extract temporal features from the input time series,
+        and stacked N-BEATS blocks to refine the extracted features and produce a final forecast.
+
+        :param input_size: Size of the input time series (number of input features per time step).
+        :param output_size: Size of the output forecast (forecast horizon).
+        :param hidden_units: Number of hidden units in each N-BEATS block.
+        :param stack_depth: Number of stacked N-BEATS blocks.
+        :param tcn_channels: List of output channels for each layer in the TCN (defines depth of the TCN).
+        :param tcn_kernel_size: Kernel size for each TCN layer.
+        :param tcn_dropout: Dropout rate to apply within the TCN layers (default is 0.2).
         """
-        super(NBeatsBlock, self).__init__()
+        super(HybridNBeatsTCNModel, self).__init__()
         
-        # Define the layers in the block
-        layers = [nn.Linear(input_size, hidden_units), nn.ReLU()]
-        for _ in range(num_layers - 1):
-            layers += [nn.Linear(hidden_units, hidden_units), nn.ReLU()]
+        # Temporal Convolutional Network (TCN) for feature extraction
+        self.tcn = TemporalConvNet(1, tcn_channels, kernel_size=tcn_kernel_size, dropout=tcn_dropout)
         
-        # Fully connected layers
-        self.fc_layers = nn.Sequential(*layers)
-        # Final layer to produce the forecast
-        self.fc_forecast = nn.Linear(hidden_units, output_size)
-
-        # Optional backcast output (for decomposition into trend/seasonality, not used in simple versions)
-        self.fc_backcast = nn.Linear(hidden_units, input_size)  # For residual learning
-
-    def forward(self, x):
-        """
-        Forward pass through the N-BEATS block. Produces a forecast and optionally a backcast.
-
-        :param x: Input tensor of shape (batch_size, input_size).
-        :return: A tuple of (backcast, forecast), where the backcast is the reconstruction of the input
-                 and the forecast is the predicted future values.
-        """
-        # Pass through the fully connected layers
-        x = self.fc_layers(x)
-        
-        # Forecast future values
-        forecast = self.fc_forecast(x)
-        
-        # Backcast is the reconstruction of the input
-        backcast = self.fc_backcast(x)
-        
-        return backcast, forecast
-
-class NBeatsModel(nn.Module):
-    def __init__(self, input_size, output_size, hidden_units, stack_depth, num_layers=3):
-        """
-        N-BEATS model composed of stacked NBeatsBlocks, with residual learning.
-
-        :param input_size: Size of the input time series (number of features).
-        :param output_size: Size of the output (forecast horizon).
-        :param hidden_units: Number of hidden units in each block.
-        :param stack_depth: Number of blocks (depth of the stack).
-        :param num_layers: Number of fully connected layers in each block.
-        """
-        super(NBeatsModel, self).__init__()
-        
-        # Create a stack of NBeats blocks
+        # Stacked N-BEATS blocks for forecasting
         self.blocks = nn.ModuleList(
-            [NBeatsBlock(input_size, output_size, hidden_units, num_layers) for _ in range(stack_depth)]
+            [NBeatsBlock(tcn_channels[-1], output_size, hidden_units) for _ in range(stack_depth)]
         )
 
+        # Initialize weights for the network
+        self.init_weights()
+
+    def init_weights(self):
+        """
+        Initialize the model weights using a normal distribution.
+        """
+        for m in self.modules():
+            if isinstance(m, nn.Conv1d) or isinstance(m, nn.Linear):
+                nn.init.normal_(m.weight, mean=0.0, std=0.01)
+                if m.bias is not None:
+                    nn.init.constant_(m.bias, 0.0)
+
     def forward(self, x):
         """
-        Forward pass through the stacked N-BEATS model.
+        Forward pass through the Hybrid N-BEATS + TCN Model.
 
-        :param x: Input tensor of shape (batch_size, input_size).
-        :return: Final forecast produced by the stacked N-BEATS blocks.
+        :param x: Input tensor of shape (batch_size, sequence_length, input_size)
+        :return: Final forecast of shape (batch_size, output_size)
         """
-        backcast, forecast = 0, 0
-        
-        # Each block in the stack refines the forecast, and its residual (backcast) is subtracted
+        # Ensure the input is in the correct shape for TCN: (batch_size, num_channels, sequence_length)
+        x = x.unsqueeze(1)  # Add channel dimension to make it (batch_size, 1, sequence_length)
+
+        # Pass through the Temporal Convolutional Network (TCN)
+        x = self.tcn(x)
+
+        # Permute the output to (batch_size, sequence_length, num_channels) for N-BEATS
+        x = x.permute(0, 2, 1)
+
+        # Take the last time step's feature map (final temporal representation)
+        x = x[:, -1, :]  # Shape: (batch_size, num_channels)
+
+        # Pass through stacked N-BEATS blocks for forecasting
+        forecast = 0
         for block in self.blocks:
-            block_backcast, block_forecast = block(x)
-            backcast += block_backcast  # Refine the backcast (optional, could be discarded)
-            forecast += block_forecast  # Add to the cumulative forecast
-            x = x - block_backcast  # Subtract the backcast to create the residual input for the next block
-        
+            _, block_forecast = block(x)  # Only use the forecast, discard the backcast
+            forecast += block_forecast  # Accumulate forecasts from each block
+
         return forecast
