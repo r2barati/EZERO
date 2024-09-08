@@ -1,0 +1,12 @@
+# Evaluation Configuration for Hybrid NBeats + TCN Model
+
+# Evaluation Parameters
+evaluation:
+  batch_size: 32  # Batch size for evaluation
+
+# Metrics to Calculate
+metrics:
+  mse: true  # Calculate Mean Squared Error
+
+# Model Path (Model weights are located in the main folder and named 'model_weights.pth')
+model_path: 'model_weights.pth'
