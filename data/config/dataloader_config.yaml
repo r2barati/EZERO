@@ -1,0 +1,60 @@
+# dataloader_config.yaml
+
+# Dataset source and type configuration
+dataset_type: 'huggingface'  # Dataset type: 'csv', 'arrow', 'huggingface'
+dataset_name: 'Salesforce/lotsa_data'  # Hugging Face dataset name
+split: 'train'  # Default split: 'train', 'test', 'validation'
+
+# Sub-dataset details from the Salesforce/lotsa_data repository
+sub_datasets:
+  - name: 'BEIJING_SUBWAY_30MIN'
+    frequency: 'minutes'  # Frequency of data (impacts patch size)
+    file_path: 'Salesforce/lotsa_data/BEIJING_SUBWAY_30MIN'
+  - name: 'PEMS04'
+    frequency: 'hours'
+    file_path: 'Salesforce/lotsa_data/PEMS04'
+  - name: 'LOS_LOOP'
+    frequency: 'minutes'
+    file_path: 'Salesforce/lotsa_data/LOS_LOOP'
+  - name: 'M_DENSE'
+    frequency: 'hours'
+    file_path: 'Salesforce/lotsa_data/M_DENSE'
+  - name: 'australian_electricity_demand'
+    frequency: 'days'
+    file_path: 'Salesforce/lotsa_data/australian_electricity_demand'
+  - name: 'bitcoin_with_missing'
+    frequency: 'days'
+    file_path: 'Salesforce/lotsa_data/bitcoin_with_missing'
+  - name: 'cdc_fluview_ilinet'
+    frequency: 'weeks'
+    file_path: 'Salesforce/lotsa_data/cdc_fluview_ilinet'
+  - name: 'beijing_air_quality'
+    frequency: 'hours'
+    file_path: 'Salesforce/lotsa_data/beijing_air_quality'
+  - name: 'alibaba_cluster_trace_2018'
+    frequency: 'hours'
+    file_path: 'Salesforce/lotsa_data/alibaba_cluster_trace_2018'
+  - name: 'uber_tlc_daily'
+    frequency: 'days'
+    file_path: 'Salesforce/lotsa_data/uber_tlc_daily'
+
+# Patch size settings based on data frequency
+min_patch_size: 2  # Minimum patch size for rolling windows
+max_patch_size: 64  # Maximum patch size
+
+# Predefined patch sizes based on time series frequency
+frequency_patch_map:
+  seconds: 64  # Patch size for second-level frequency
+  minutes: 32  # Patch size for minute-level frequency
+  hours: 16    # Patch size for hour-level frequency
+  days: 8      # Patch size for day-level frequency
+  weeks: 4     # Patch size for week-level frequency
+  months: 2    # Patch size for month-level frequency
+
+# PyTorch DataLoader configuration
+batch_size: 32  # Batch size for PyTorch DataLoader
+shuffle: true  # Whether to shuffle the data between epochs
+num_workers: 4  # Number of workers for parallel data loading
+
+# File paths (if loading from local files)
+file_path: 'data/path_to_local_file.csv'  # Local file path (CSV, Arrow, etc.)
