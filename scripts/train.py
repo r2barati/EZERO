@@ -4,7 +4,7 @@ import argparse
 import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
 from models.hybrid_model import HybridNBeatsTCNModel  
-from data.dataloader import generate_time_series  
+from data.generator import generate_time_series
 from data.preprocessing import normalize_series, create_rolling_windows 
 
 def load_yaml_config(config_file):
@@ -29,33 +29,35 @@ def train_model(model, dataloader, criterion, optimizer, epochs):
 
 def main(args):
     # Load configurations
-    model_config = load_yaml_config(args.model_config)
-    training_config = load_yaml_config(args.training_config)
+    config = load_yaml_config(args.config)
+    model_config = config['model']
+    training_config = config['training']
+    dataset_config = config['dataset']
 
     # Data generation
-    num_series = training_config['num_series']
-    min_length = training_config['min_length']
-    max_length = training_config['max_length']
+    num_series = dataset_config['num_series']
+    min_length = dataset_config['min_length']
+    max_length = dataset_config['max_length']
     time_series_df = generate_time_series(num_series, min_length, max_length)
 
     # Normalize and create rolling windows
     input_window = model_config['input_window']
     forecast_horizon = model_config['forecast_horizon']
 
-    means, stds, X_all, y_all = [], [], [], []
+    means_all, stds_all, X_all, y_all = [], [], [], []
     for col in time_series_df.columns:
         series = time_series_df[col].dropna().values
-        normalized_series, mean, std = normalize_series(series)
-        X, y = create_rolling_windows(normalized_series, input_window, forecast_horizon)
+        X, y, means, stds = create_rolling_windows(series, input_window, forecast_horizon)
 
         if len(X) > 0:
             X_all.append(X)
             y_all.append(y)
-        means.append(mean)
-        stds.append(std)
+            means_all.append(means)
+            stds_all.append(stds)
 
     X_all = torch.tensor(np.concatenate(X_all), dtype=torch.float32)
     y_all = torch.tensor(np.concatenate(y_all), dtype=torch.float32)
+    # Note: means and stds are computed but not strictly required for training the normalized model
 
     # Create DataLoader
     batch_size = training_config['batch_size']
@@ -70,24 +72,23 @@ def main(args):
         stack_depth=model_config['stack_depth'],
         tcn_channels=model_config['tcn_channels'],
         tcn_kernel_size=model_config['tcn_kernel_size'],
-        tcn_dropout=model_config['tcn_dropout']
+        tcn_dropout=model_config.get('tcn_dropout', 0.2)
     )
 
     # Define loss function and optimizer
     criterion = torch.nn.MSELoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=training_config['learning_rate'])
+    optimizer = torch.optim.Adam(model.parameters(), lr=float(training_config['learning_rate']))
 
     # Train the model
     epochs = training_config['epochs']
     train_model(model, dataloader, criterion, optimizer, epochs)
 
     # Save the model
-    torch.save(model.state_dict(), 'hybrid_model.pth')
+    torch.save(model.state_dict(), config.get('model_path', 'hybrid_model.pth'))
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hybrid NBeats + TCN Model Training")
-    parser.add_argument('--model_config', type=str, default='../configs/model_config.yaml', help="Path to model config file")
-    parser.add_argument('--training_config', type=str, default='../configs/training_config.yaml', help="Path to training config file")
+    parser.add_argument('--config', type=str, default='config/config.yaml', help="Path to config file")
     args = parser.parse_args()
 
     main(args)

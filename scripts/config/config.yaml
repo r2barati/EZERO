@@ -1,4 +1,4 @@
-# Final Hyperparameter Tuning Configuration for N-BEATS + TCN Hybrid Model
+# Consolidated Configuration for N-BEATS + TCN Hybrid Model
 
 # Model Architecture Parameters
 model:
@@ -13,8 +13,8 @@ model:
   tcn_dilation_rates: [1, 2, 4, 8]  # Dilation rates for TCN layers
   
   # N-BEATS Configuration
-  nbeats_blocks: 3  # Number of N-BEATS blocks
-  nbeats_neurons: 64  # Number of neurons per layer in N-BEATS
+  hidden_units: 64 # hidden units
+  stack_depth: 3 # number of blocks
 
 # Training Parameters
 training:
@@ -30,3 +30,20 @@ optimization:
     warmup_steps: 10000  # Number of warmup steps before applying cosine annealing
   gradient_clipping: 3.0  # Final gradient clipping value selected
   dropout: 0.2  # Final dropout rate selected for regularization
+
+# Dataset Generation / Processing settings
+dataset:
+  num_series: 10
+  min_length: 100
+  max_length: 500
+
+# Evaluation Parameters
+evaluation:
+  batch_size: 32  # Batch size for evaluation
+
+# Metrics to Calculate
+metrics:
+  mse: true  # Calculate Mean Squared Error
+
+# Model Path (Model weights are located in the main folder and named 'model_weights.pth')
+model_path: 'hybrid_model.pth'
