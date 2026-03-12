@@ -34,7 +34,7 @@ optimization:
 # Dataset Generation / Processing settings
 dataset:
   type: 'monash'  # Use 'monash' or 'synthetic'
-  monash_name: 'm4_hourly'
+  monash_name: 'tourism_monthly'
   num_series: 10
   min_length: 100
   max_length: 500
