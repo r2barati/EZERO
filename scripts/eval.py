@@ -6,6 +6,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from models.hybrid_model import HybridNBeatsTCNModel 
 from data.generator import generate_time_series
+from data.monash_loader import generate_zero_shot_eval_dataset
 from data.preprocessing import normalize_series, create_rolling_windows  
 
 def load_yaml_config(config_file):
@@ -48,11 +49,14 @@ def main(args):
     evaluation_config = config['evaluation']
     dataset_config = config['dataset']
 
-    # Generate test data (or load it, depending on your application)
-    num_series = dataset_config['num_series']
-    min_length = dataset_config['min_length']
-    max_length = dataset_config['max_length']
-    time_series_df = generate_time_series(num_series, min_length, max_length)
+    # Explicit Zero-Shot evaluation Dataset setup
+    # Using entirely different distributions and scales
+    eval_num_series = evaluation_config.get('zero_shot_num_series', 20)
+    eval_min_length = evaluation_config.get('zero_shot_min_length', 100)
+    eval_max_length = evaluation_config.get('zero_shot_max_length', 300)
+
+    print("Generating explicit Zero-Shot Evaluation Dataset...")
+    time_series_df = generate_zero_shot_eval_dataset(eval_num_series, eval_min_length, eval_max_length)
 
     # Normalize and create rolling windows
     input_window = model_config['input_window']

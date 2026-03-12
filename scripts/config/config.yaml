@@ -33,6 +33,8 @@ optimization:
 
 # Dataset Generation / Processing settings
 dataset:
+  type: 'monash'  # Use 'monash' or 'synthetic'
+  monash_name: 'm4_hourly'
   num_series: 10
   min_length: 100
   max_length: 500
@@ -40,6 +42,9 @@ dataset:
 # Evaluation Parameters
 evaluation:
   batch_size: 32  # Batch size for evaluation
+  zero_shot_num_series: 20
+  zero_shot_min_length: 150
+  zero_shot_max_length: 400
 
 # Metrics to Calculate
 metrics:

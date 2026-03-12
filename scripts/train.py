@@ -5,6 +5,7 @@ import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
 from models.hybrid_model import HybridNBeatsTCNModel  
 from data.generator import generate_time_series
+from data.monash_loader import load_monash_dataset
 from data.preprocessing import normalize_series, create_rolling_windows 
 
 def load_yaml_config(config_file):
@@ -34,11 +35,19 @@ def main(args):
     training_config = config['training']
     dataset_config = config['dataset']
 
-    # Data generation
-    num_series = dataset_config['num_series']
-    min_length = dataset_config['min_length']
-    max_length = dataset_config['max_length']
-    time_series_df = generate_time_series(num_series, min_length, max_length)
+    # Dataset Loading
+    dataset_type = dataset_config.get('type', 'synthetic')
+    if dataset_type == 'monash':
+        print("Using Monash dataset for training.")
+        monash_name = dataset_config.get('monash_name', 'm4_hourly')
+        num_series = dataset_config.get('num_series', 10)
+        time_series_df = load_monash_dataset(dataset_name=monash_name, max_series=num_series)
+    else:
+        print("Using synthetic dataset for training.")
+        num_series = dataset_config['num_series']
+        min_length = dataset_config['min_length']
+        max_length = dataset_config['max_length']
+        time_series_df = generate_time_series(num_series, min_length, max_length)
 
     # Normalize and create rolling windows
     input_window = model_config['input_window']
