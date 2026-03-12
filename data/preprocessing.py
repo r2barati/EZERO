@@ -21,36 +21,26 @@ def create_rolling_windows(series, input_window, forecast_horizon):
     Create rolling windows for training/evaluation and apply instance-level
     normalization (RevIN-style) independently for each window.
 
-    Returns:
-    - X: Array of normalized input windows
-    - y: Array of corresponding normalized target windows
-    - means: Array of means for each input window
-    - stds: Array of standard deviations for each input window
+    Optimized for performance with numpy array slicing.
     """
     if len(series) < input_window + forecast_horizon:
         return np.array([]), np.array([]), np.array([]), np.array([])
 
-    X, y, means, stds = [], [], [], []
-    for i in range(len(series) - input_window - forecast_horizon + 1):
-        # Extract the input window
-        input_seq = series[i:i + input_window]
+    # Vectorized windowing
+    num_windows = len(series) - input_window - forecast_horizon + 1
 
-        # Extract the target window
-        target_seq = series[i + input_window:i + input_window + forecast_horizon]
+    # Create an array of indices for X and Y
+    idx_x = np.arange(input_window)[None, :] + np.arange(num_windows)[:, None]
+    idx_y = np.arange(input_window, input_window + forecast_horizon)[None, :] + np.arange(num_windows)[:, None]
 
-        # Normalize based ONLY on the input window statistics (preventing data leakage)
-        mean = np.mean(input_seq)
-        std = np.std(input_seq)
+    X_raw = series[idx_x]
+    y_raw = series[idx_y]
 
-        if std == 0:
-            std = 1.0
+    means = np.mean(X_raw, axis=1, keepdims=True)
+    stds = np.std(X_raw, axis=1, keepdims=True)
+    stds[stds == 0] = 1.0  # Avoid division by zero
 
-        normalized_input = (input_seq - mean) / std
-        normalized_target = (target_seq - mean) / std # Target is normalized with input stats
+    X_norm = (X_raw - means) / stds
+    y_norm = (y_raw - means) / stds  # Target normalized with input stats
 
-        X.append(normalized_input)
-        y.append(normalized_target)
-        means.append(mean)
-        stds.append(std)
-
-    return np.array(X), np.array(y), np.array(means), np.array(stds)
+    return X_norm, y_norm, means.flatten(), stds.flatten()

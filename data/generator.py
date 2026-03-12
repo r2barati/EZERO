@@ -5,8 +5,10 @@ def generate_time_series(num_series, min_length, max_length):
     """
     Generate synthetic time series data to simulate zero-shot and few-shot scenarios
     with varying properties such as length, scale, trend, seasonality, and noise.
+
+    Returns a list of 1D numpy arrays to avoid massive memory padding.
     """
-    data = {}
+    series_list = []
 
     for i in range(num_series):
         # Randomly choose length
@@ -30,10 +32,6 @@ def generate_time_series(num_series, min_length, max_length):
 
         # Combine components
         series = scale + trend + seasonality + noise
+        series_list.append(series)
 
-        # Pad with NaN to match max_length so we can store in a DataFrame easily
-        # or just return as a dictionary / dataframe of lists
-        padded_series = np.pad(series, (0, max_length - length), constant_values=np.nan)
-        data[f'series_{i}'] = padded_series
-
-    return pd.DataFrame(data)
+    return series_list

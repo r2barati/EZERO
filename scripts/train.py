@@ -5,7 +5,7 @@ import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
 from models.hybrid_model import HybridNBeatsTCNModel  
 from data.generator import generate_time_series
-from data.monash_loader import load_monash_dataset
+from data.monash_loader import load_monash_dataset, load_all_monash_datasets
 from data.preprocessing import normalize_series, create_rolling_windows 
 
 def load_yaml_config(config_file):
@@ -38,25 +38,42 @@ def main(args):
     # Dataset Loading
     dataset_type = dataset_config.get('type', 'synthetic')
     if dataset_type == 'monash':
-        print("Using Monash dataset for training.")
-        monash_name = dataset_config.get('monash_name', 'm4_hourly')
+        monash_name = dataset_config.get('monash_name', 'all')
         num_series = dataset_config.get('num_series', 10)
-        time_series_df = load_monash_dataset(dataset_name=monash_name, max_series=num_series)
+
+        if monash_name == 'all':
+            print("Using ALL specified Monash datasets for Foundation-Style training.")
+            series_list = load_all_monash_datasets(max_series_per_dataset=num_series)
+        else:
+            print(f"Using Monash dataset '{monash_name}' for training.")
+            series_list = load_monash_dataset(dataset_name=monash_name, max_series=num_series)
     else:
         print("Using synthetic dataset for training.")
         num_series = dataset_config['num_series']
         min_length = dataset_config['min_length']
         max_length = dataset_config['max_length']
-        time_series_df = generate_time_series(num_series, min_length, max_length)
+        series_list = generate_time_series(num_series, min_length, max_length)
 
     # Normalize and create rolling windows
     input_window = model_config['input_window']
     forecast_horizon = model_config['forecast_horizon']
 
     means_all, stds_all, X_all, y_all = [], [], [], []
-    for col in time_series_df.columns:
-        series = time_series_df[col].dropna().values
+    for series in series_list:
+        # Since series is now a 1D numpy array and might have NaNs depending on how it was parsed:
+        series = series[~np.isnan(series)]
+        if len(series) < input_window + forecast_horizon:
+            continue
+
+        # Sample heavily from the sequence to limit dataset size to realistic numbers
+        # without running out of RAM or timing out during padding.
         X, y, means, stds = create_rolling_windows(series, input_window, forecast_horizon)
+        if len(X) > 500:
+            indices = np.random.choice(len(X), size=500, replace=False)
+            X = X[indices]
+            y = y[indices]
+            means = means[indices]
+            stds = stds[indices]
 
         if len(X) > 0:
             X_all.append(X)

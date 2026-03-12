@@ -15,25 +15,23 @@ MONASH_DATASETS = {
     # Add others as needed
 }
 
-def parse_tsf(file_path):
+def parse_tsf(file_path, max_series=None):
     """
     Minimal parser for Monash .tsf files.
     Extracts the series values (comma separated) into a list of arrays.
+    Memory-efficient iterator.
     """
     series_list = []
     with open(file_path, 'r', encoding='ISO-8859-1') as f:
-        # Read lines (using ISO-8859-1 to handle any weird byte chars in metadata)
-        lines = f.readlines()
-
         # Skip header metadata until @data
-        data_start = 0
-        for i, line in enumerate(lines):
+        for line in f:
             if line.startswith('@data'):
-                data_start = i + 1
                 break
 
         # Process data rows
-        for line in lines[data_start:]:
+        for line in f:
+            if max_series is not None and len(series_list) >= max_series:
+                break
             parts = line.strip().split(':')
             if len(parts) > 1:
                 # The series data is usually in the last part, separated by commas
@@ -45,6 +43,20 @@ def parse_tsf(file_path):
                 except ValueError:
                     pass
     return series_list
+
+def load_all_monash_datasets(max_series_per_dataset=10):
+    """
+    Downloads, extracts, and parses multiple monash datasets, merging them
+    into a single unified training corpus for foundation-model style training.
+    """
+    all_series = []
+    print(f"Aggregating {len(MONASH_DATASETS)} datasets for zero-shot capability training...")
+    for dataset_name in MONASH_DATASETS.keys():
+        series = load_monash_dataset(dataset_name, max_series=max_series_per_dataset)
+        all_series.extend(series)
+
+    print(f"Total series aggregated: {len(all_series)}")
+    return all_series
 
 def load_monash_dataset(dataset_name="m4_hourly", max_series=10):
     """
@@ -87,29 +99,17 @@ def load_monash_dataset(dataset_name="m4_hourly", max_series=10):
         return simulate_monash_dataset(max_series)
 
     print(f"Parsing {extracted_tsf}...")
-    series_list = parse_tsf(extracted_tsf)
+    series_list = parse_tsf(extracted_tsf, max_series=max_series)
 
-    # Subsample if necessary
-    if max_series and len(series_list) > max_series:
-        series_list = series_list[:max_series]
-
-    # Convert to a DataFrame with padded sequences
-    data = {}
-    for i, series in enumerate(series_list):
-        data[f"series_{i}"] = series
-
-    max_len = max([len(v) for v in data.values()])
-    for k in data.keys():
-        data[k] = np.pad(data[k], (0, max_len - len(data[k])), constant_values=np.nan)
-
-    return pd.DataFrame(data)
+    return series_list
 
 def simulate_monash_dataset(num_series=10):
     """
     Simulates a dataset that has properties similar to real-world Monash datasets
     (e.g., varying lengths, strong seasonality, heavy tails).
+    Returns a list of 1D numpy arrays.
     """
-    data = {}
+    series_list = []
     for i in range(num_series):
         # Monash datasets typically have highly variable lengths
         length = np.random.randint(500, 2000)
@@ -129,21 +129,17 @@ def simulate_monash_dataset(num_series=10):
         noise = np.random.standard_t(df=3, size=length) * scale * 0.1
 
         series = trend + seasonality_daily + seasonality_weekly + noise
-        data[f'monash_proxy_series_{i}'] = series
+        series_list.append(series)
 
-    # Pad for DataFrame
-    max_len = max([len(v) for v in data.values()])
-    for k in data.keys():
-        data[k] = np.pad(data[k], (0, max_len - len(data[k])), constant_values=np.nan)
-
-    return pd.DataFrame(data)
+    return series_list
 
 def generate_zero_shot_eval_dataset(num_series, min_length, max_length):
     """
     Generates a synthetic dataset specifically for zero-shot evaluation,
     using entirely different distributions than the standard training generator.
+    Returns a list of 1D numpy arrays.
     """
-    data = {}
+    series_list = []
     for i in range(num_series):
         length = np.random.randint(min_length, max_length + 1)
         t = np.arange(length)
@@ -160,7 +156,6 @@ def generate_zero_shot_eval_dataset(num_series, min_length, max_length):
         noise = np.random.uniform(-1, 1, length) * scale * 0.05
 
         series = trend + seasonality + noise
-        padded_series = np.pad(series, (0, max_length - length), constant_values=np.nan)
-        data[f'zeroshot_eval_series_{i}'] = padded_series
+        series_list.append(series)
 
-    return pd.DataFrame(data)
+    return series_list

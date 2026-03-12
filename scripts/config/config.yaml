@@ -34,8 +34,8 @@ optimization:
 # Dataset Generation / Processing settings
 dataset:
   type: 'monash'  # Use 'monash' or 'synthetic'
-  monash_name: 'tourism_monthly'
-  num_series: 10
+  monash_name: 'all' # Specify 'all' to aggregate across multiple foundation datasets, or a specific dataset name
+  num_series: 2 # This acts as max_series_per_dataset when monash_name is 'all'
   min_length: 100
   max_length: 500
 

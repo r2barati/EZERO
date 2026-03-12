@@ -56,15 +56,18 @@ def main(args):
     eval_max_length = evaluation_config.get('zero_shot_max_length', 300)
 
     print("Generating explicit Zero-Shot Evaluation Dataset...")
-    time_series_df = generate_zero_shot_eval_dataset(eval_num_series, eval_min_length, eval_max_length)
+    series_list = generate_zero_shot_eval_dataset(eval_num_series, eval_min_length, eval_max_length)
 
     # Normalize and create rolling windows
     input_window = model_config['input_window']
     forecast_horizon = model_config['forecast_horizon']
 
     means_all, stds_all, X_all, y_all = [], [], [], []
-    for col in time_series_df.columns:
-        series = time_series_df[col].dropna().values
+    for series in series_list:
+        series = series[~np.isnan(series)]
+        if len(series) < input_window + forecast_horizon:
+            continue
+
         X, y, means, stds = create_rolling_windows(series, input_window, forecast_horizon)
 
         if len(X) > 0:
