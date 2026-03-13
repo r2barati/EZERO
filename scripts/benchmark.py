@@ -197,7 +197,13 @@ def main():
     print("=======================================================")
     df = pd.DataFrame(results).T
     print(df.to_markdown())
+
+    # Save the dataframe explicitly for user access
+    output_file = "benchmark_results.csv"
+    df.to_csv(output_file, index_label="Model")
+
     print("=======================================================")
+    print(f"Results successfully saved to {output_file}")
     print("Note: Commercial models like TimesFM and Moirai are highly parameterized (>200M)")
     print("and require dedicated GPU inference environments to run successfully.")
 
