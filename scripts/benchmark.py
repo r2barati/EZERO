@@ -78,8 +78,11 @@ def evaluate_local_model(series_list, model_path, input_window, forecast_horizon
     epsilon = 1e-8
     mape = np.mean(np.abs((all_targets - all_preds) / (np.abs(all_targets) + epsilon))) * 100
 
-    print(f"Local Model -> MSE: {mse:.4f} | MAE: {mae:.4f} | MAPE: {mape:.2f}% | Inference Time: {inference_time:.2f}s")
-    return mse, mae, mape, inference_time
+    # Calculate Symmetric Mean Absolute Percentage Error (sMAPE)
+    smape = np.mean(np.abs(all_targets - all_preds) / ((np.abs(all_targets) + np.abs(all_preds)) / 2 + epsilon)) * 100
+
+    print(f"Local Model -> MSE: {mse:.4f} | MAE: {mae:.4f} | MAPE: {mape:.2f}% | sMAPE: {smape:.2f}% | Inference Time: {inference_time:.2f}s")
+    return mse, mae, mape, smape, inference_time
 
 def evaluate_chronos(series_list, model_id="amazon/chronos-t5-tiny", input_window=24, forecast_horizon=4):
     """
@@ -136,9 +139,10 @@ def evaluate_chronos(series_list, model_id="amazon/chronos-t5-tiny", input_windo
 
     epsilon = 1e-8
     mape = np.mean(np.abs((all_targets - all_preds) / (np.abs(all_targets) + epsilon))) * 100
+    smape = np.mean(np.abs(all_targets - all_preds) / ((np.abs(all_targets) + np.abs(all_preds)) / 2 + epsilon)) * 100
 
-    print(f"{model_id} -> MSE: {mse:.4f} | MAE: {mae:.4f} | MAPE: {mape:.2f}% | Inference Time: {inference_time:.2f}s")
-    return mse, mae, mape, inference_time
+    print(f"{model_id} -> MSE: {mse:.4f} | MAE: {mae:.4f} | MAPE: {mape:.2f}% | sMAPE: {smape:.2f}% | Inference Time: {inference_time:.2f}s")
+    return mse, mae, mape, smape, inference_time
 
 def evaluate_nixtla_timegpt(series_list, api_key=None, input_window=24, forecast_horizon=4):
     """
@@ -187,13 +191,13 @@ def main():
     results = {}
 
     # Evaluate Your Custom Model
-    mse, mae, mape, t = evaluate_local_model(series_list, args.local_model_path, args.input_window, args.forecast_horizon)
-    results["Custom Hybrid (Local)"] = {"MSE": mse, "MAE": mae, "MAPE (%)": mape, "Time (s)": t}
+    mse, mae, mape, smape, t = evaluate_local_model(series_list, args.local_model_path, args.input_window, args.forecast_horizon)
+    results["Custom Hybrid (Local)"] = {"MSE": mse, "MAE": mae, "MAPE (%)": mape, "sMAPE (%)": smape, "Time (s)": t}
 
     # Evaluate Amazon Chronos (Smallest variant that fits in RAM)
     # Note: Chronos evaluation requires `pip install chronos`
-    mse, mae, mape, t = evaluate_chronos(series_list, "amazon/chronos-t5-tiny", args.input_window, args.forecast_horizon)
-    results["Amazon Chronos-T5-Tiny"] = {"MSE": mse, "MAE": mae, "MAPE (%)": mape, "Time (s)": t}
+    mse, mae, mape, smape, t = evaluate_chronos(series_list, "amazon/chronos-t5-tiny", args.input_window, args.forecast_horizon)
+    results["Amazon Chronos-T5-Tiny"] = {"MSE": mse, "MAE": mae, "MAPE (%)": mape, "sMAPE (%)": smape, "Time (s)": t}
 
     # Evaluate placeholders
     evaluate_google_timesfm(series_list)

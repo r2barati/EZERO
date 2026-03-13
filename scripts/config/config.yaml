@@ -19,6 +19,7 @@ model:
 # Training Parameters
 training:
   learning_rate: 3e-4  # Final learning rate selected
+  loss_function: 'huber' # Options: 'mse', 'mae', 'huber', 'smape'
   weight_decay: 1e-3  # Final weight decay selected
   batch_size: 64  # Final batch size selected
   epochs: 50  # Number of epochs for training

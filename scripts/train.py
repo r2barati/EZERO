@@ -13,6 +13,16 @@ def load_yaml_config(config_file):
     with open(config_file, 'r') as file:
         return yaml.safe_load(file)
 
+class sMAPELoss(torch.nn.Module):
+    def __init__(self):
+        super(sMAPELoss, self).__init__()
+
+    def forward(self, y_pred, y_true):
+        epsilon = 1e-8
+        numerator = torch.abs(y_pred - y_true)
+        denominator = (torch.abs(y_true) + torch.abs(y_pred)) / 2 + epsilon
+        return torch.mean(numerator / denominator)
+
 def train_model(model, dataloader, criterion, optimizer, epochs):
     """Training loop for the model."""
     for epoch in range(epochs):
@@ -102,7 +112,20 @@ def main(args):
     )
 
     # Define loss function and optimizer
-    criterion = torch.nn.MSELoss()
+    loss_type = training_config.get('loss_function', 'mse').lower()
+    if loss_type == 'huber':
+        print("Using HuberLoss for training optimization.")
+        criterion = torch.nn.HuberLoss(delta=1.0)
+    elif loss_type == 'smape':
+        print("Using custom sMAPELoss for training optimization.")
+        criterion = sMAPELoss()
+    elif loss_type == 'mae':
+        print("Using L1Loss (MAE) for training optimization.")
+        criterion = torch.nn.L1Loss()
+    else:
+        print("Using standard MSELoss for training optimization.")
+        criterion = torch.nn.MSELoss()
+
     optimizer = torch.optim.Adam(model.parameters(), lr=float(training_config['learning_rate']))
 
     # Train the model
