@@ -5,7 +5,8 @@ import numpy as np
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 from models.hybrid_model import HybridNBeatsTCNModel 
-from data.dataloader import generate_time_series 
+from data.generator import generate_time_series
+from data.monash_loader import generate_zero_shot_eval_dataset
 from data.preprocessing import normalize_series, create_rolling_windows  
 
 def load_yaml_config(config_file):
@@ -43,41 +44,51 @@ def evaluate_model(model, dataloader):
 
 def main(args):
     # Load configurations
-    model_config = load_yaml_config(args.model_config)
-    evaluation_config = load_yaml_config(args.evaluation_config)
+    config = load_yaml_config(args.config)
+    model_config = config['model']
+    evaluation_config = config['evaluation']
+    dataset_config = config['dataset']
 
-    # Generate test data (or load it, depending on your application)
-    num_series = evaluation_config['dataset']['num_series']
-    min_length = evaluation_config['dataset']['min_length']
-    max_length = evaluation_config['dataset']['max_length']
-    time_series_df = generate_time_series(num_series, min_length, max_length)
+    # Explicit Zero-Shot evaluation Dataset setup
+    # Using entirely different distributions and scales
+    eval_num_series = evaluation_config.get('zero_shot_num_series', 20)
+    eval_min_length = evaluation_config.get('zero_shot_min_length', 100)
+    eval_max_length = evaluation_config.get('zero_shot_max_length', 300)
+
+    print("Generating explicit Zero-Shot Evaluation Dataset...")
+    series_list = generate_zero_shot_eval_dataset(eval_num_series, eval_min_length, eval_max_length)
 
     # Normalize and create rolling windows
     input_window = model_config['input_window']
     forecast_horizon = model_config['forecast_horizon']
 
-    means, stds, X_all, y_all = [], [], [], []
-    for col in time_series_df.columns:
-        series = time_series_df[col].dropna().values
-        normalized_series, mean, std = normalize_series(series)
-        X, y = create_rolling_windows(normalized_series, input_window, forecast_horizon)
+    means_all, stds_all, X_all, y_all = [], [], [], []
+    for series in series_list:
+        series = series[~np.isnan(series)]
+        if len(series) < input_window + forecast_horizon:
+            continue
+
+        X, y, means, stds = create_rolling_windows(series, input_window, forecast_horizon)
 
         if len(X) > 0:
             X_all.append(X)
             y_all.append(y)
-        means.append(mean)
-        stds.append(std)
+            means_all.append(means)
+            stds_all.append(stds)
 
     X_all = torch.tensor(np.concatenate(X_all), dtype=torch.float32)
     y_all = torch.tensor(np.concatenate(y_all), dtype=torch.float32)
+    means_tensor = torch.tensor(np.concatenate(means_all), dtype=torch.float32)
+    stds_tensor = torch.tensor(np.concatenate(stds_all), dtype=torch.float32)
 
     # Create DataLoader for evaluation
-    batch_size = evaluation_config['evaluation']['batch_size']
-    dataset = TensorDataset(X_all, y_all)
+    batch_size = evaluation_config['batch_size']
+    # Include means and stds in the dataset for denormalization
+    dataset = TensorDataset(X_all, y_all, means_tensor, stds_tensor)
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
     # Load model weights from the path specified in evaluation_config.yaml
-    model_path = evaluation_config['model_path']
+    model_path = config.get('model_path', 'hybrid_model.pth')
     model = load_model(
         HybridNBeatsTCNModel,
         model_path,
@@ -87,18 +98,37 @@ def main(args):
         stack_depth=model_config['stack_depth'],
         tcn_channels=model_config['tcn_channels'],
         tcn_kernel_size=model_config['tcn_kernel_size'],
-        tcn_dropout=model_config['tcn_dropout']
+        tcn_dropout=model_config.get('tcn_dropout', 0.2)
     )
 
     # Evaluate the model on the test data
-    mse, mae = evaluate_model(model, dataloader)
+    # Redefine evaluate_model to handle denormalization
+    model.eval()
+    all_preds, all_targets = [], []
 
-    print(f"Evaluation Results:\nMSE: {mse:.4f}\nMAE: {mae:.4f}")
+    with torch.no_grad():
+        for inputs, targets, window_means, window_stds in dataloader:
+            outputs = model(inputs)
+
+            # Denormalize predictions and targets using instance statistics
+            outputs_denorm = outputs * window_stds.unsqueeze(-1) + window_means.unsqueeze(-1)
+            targets_denorm = targets * window_stds.unsqueeze(-1) + window_means.unsqueeze(-1)
+
+            all_preds.append(outputs_denorm.numpy())
+            all_targets.append(targets_denorm.numpy())
+
+    all_preds = np.concatenate(all_preds, axis=0)
+    all_targets = np.concatenate(all_targets, axis=0)
+
+    # Calculate evaluation metrics in original scale
+    mse = mean_squared_error(all_targets, all_preds)
+    mae = mean_absolute_error(all_targets, all_preds)
+
+    print(f"Evaluation Results on Denormalized Data (Original Scale):\nMSE: {mse:.4f}\nMAE: {mae:.4f}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Hybrid NBeats + TCN Model Evaluation")
-    parser.add_argument('--model_config', type=str, default='../configs/model_config.yaml', help="Path to model config file")
-    parser.add_argument('--evaluation_config', type=str, default='../configs/evaluation_config.yaml', help="Path to evaluation config file")
+    parser.add_argument('--config', type=str, default='config/config.yaml', help="Path to config file")
     args = parser.parse_args()
 
     main(args)

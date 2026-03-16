@@ -1,0 +1,7 @@
+*.tsf
+*.zip
+*.pth
+data/*/*.tsf
+__pycache__/
+*.pyc
+output.txt
