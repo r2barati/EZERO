@@ -1,0 +1,225 @@
+model,variant,paper,arxiv_id,table,dataset,horizon,lookback,mse,mae,source_url
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh1,96,96,0.386,0.405,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh1,192,96,0.441,0.436,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh1,336,96,0.487,0.458,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh1,720,96,0.503,0.491,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh2,96,96,0.297,0.349,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh2,192,96,0.380,0.400,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh2,336,96,0.428,0.432,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTh2,720,96,0.427,0.445,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm1,96,96,0.334,0.368,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm1,192,96,0.377,0.391,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm1,336,96,0.426,0.420,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm1,720,96,0.491,0.459,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm2,96,96,0.180,0.264,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm2,192,96,0.250,0.309,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm2,336,96,0.311,0.348,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ETTm2,720,96,0.412,0.407,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Weather,96,96,0.174,0.214,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Weather,192,96,0.221,0.254,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Weather,336,96,0.278,0.296,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Weather,720,96,0.358,0.347,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ECL,96,96,0.148,0.240,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ECL,192,96,0.162,0.253,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ECL,336,96,0.178,0.269,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),ECL,720,96,0.225,0.317,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Traffic,96,96,0.395,0.268,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Traffic,192,96,0.417,0.276,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Traffic,336,96,0.433,0.283,https://arxiv.org/html/2310.06625v4
+iTransformer,official,Liu et al. ICLR 2024,2310.06625,Table 10 (App. F.4),Traffic,720,96,0.467,0.302,https://arxiv.org/html/2310.06625v4
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh1,96,96,0.384,0.402,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh1,192,96,0.436,0.429,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh1,336,96,0.491,0.469,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh1,720,96,0.521,0.500,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh2,96,96,0.340,0.374,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh2,192,96,0.402,0.414,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh2,336,96,0.452,0.452,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTh2,720,96,0.462,0.468,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm1,96,96,0.338,0.375,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm1,192,96,0.374,0.387,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm1,336,96,0.410,0.411,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm1,720,96,0.478,0.450,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm2,96,96,0.187,0.267,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm2,192,96,0.249,0.309,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm2,336,96,0.321,0.351,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ETTm2,720,96,0.408,0.403,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Weather,96,96,0.172,0.220,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Weather,192,96,0.219,0.261,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Weather,336,96,0.280,0.306,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Weather,720,96,0.365,0.359,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ECL,96,96,0.168,0.272,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ECL,192,96,0.184,0.289,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ECL,336,96,0.198,0.300,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),ECL,720,96,0.220,0.320,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Traffic,96,96,0.593,0.321,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Traffic,192,96,0.617,0.336,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Traffic,336,96,0.629,0.336,https://arxiv.org/html/2210.02186v3
+TimesNet,official,Wu et al. ICLR 2023,2210.02186,Table 13 (App. I),Traffic,720,96,0.640,0.350,https://arxiv.org/html/2210.02186v3
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh1,96,96,0.375,0.400,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh1,192,96,0.429,0.421,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh1,336,96,0.484,0.458,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh1,720,96,0.498,0.482,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh2,96,96,0.289,0.341,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh2,192,96,0.372,0.392,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh2,336,96,0.386,0.414,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTh2,720,96,0.412,0.434,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm1,96,96,0.320,0.357,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm1,192,96,0.361,0.381,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm1,336,96,0.390,0.404,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm1,720,96,0.454,0.441,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm2,96,96,0.175,0.258,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm2,192,96,0.237,0.299,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm2,336,96,0.298,0.340,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ETTm2,720,96,0.391,0.396,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Weather,96,96,0.163,0.209,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Weather,192,96,0.208,0.250,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Weather,336,96,0.251,0.287,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Weather,720,96,0.339,0.341,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ECL,96,96,0.153,0.247,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ECL,192,96,0.166,0.256,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ECL,336,96,0.185,0.277,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),ECL,720,96,0.225,0.310,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Traffic,96,96,0.462,0.285,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Traffic,192,96,0.473,0.296,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Traffic,336,96,0.498,0.296,https://arxiv.org/html/2405.14616v1
+TimeMixer,unified-hparam,Wang et al. ICLR 2024,2405.14616,Table 13 (App. E),Traffic,720,96,0.506,0.313,https://arxiv.org/html/2405.14616v1
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh1,96,96,0.376,0.419,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh1,192,96,0.420,0.448,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh1,336,96,0.459,0.465,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh1,720,96,0.506,0.507,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh2,96,96,0.346,0.388,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh2,192,96,0.429,0.439,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh2,336,96,0.496,0.487,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTh2,720,96,0.463,0.474,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTm1,96,96,0.379,0.419,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTm1,192,96,0.426,0.441,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTm1,336,96,0.445,0.459,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 8 (App. F.3),ETTm1,720,96,0.543,0.490,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1) = Table 8 (App. F.3),ETTm2,96,96,0.203,0.287,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1) = Table 8 (App. F.3),ETTm2,192,96,0.269,0.328,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1) = Table 8 (App. F.3),ETTm2,336,96,0.325,0.366,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1) = Table 8 (App. F.3),ETTm2,720,96,0.421,0.415,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Weather,96,96,0.217,0.296,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Weather,192,96,0.276,0.336,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Weather,336,96,0.339,0.380,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Weather,720,96,0.403,0.428,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),ECL,96,96,0.193,0.308,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),ECL,192,96,0.201,0.315,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),ECL,336,96,0.214,0.329,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),ECL,720,96,0.246,0.355,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Traffic,96,96,0.587,0.366,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Traffic,192,96,0.604,0.373,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Traffic,336,96,0.621,0.383,https://arxiv.org/html/2201.12740v3
+FEDformer,FEDformer-f,Zhou et al. ICML 2022,2201.12740,Table 2 (Sec. 4.1),Traffic,720,96,0.626,0.382,https://arxiv.org/html/2201.12740v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,96,96,0.376,0.419,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,192,96,0.420,0.448,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,336,96,0.459,0.465,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,720,96,0.506,0.507,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,96,96,0.358,0.397,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,192,96,0.429,0.439,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,336,96,0.496,0.487,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,720,96,0.463,0.474,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,96,96,0.379,0.419,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,192,96,0.426,0.441,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,336,96,0.445,0.459,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,720,96,0.543,0.490,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,96,96,0.203,0.287,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,192,96,0.269,0.328,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,336,96,0.325,0.366,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,720,96,0.421,0.415,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,96,96,0.217,0.296,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,192,96,0.276,0.336,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,336,96,0.339,0.380,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,720,96,0.403,0.428,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,96,96,0.193,0.308,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,192,96,0.201,0.315,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,336,96,0.214,0.329,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,720,96,0.246,0.355,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,96,96,0.587,0.366,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,192,96,0.604,0.373,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,336,96,0.621,0.383,https://arxiv.org/html/2210.02186v3
+FEDformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,720,96,0.626,0.382,https://arxiv.org/html/2210.02186v3
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTh1,96,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTh1,192,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 5 (App. A),ETTh1,336,96,0.505,0.484,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 5 (App. A),ETTh1,720,96,0.498,0.500,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTh2,96,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTh2,192,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 5 (App. A),ETTh2,336,96,0.471,0.475,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 5 (App. A),ETTh2,720,96,0.474,0.484,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 5 (App. A),ETTm1,96,96,0.481,0.463,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTm1,192,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTm1,336,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,not in Table 1 or Table 5,ETTm1,720,96,NR,NR,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1) = Table 5 (App. A),ETTm2,96,96,0.255,0.339,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ETTm2,192,96,0.281,0.340,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ETTm2,336,96,0.339,0.372,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ETTm2,720,96,0.422,0.419,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Weather,96,96,0.266,0.336,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Weather,192,96,0.307,0.367,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Weather,336,96,0.359,0.395,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Weather,720,96,0.419,0.428,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ECL,96,96,0.201,0.317,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ECL,192,96,0.222,0.334,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ECL,336,96,0.231,0.338,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),ECL,720,96,0.254,0.361,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Traffic,96,96,0.613,0.388,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Traffic,192,96,0.616,0.382,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Traffic,336,96,0.622,0.337,https://arxiv.org/html/2106.13008v5
+Autoformer,official,Wu et al. NeurIPS 2021,2106.13008,Table 1 (Sec. 4.1),Traffic,720,96,0.660,0.408,https://arxiv.org/html/2106.13008v5
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,96,96,0.449,0.459,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,192,96,0.500,0.482,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,336,96,0.521,0.496,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh1,720,96,0.514,0.512,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,96,96,0.346,0.388,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,192,96,0.456,0.452,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,336,96,0.482,0.486,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTh2,720,96,0.515,0.511,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,96,96,0.505,0.475,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,192,96,0.553,0.496,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,336,96,0.621,0.537,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm1,720,96,0.671,0.561,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,96,96,0.255,0.339,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,192,96,0.281,0.340,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,336,96,0.339,0.372,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ETTm2,720,96,0.433,0.432,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,96,96,0.266,0.336,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,192,96,0.307,0.367,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,336,96,0.359,0.395,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Weather,720,96,0.419,0.428,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,96,96,0.201,0.317,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,192,96,0.222,0.334,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,336,96,0.231,0.338,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),ECL,720,96,0.254,0.361,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,96,96,0.613,0.388,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,192,96,0.616,0.382,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,336,96,0.622,0.337,https://arxiv.org/html/2210.02186v3
+Autoformer,as reported by TimesNet,TimesNet paper (Wu et al. ICLR 2023),2210.02186,Table 13 (App. I),Traffic,720,96,0.660,0.408,https://arxiv.org/html/2210.02186v3
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh1,96,searched,0.361,0.390,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh1,192,searched,0.409,0.414,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh1,336,searched,0.430,0.429,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh1,720,searched,0.445,0.460,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh2,96,searched,0.271,0.330,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh2,192,searched,0.317,0.402,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh2,336,searched,0.332,0.396,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTh2,720,searched,0.342,0.408,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm1,96,searched,0.291,0.340,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm1,192,searched,0.327,0.365,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm1,336,searched,0.360,0.381,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm1,720,searched,0.415,0.417,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm2,96,searched,0.164,0.254,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm2,192,searched,0.223,0.295,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm2,336,searched,0.279,0.330,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ETTm2,720,searched,0.359,0.383,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Weather,96,searched,0.147,0.197,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Weather,192,searched,0.189,0.239,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Weather,336,searched,0.241,0.280,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Weather,720,searched,0.310,0.330,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ECL,96,searched,0.129,0.224,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ECL,192,searched,0.140,0.220,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ECL,336,searched,0.161,0.255,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),ECL,720,searched,0.194,0.287,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Traffic,96,searched,0.360,0.249,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Traffic,192,searched,0.375,0.250,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Traffic,336,searched,0.385,0.270,https://arxiv.org/html/2405.14616v1
+TimeMixer,searched-hparam,Wang et al. ICLR 2024,2405.14616,Table 14 (App. E),Traffic,720,searched,0.430,0.281,https://arxiv.org/html/2405.14616v1

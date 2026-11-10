@@ -41,3 +41,16 @@ def test_streaming_metrics_match_direct_computation():
         tgt = sc[s + i + d.context_length: s + i + d.context_length + 24]
         errs.append((tgt - ctx[-1]) ** 2)
     assert np.isclose(rows[0]["mse"], np.mean(errs))
+
+
+def test_drop_last_emulation_drops_remainder_windows():
+    d = toy_data()
+    full = evaluate_forecaster(NaiveForecaster(), d, [24], "full")[0]
+    dl = evaluate_forecaster(NaiveForecaster(), d, [24], "fulldl32")[0]
+    n = d.n_windows(24)
+    assert full["n_windows"] == n and dl["n_windows"] == n - n % 32
+
+
+def test_last_window_protocol_scores_one_window_per_horizon():
+    rows = evaluate_forecaster(NaiveForecaster(), toy_data(), [24, 48], "last")
+    assert all(r["n_windows"] == 1 for r in rows)

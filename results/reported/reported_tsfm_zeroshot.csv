@@ -1,0 +1,459 @@
+model,variant,paper,arxiv_id,table,dataset,horizon,context_length,mse,mae,source_url
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh1,96,512*,0.365,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh1,96,512,0.364,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh1,96,1024,0.363,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh1,96,1536,0.359,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh1,192,512*,0.393,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh1,192,512,0.386,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh1,192,1024,0.393,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh1,192,1536,0.389,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh1,336,512*,0.415,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh1,336,512,0.404,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh1,336,1024,0.406,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh1,336,1536,0.405,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh1,720,512*,0.538,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh1,720,512,0.424,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh1,720,1024,0.452,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh1,720,1536,0.448,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh2,96,512*,0.285,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh2,96,512,0.277,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh2,96,1024,0.271,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh2,96,1536,0.264,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh2,192,512*,0.341,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh2,192,512,0.334,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh2,192,1024,0.324,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh2,192,1536,0.321,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh2,336,512*,0.383,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh2,336,512,0.362,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh2,336,1024,0.357,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh2,336,1536,0.351,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTh2,720,512*,0.441,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTh2,720,512,0.408,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTh2,720,1024,0.388,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTh2,720,1536,0.395,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm1,96,512*,0.413,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm1,96,512,0.322,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm1,96,1024,0.327,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm1,96,1536,0.318,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm1,192,512*,0.476,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm1,192,512,0.376,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm1,192,1024,0.377,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm1,192,1536,0.354,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm1,336,512*,0.553,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm1,336,512,0.407,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm1,336,1024,0.395,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm1,336,1536,0.376,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm1,720,512*,0.737,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm1,720,512,0.439,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm1,720,1024,0.419,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm1,720,1536,0.398,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm2,96,512*,0.187,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm2,96,512,0.171,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm2,96,1024,0.178,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm2,96,1536,0.169,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm2,192,512*,0.261,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm2,192,512,0.238,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm2,192,1024,0.238,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm2,192,1536,0.223,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm2,336,512*,0.323,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm2,336,512,0.304,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm2,336,1024,0.29,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm2,336,1536,0.276,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,ETTm2,720,512*,0.436,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,ETTm2,720,512,0.41,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,ETTm2,720,1024,0.379,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,ETTm2,720,1536,0.342,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Weather,96,512*,0.154,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Weather,96,512,0.158,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Weather,96,1024,0.166,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Weather,96,1536,0.159,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Weather,192,512*,0.203,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Weather,192,512,0.206,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Weather,192,1024,0.214,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Weather,192,1536,0.203,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Weather,336,512*,0.256,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Weather,336,512,0.256,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Weather,336,1024,0.254,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Weather,336,1536,0.247,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Weather,720,512*,0.329,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Weather,720,512,0.328,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Weather,720,1024,0.319,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Weather,720,1536,0.314,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Electricity,96,512*,0.169,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Electricity,96,512,0.166,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Electricity,96,1024,0.157,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Electricity,96,1536,0.152,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Electricity,192,512*,0.196,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Electricity,192,512,0.191,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Electricity,192,1024,0.174,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Electricity,192,1536,0.179,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Electricity,336,512*,0.209,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Electricity,336,512,0.207,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Electricity,336,1024,0.195,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Electricity,336,1536,0.193,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Electricity,720,512*,0.264,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Electricity,720,512,0.255,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Electricity,720,1024,0.25,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Electricity,720,1536,0.243,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Traffic,96,512*,0.518,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Traffic,96,512,0.514,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Traffic,96,1024,0.476,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Traffic,96,1536,0.462,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Traffic,192,512*,0.548,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Traffic,192,512,0.544,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Traffic,192,1024,0.5,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Traffic,192,1536,0.491,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Traffic,336,512*,0.55,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Traffic,336,512,0.575,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Traffic,336,1024,0.51,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Traffic,336,1536,0.509,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-Q,TTM,2401.03955,T11 sliding,Traffic,720,512*,0.605,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-B,TTM,2401.03955,T11 sliding,Traffic,720,512,0.622,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-E,TTM,2401.03955,T11 sliding,Traffic,720,1024,0.571,NR,https://arxiv.org/html/2401.03955v8
+TTM,TTM-A,TTM,2401.03955,T11 sliding,Traffic,720,1536,0.547,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh1,96,NR,0.421,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh1,192,NR,0.472,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh1,336,NR,0.51,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh1,720,NR,0.514,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh2,96,NR,0.326,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh2,192,NR,0.4,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh2,336,NR,0.434,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTh2,720,NR,0.451,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm1,96,NR,0.357,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm1,192,NR,0.411,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm1,336,NR,0.441,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm1,720,NR,0.507,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm2,96,NR,0.205,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm2,192,NR,0.293,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm2,336,NR,0.366,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,ETTm2,720,NR,0.472,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Weather,96,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Weather,192,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Weather,336,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Weather,720,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Electricity,96,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Electricity,192,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Electricity,336,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+TimesFM,TimesFM-200M,TTM,2401.03955,T13 sliding,Electricity,720,NR,NR,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTh1,96,NR,0.424,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTh1,96,NR,0.383,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTh1,96,NR,0.272,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTh1,96,NR,0.298,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTh1,96,NR,0.299,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTh1,192,NR,0.299,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTh1,192,NR,0.303,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTh1,192,NR,0.295,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTh1,192,NR,0.335,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTh1,192,NR,0.303,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTh2,96,NR,0.197,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTh2,96,NR,0.156,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTh2,96,NR,0.22,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTh2,96,NR,0.207,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTh2,96,NR,0.135,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTh2,192,NR,0.151,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTh2,192,NR,0.131,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTh2,192,NR,0.125,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTh2,192,NR,0.162,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTh2,192,NR,0.122,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTm1,96,NR,0.854,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTm1,96,NR,0.589,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTm1,96,NR,0.508,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTm1,96,NR,0.538,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTm1,96,NR,1.006,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTm1,192,NR,1.394,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTm1,192,NR,0.757,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTm1,192,NR,0.914,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTm1,192,NR,0.774,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTm1,192,NR,1.16,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTm2,96,NR,0.147,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTm2,96,NR,0.12,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTm2,96,NR,0.171,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTm2,96,NR,0.192,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTm2,96,NR,0.314,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,ETTm2,192,NR,0.191,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,ETTm2,192,NR,0.223,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,ETTm2,192,NR,0.265,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,ETTm2,192,NR,0.246,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,ETTm2,192,NR,0.268,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,Weather,96,NR,0.042,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,Weather,96,NR,0.068,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,Weather,96,NR,0.05,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,Weather,96,NR,0.049,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,Weather,96,NR,0.057,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,Weather,192,NR,0.105,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,Weather,192,NR,0.095,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,Weather,192,NR,0.047,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,Weather,192,NR,0.055,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,Weather,192,NR,0.243,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,Electricity,96,NR,0.352,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,Electricity,96,NR,0.294,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,Electricity,96,NR,0.231,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,Electricity,96,NR,0.227,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,Electricity,96,NR,0.317,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,Electricity,192,NR,0.616,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,Electricity,192,NR,0.548,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,Electricity,192,NR,0.503,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,Electricity,192,NR,0.507,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,Electricity,192,NR,0.551,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,Traffic,96,NR,0.256,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,Traffic,96,NR,0.219,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,Traffic,96,NR,0.217,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,Traffic,96,NR,0.196,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,Traffic,96,NR,0.213,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-tiny,TTM,2401.03955,T15 last-window,Traffic,192,NR,0.373,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-small,TTM,2401.03955,T15 last-window,Traffic,192,NR,0.419,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-base,TTM,2401.03955,T15 last-window,Traffic,192,NR,0.351,NR,https://arxiv.org/html/2401.03955v8
+Chronos,Chronos-large,TTM,2401.03955,T15 last-window,Traffic,192,NR,0.297,NR,https://arxiv.org/html/2401.03955v8
+Lag-Llama,Lag-Llama,TTM,2401.03955,T15 last-window,Traffic,192,NR,0.374,NR,https://arxiv.org/html/2401.03955v8
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh1,96,val-tuned,0.375,0.402,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh1,96,val-tuned,0.384,0.402,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh1,96,val-tuned,0.380,0.398,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh1,192,val-tuned,0.399,0.419,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh1,192,val-tuned,0.425,0.429,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh1,192,val-tuned,0.440,0.434,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh1,336,val-tuned,0.412,0.429,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh1,336,val-tuned,0.456,0.450,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh1,336,val-tuned,0.514,0.474,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh1,720,val-tuned,0.413,0.444,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh1,720,val-tuned,0.470,0.473,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh1,720,val-tuned,0.705,0.568,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh2,96,val-tuned,0.281,0.334,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh2,96,val-tuned,0.277,0.327,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh2,96,val-tuned,0.287,0.325,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh2,192,val-tuned,0.340,0.373,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh2,192,val-tuned,0.340,0.374,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh2,192,val-tuned,0.347,0.367,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh2,336,val-tuned,0.362,0.393,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh2,336,val-tuned,0.371,0.401,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh2,336,val-tuned,0.377,0.393,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTh2,720,val-tuned,0.380,0.416,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTh2,720,val-tuned,0.394,0.426,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTh2,720,val-tuned,0.404,0.421,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm1,96,val-tuned,0.404,0.383,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm1,96,val-tuned,0.335,0.360,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm1,96,val-tuned,0.353,0.363,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm1,192,val-tuned,0.435,0.402,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm1,192,val-tuned,0.366,0.379,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm1,192,val-tuned,0.376,0.380,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm1,336,val-tuned,0.462,0.416,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm1,336,val-tuned,0.391,0.394,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm1,336,val-tuned,0.399,0.395,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm1,720,val-tuned,0.490,0.437,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm1,720,val-tuned,0.434,0.419,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm1,720,val-tuned,0.432,0.417,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm2,96,val-tuned,0.205,0.282,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm2,96,val-tuned,0.195,0.269,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm2,96,val-tuned,0.189,0.260,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm2,192,val-tuned,0.261,0.318,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm2,192,val-tuned,0.247,0.303,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm2,192,val-tuned,0.247,0.300,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm2,336,val-tuned,0.319,0.355,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm2,336,val-tuned,0.291,0.333,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm2,336,val-tuned,0.295,0.334,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,ETTm2,720,val-tuned,0.415,0.410,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,ETTm2,720,val-tuned,0.355,0.377,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,ETTm2,720,val-tuned,0.372,0.386,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Electricity,96,val-tuned,0.205,0.299,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Electricity,96,val-tuned,0.158,0.248,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Electricity,96,val-tuned,0.152,0.242,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Electricity,192,val-tuned,0.220,0.310,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Electricity,192,val-tuned,0.174,0.263,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Electricity,192,val-tuned,0.171,0.259,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Electricity,336,val-tuned,0.236,0.323,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Electricity,336,val-tuned,0.191,0.278,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Electricity,336,val-tuned,0.192,0.278,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Electricity,720,val-tuned,0.270,0.347,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Electricity,720,val-tuned,0.229,0.307,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Electricity,720,val-tuned,0.236,0.313,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Weather,96,val-tuned,0.173,0.212,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Weather,96,val-tuned,0.167,0.203,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Weather,96,val-tuned,0.177,0.208,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Weather,192,val-tuned,0.216,0.250,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Weather,192,val-tuned,0.209,0.241,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Weather,192,val-tuned,0.219,0.249,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Weather,336,val-tuned,0.260,0.282,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Weather,336,val-tuned,0.256,0.276,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Weather,336,val-tuned,0.277,0.292,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T22,Weather,720,val-tuned,0.320,0.322,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T22,Weather,720,val-tuned,0.321,0.323,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T22,Weather,720,val-tuned,0.365,0.350,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T6 avg,ETTh1,avg,val-tuned,0.400,0.424,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T6 avg,ETTh1,avg,val-tuned,0.434,0.438,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T6 avg,ETTh1,avg,val-tuned,0.510,0.469,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T6 avg,ETTh2,avg,val-tuned,0.341,0.379,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T6 avg,ETTh2,avg,val-tuned,0.345,0.382,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T6 avg,ETTh2,avg,val-tuned,0.354,0.376,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T6 avg,ETTm1,avg,val-tuned,0.448,0.409,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T6 avg,ETTm1,avg,val-tuned,0.381,0.388,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T6 avg,ETTm1,avg,val-tuned,0.390,0.389,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T6 avg,ETTm2,avg,val-tuned,0.300,0.341,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T6 avg,ETTm2,avg,val-tuned,0.272,0.321,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T6 avg,ETTm2,avg,val-tuned,0.276,0.320,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T6 avg,Electricity,avg,val-tuned,0.233,0.320,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T6 avg,Electricity,avg,val-tuned,0.188,0.274,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T6 avg,Electricity,avg,val-tuned,0.188,0.273,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-small,Moirai,2402.02592,T6 avg,Weather,avg,val-tuned,0.242,0.267,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-base,Moirai,2402.02592,T6 avg,Weather,avg,val-tuned,0.238,0.261,https://arxiv.org/html/2402.02592v2
+Moirai,Moirai-large,Moirai,2402.02592,T6 avg,Weather,avg,val-tuned,0.259,0.275,https://arxiv.org/html/2402.02592v2
+Moirai,all,Moirai,2402.02592,excluded (in LOTSA pretraining),Traffic,all,n/a,NR,NR,https://arxiv.org/html/2402.02592v2
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTh1,96,512,NR,0.45,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTh1,192,512,NR,0.53,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTh2,96,512,NR,0.35,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTh2,192,512,NR,0.62,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTm1,96,512,NR,0.19,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTm1,192,512,NR,0.26,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTm2,96,512,NR,0.24,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,T5 last-window,ETTm2,192,512,NR,0.27,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,only H96/192 reported,ETTh1,336|720,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,only H96/192 reported,ETTh2,336|720,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,only H96/192 reported,ETTm1,336|720,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,only H96/192 reported,ETTm2,336|720,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,not reported,Weather,all,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,not reported,Electricity,all,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+TimesFM,TimesFM-200M,TimesFM,2310.10688,not reported,Traffic,all,n/a,NR,NR,https://arxiv.org/html/2310.10688v4
+Chronos,all,Chronos,2403.07815,none (WQL/MASE only; H=24),ALL,all,n/a,NR,NR,https://arxiv.org/html/2403.07815v3
+Lag-Llama,all,Lag-Llama,2310.08278,none (CRPS only),ALL,all,n/a,NR,NR,https://arxiv.org/html/2310.08278v3
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh1,96,512,0.401,0.402,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh1,96,512,0.376,0.392,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh1,96,512,0.381,0.388,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh1,96,512,0.414,0.404,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh1,96,512,0.466,0.409,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh1,96,512,0.440,0.393,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh1,96,512,0.441,0.390,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.435,0.421,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.412,0.413,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.434,0.415,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.465,0.434,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.530,0.450,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.492,0.426,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh1,192,1024,0.502,0.424,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.438,0.434,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.433,0.428,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.495,0.445,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.503,0.456,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.570,0.486,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.550,0.462,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh1,336,2048,0.576,0.467,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.439,0.454,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.447,0.444,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.611,0.510,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.511,0.481,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.615,0.543,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.882,0.591,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh1,720,3072,0.835,0.583,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh2,96,512,0.297,0.336,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh2,96,512,0.294,0.330,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh2,96,512,0.296,0.330,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh2,96,512,0.315,0.349,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh2,96,512,0.307,0.356,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh2,96,512,0.308,0.343,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh2,96,512,0.320,0.345,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.368,0.381,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.365,0.375,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.361,0.371,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.388,0.395,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.376,0.401,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.384,0.392,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh2,192,1024,0.406,0.399,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.370,0.393,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.376,0.390,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.390,0.390,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.422,0.427,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.408,0.431,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.429,0.430,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh2,336,2048,0.492,0.453,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.411,0.426,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.416,0.433,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.423,0.418,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.443,0.454,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.604,0.533,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.501,0.477,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTh2,720,3072,0.603,0.511,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm1,96,512,0.418,0.392,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm1,96,512,0.363,0.356,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm1,96,512,0.380,0.361,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm1,96,512,0.361,0.370,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm1,96,512,0.511,0.423,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm1,96,512,0.454,0.408,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm1,96,512,0.457,0.403,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.431,0.405,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.388,0.375,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.412,0.383,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.414,0.405,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.618,0.485,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.567,0.477,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm1,192,1024,0.530,0.450,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.433,0.412,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.416,0.392,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.436,0.400,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.445,0.429,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.683,0.524,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.662,0.525,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm1,336,2048,0.577,0.481,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.462,0.432,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.460,0.418,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.462,0.420,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.512,0.471,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.748,0.566,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.900,0.591,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm1,720,3072,0.660,0.526,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm2,96,512,0.214,0.288,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm2,96,512,0.205,0.273,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm2,96,512,0.211,0.274,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm2,96,512,0.202,0.270,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm2,96,512,0.209,0.291,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm2,96,512,0.199,0.274,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm2,96,512,0.197,0.271,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.284,0.332,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.275,0.316,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.281,0.318,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.289,0.321,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.280,0.341,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.261,0.322,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm2,192,1024,0.254,0.314,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.331,0.362,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.329,0.350,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.341,0.355,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.360,0.366,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.354,0.390,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.326,0.366,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm2,336,2048,0.313,0.353,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.402,0.408,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.437,0.411,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.485,0.428,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.462,0.430,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.553,0.499,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.455,0.439,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,ETTm2,720,3072,0.416,0.415,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,Weather,96,512,0.198,0.222,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,Weather,96,512,0.220,0.217,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,Weather,96,512,0.199,0.211,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,Weather,96,512,NR,NR,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,Weather,96,512,0.211,0.243,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,Weather,96,512,0.203,0.238,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,Weather,96,512,0.194,0.235,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,Weather,192,1024,0.247,0.265,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,Weather,192,1024,0.271,0.259,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,Weather,192,1024,0.246,0.251,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,Weather,192,1024,NR,NR,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,Weather,192,1024,0.263,0.294,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,Weather,192,1024,0.256,0.290,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,Weather,192,1024,0.249,0.285,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,Weather,336,2048,0.283,0.303,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,Weather,336,2048,0.286,0.297,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,Weather,336,2048,0.274,0.291,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,Weather,336,2048,NR,NR,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,Weather,336,2048,0.321,0.339,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,Weather,336,2048,0.314,0.336,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,Weather,336,2048,0.302,0.327,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-small,Time-MoE,2409.16040,T3,Weather,720,3072,0.373,0.354,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-base,Time-MoE,2409.16040,T3,Weather,720,3072,0.373,0.354,https://arxiv.org/html/2409.16040v4
+Moirai,Moirai-large,Time-MoE,2409.16040,T3,Weather,720,3072,0.337,0.340,https://arxiv.org/html/2409.16040v4
+TimesFM,TimesFM,Time-MoE,2409.16040,T3,Weather,720,3072,NR,NR,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-small,Time-MoE,2409.16040,T3,Weather,720,3072,0.404,0.397,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-base,Time-MoE,2409.16040,T3,Weather,720,3072,0.397,0.396,https://arxiv.org/html/2409.16040v4
+Chronos,Chronos-large,Time-MoE,2409.16040,T3,Weather,720,3072,0.372,0.378,https://arxiv.org/html/2409.16040v4
+Moirai,all,Time-MoE,2409.16040,not evaluated,Electricity|Traffic,all,n/a,NR,NR,https://arxiv.org/html/2409.16040v4
+TimesFM,all,Time-MoE,2409.16040,not evaluated,Electricity|Traffic,all,n/a,NR,NR,https://arxiv.org/html/2409.16040v4
+Chronos,all,Time-MoE,2409.16040,not evaluated,Electricity|Traffic,all,n/a,NR,NR,https://arxiv.org/html/2409.16040v4
+Lag-Llama,all,Time-MoE,2409.16040,not evaluated,ALL,all,n/a,NR,NR,https://arxiv.org/html/2409.16040v4

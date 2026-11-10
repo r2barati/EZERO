@@ -20,7 +20,7 @@ import time
 
 import numpy as np
 
-from ezero.data.ltsf import LSFData, window_starts
+from ezero.data.ltsf import LSFData, drop_last_batch, window_starts
 
 
 def _gather(scaled: np.ndarray, starts_abs: np.ndarray, length: int, end: int):
@@ -42,6 +42,8 @@ def evaluate_forecaster(forecaster, data: LSFData, horizons=(96, 192, 336, 720),
     multi = getattr(forecaster, "multi_horizon", True)
     passes = [max(horizons)] if multi else horizons
     stats = {h: [0.0, 0.0, 0] for h in horizons}  # sse, sae, n_windows
+    B = drop_last_batch(protocol)
+    keep_upto = {h: (data.n_windows(h) - data.n_windows(h) % B) if B else None for h in horizons}
     pred_time = 0.0
     n_series = 0
     for ph in passes:
@@ -59,6 +61,10 @@ def evaluate_forecaster(forecaster, data: LSFData, horizons=(96, 192, 336, 720),
             tgt, valid = _gather(scaled, s + st + L, ph, e)              # (W, ph, C)
             for h in targets_for:
                 ok = valid[:, h - 1]                                     # window has a full target of length h
+                if keep_upto[h] is not None:                             # emulate drop_last=True
+                    ok = ok & (st < keep_upto[h])
+                if protocol == "last":                                   # one window: the last of horizon h
+                    ok = ok & (st == data.n_windows(h) - 1)
                 if not ok.any():
                     continue
                 d = pred[ok, :h, :] - tgt[ok, :h, :]

@@ -179,14 +179,27 @@ def load_lsf(name: str, context_length: int = 512, scaler: str = "train", path: 
     return LSFData(name, spec["freq"], values, borders, mean.astype(np.float32), std, scaler, context_length)
 
 
+def drop_last_batch(protocol: str) -> int | None:
+    """Batch size B of a ``fulldlB`` protocol, else None."""
+    return int(protocol[6:]) if protocol.startswith("fulldl") else None
+
+
 def window_starts(data: LSFData, protocol: str, horizon_max: int = 720, horizon_min: int = 96) -> np.ndarray:
     """Test-window start offsets (relative to the test border).
 
     ``full``  : every start valid for the shortest horizon (stride 1, standard LSF protocol).
     ``subN``  : N starts evenly spaced over the range valid for the longest horizon, shared by
                 all horizons (used for expensive foundation-model baselines).
+    ``last``  : only the last test window of each horizon (the "llmtime" protocol used by the
+                TimesFM paper and the TTM last-window tables).
+    ``fulldlB``: diagnostic - ``full`` but, for each horizon, the last (n_windows mod B) windows are
+                dropped, which is what a test DataLoader with batch_size=B and drop_last=True does
+                (used by several original code bases; see docs/THESIS_REPRODUCTION_NOTES.md).
     """
-    if protocol == "full":
+    if protocol == "last":
+        return np.unique([data.n_windows(h) - 1 for h in (horizon_min, horizon_max)] +
+                         [data.n_windows(h) - 1 for h in (192, 336)])
+    if protocol == "full" or protocol.startswith("fulldl"):
         return np.arange(data.n_windows(horizon_min))
     if protocol.startswith("sub"):
         k = int(protocol[3:])
