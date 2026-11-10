@@ -30,7 +30,7 @@ suite and a publication check. Everything can be run on Kaggle GPUs with the ker
   DLinear / PatchTST / iTransformer, and zero-shot foundation models: the thesis-era checkpoints
   (Chronos-T, TTM-R1, Moirai-S, TimesFM-1.0, Lag-Llama) plus later releases reported separately
   (Chronos-Bolt-T, TTM-R2, TimesFM-2.5).
-- `benchmarks/`: `pretrain.py`, `run_benchmarks.py` (registry of **22 models**, caching, merge,
+- `benchmarks/`: `pretrain.py`, `run_benchmarks.py` (registry of **29 models**, caching, merge,
   manifest), `run_efficiency.py`, `verify_publication_ready.py`.
 - `configs/`: thesis hyperparameters (`ezero_base.yaml`), LOTSA corpus (`pretrain_corpus.yaml`),
   evaluation protocol (`eval_lsf.yaml`).
@@ -88,7 +88,7 @@ python benchmarks/verify_publication_ready.py
 Other entry points:
 
 ```bash
-python benchmarks/run_benchmarks.py --list                                   # 22 registered models
+python benchmarks/run_benchmarks.py --list                                   # 29 registered models
 python benchmarks/pretrain.py --variant ALL                                  # base + 7 ablations (Table 5)
 python benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol full
 python benchmarks/run_benchmarks.py --model DLinear,PatchTST,iTransformer --protocol full
