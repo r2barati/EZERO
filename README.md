@@ -27,7 +27,7 @@ suite and a publication check. Everything can be run on Kaggle GPUs with the ker
     (inference cost + efficiency score), `checkpoint.py`, `frequency.py`.
 - `baselines/`: every evaluated method behind one `predict(context, freq, horizon)` interface
   (the analogue of Paper 1's `agents/`): E-ZERO checkpoints, naive baselines, full-shot
-  DLinear / PatchTST / iTransformer, and zero-shot Chronos / TTM / Moirai / TimesFM wrappers.
+  DLinear / PatchTST / iTransformer, and zero-shot Chronos / TTM / Moirai / TimesFM-2.5 wrappers.
 - `benchmarks/`: `pretrain.py`, `run_benchmarks.py` (registry of **19 models**, caching, merge,
   manifest), `run_efficiency.py`, `verify_publication_ready.py`.
 - `configs/`: thesis hyperparameters (`ezero_base.yaml`), LOTSA corpus (`pretrain_corpus.yaml`),
@@ -106,7 +106,7 @@ repository's own paths in `/kaggle/working/outputs/`.
 | `smoke` | a few minutes of every code path (check the environment before long runs) |
 | `core` | pre-train E-ZERO, evaluate E-ZERO + naive baselines (both protocols, both scalings), efficiency |
 | `ablations` | pre-train and evaluate the 7 ablation variants (Table 5) |
-| `tsfm` | Chronos-T, Chronos-Bolt-T, TTM, Moirai-S, TimesFM on the `sub16` protocol, one virtualenv each |
+| `tsfm` | Chronos-T, Chronos-Bolt-T, TTM, Moirai-S, TimesFM-2.5 on the `sub16` protocol, one virtualenv each |
 | `fullshot` | DLinear, PatchTST, iTransformer trained per dataset and horizon |
 
 ```bash

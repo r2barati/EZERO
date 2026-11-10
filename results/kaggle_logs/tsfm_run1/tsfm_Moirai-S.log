@@ -1,0 +1,24 @@
+
+$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_moirai
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_moirai/bin/python --version
+pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_moirai/bin/python install --quiet --no-input 'uni2ts'
+  error: subprocess-exited-with-error
+  
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> No available output.
+  
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> scipy
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+[exit 1 after 266s]

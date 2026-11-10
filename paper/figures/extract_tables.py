@@ -30,7 +30,7 @@ from ezero.data.ltsf import DEFAULT_DATASETS, DEFAULT_HORIZONS  # noqa: E402
 
 RES = os.path.join(ROOT, "results")
 OUT = os.path.join(ROOT, "paper", "tables")
-TSFM_ORDER = ["E-ZERO", "TTM", "Chronos-T", "Chronos-Bolt-T", "Moirai-S", "TimesFM", "SeasonalNaive", "Naive"]
+TSFM_ORDER = ["E-ZERO", "TTM", "Chronos-T", "Chronos-Bolt-T", "Moirai-S", "TimesFM-2.5", "SeasonalNaive", "Naive"]
 ARCH_ORDER = ["E-ZERO", "PatchTST", "iTransformer", "DLinear", "SeasonalNaive", "Naive", "Mean"]
 ABL_ORDER = ["E-ZERO", "E-ZERO-noMRC", "E-ZERO-noDTP", "E-ZERO-noRAE", "E-ZERO-noCRRB", "E-ZERO-noExog",
              "E-ZERO-noTCN", "E-ZERO-noNBEATS"]

@@ -1,0 +1,90 @@
+
+$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_ttm
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_ttm/bin/python --version
+pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_ttm/bin/python install --quiet --no-input 'granite-tsfm'
+[exit 0 after 3s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_ttm/bin/python install --quiet --no-input --no-deps -e /tmp/ezero
+[exit 0 after 4s]
+
+$ /tmp/venv_ttm/bin/python benchmarks/run_benchmarks.py --model TTM --protocol sub16 --no-merge --skip-unavailable
+INFO:p-337:t-134447401743104:get_model.py:get_model:Loading model from: ibm-granite/granite-timeseries-ttm-r2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model path type is 2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Attempting model load from ibm-granite/granite-timeseries-ttm-r2, revision = main.
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/revision/main "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/adapter_config.json "HTTP/1.1 404 Not Found"
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+WARNING:p-337:t-134447401743104:_http.py:_warn_on_warning_headers:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json "HTTP/1.1 307 Temporary Redirect"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fd6a79570cac0f33d526601cd3a0fc7c80a8f9a2f%2Fconfig.json=&etag=%2209e937ef5082573c0785a180f23753110b78696c%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fd6a79570cac0f33d526601cd3a0fc7c80a8f9a2f%2Fconfig.json=&etag=%2209e937ef5082573c0785a180f23753110b78696c%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f/model.safetensors "HTTP/1.1 302 Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/xet-read-token/d6a79570cac0f33d526601cd3a0fc7c80a8f9a2f "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model loaded successfully from ibm-granite/granite-timeseries-ttm-r2, revision = main.
+INFO:p-337:t-134447401743104:get_model.py:get_model:[TTM] context_length = 512, prediction_length = 96
+INFO:p-337:t-134447401743104:get_model.py:get_model:Loading model from: ibm-granite/granite-timeseries-ttm-r2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model path type is 2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Attempting model load from ibm-granite/granite-timeseries-ttm-r2, revision = 512-192-r2.
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/revision/512-192-r2 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/25f4a00a25e1d0b67c40a10b06645d72e2266929/adapter_config.json "HTTP/1.1 404 Not Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/25f4a00a25e1d0b67c40a10b06645d72e2266929/config.json "HTTP/1.1 307 Temporary Redirect"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/25f4a00a25e1d0b67c40a10b06645d72e2266929/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2F25f4a00a25e1d0b67c40a10b06645d72e2266929%2Fconfig.json=&etag=%22509478262814efbefbb4d99ceff8a5a6118c2032%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/25f4a00a25e1d0b67c40a10b06645d72e2266929/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2F25f4a00a25e1d0b67c40a10b06645d72e2266929%2Fconfig.json=&etag=%22509478262814efbefbb4d99ceff8a5a6118c2032%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/25f4a00a25e1d0b67c40a10b06645d72e2266929/model.safetensors "HTTP/1.1 302 Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/xet-read-token/25f4a00a25e1d0b67c40a10b06645d72e2266929 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model loaded successfully from ibm-granite/granite-timeseries-ttm-r2, revision = 512-192-r2.
+INFO:p-337:t-134447401743104:get_model.py:get_model:[TTM] context_length = 512, prediction_length = 192
+INFO:p-337:t-134447401743104:get_model.py:get_model:Loading model from: ibm-granite/granite-timeseries-ttm-r2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model path type is 2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Attempting model load from ibm-granite/granite-timeseries-ttm-r2, revision = 512-336-r2.
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/revision/512-336-r2 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/0009f51f52c87473e60ff3a03cd8633ee85d61e8/adapter_config.json "HTTP/1.1 404 Not Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/0009f51f52c87473e60ff3a03cd8633ee85d61e8/config.json "HTTP/1.1 307 Temporary Redirect"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/0009f51f52c87473e60ff3a03cd8633ee85d61e8/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2F0009f51f52c87473e60ff3a03cd8633ee85d61e8%2Fconfig.json=&etag=%226e7c65a16ac1ebc5f5dbd90f001a896aefd38feb%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/0009f51f52c87473e60ff3a03cd8633ee85d61e8/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2F0009f51f52c87473e60ff3a03cd8633ee85d61e8%2Fconfig.json=&etag=%226e7c65a16ac1ebc5f5dbd90f001a896aefd38feb%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/0009f51f52c87473e60ff3a03cd8633ee85d61e8/model.safetensors "HTTP/1.1 302 Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/xet-read-token/0009f51f52c87473e60ff3a03cd8633ee85d61e8 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model loaded successfully from ibm-granite/granite-timeseries-ttm-r2, revision = 512-336-r2.
+INFO:p-337:t-134447401743104:get_model.py:get_model:[TTM] context_length = 512, prediction_length = 336
+INFO:p-337:t-134447401743104:get_model.py:get_model:Loading model from: ibm-granite/granite-timeseries-ttm-r2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model path type is 2
+INFO:p-337:t-134447401743104:get_model.py:get_model:Attempting model load from ibm-granite/granite-timeseries-ttm-r2, revision = 512-720-r2.
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/revision/512-720-r2 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/bcfc4a497430a228afcbaf378f18f316642ece2a/adapter_config.json "HTTP/1.1 404 Not Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/bcfc4a497430a228afcbaf378f18f316642ece2a/config.json "HTTP/1.1 307 Temporary Redirect"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/bcfc4a497430a228afcbaf378f18f316642ece2a/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fbcfc4a497430a228afcbaf378f18f316642ece2a%2Fconfig.json=&etag=%2261c12e0fe317e2c7248721aa7e808ab92a2b4984%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r2/bcfc4a497430a228afcbaf378f18f316642ece2a/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r2%2Fresolve%2Fbcfc4a497430a228afcbaf378f18f316642ece2a%2Fconfig.json=&etag=%2261c12e0fe317e2c7248721aa7e808ab92a2b4984%22 "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r2/resolve/bcfc4a497430a228afcbaf378f18f316642ece2a/model.safetensors "HTTP/1.1 302 Found"
+INFO:p-337:t-134447401743104:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/xet-read-token/bcfc4a497430a228afcbaf378f18f316642ece2a "HTTP/1.1 200 OK"
+INFO:p-337:t-134447401743104:get_model.py:get_model:Model loaded successfully from ibm-granite/granite-timeseries-ttm-r2, revision = 512-720-r2.
+INFO:p-337:t-134447401743104:get_model.py:get_model:[TTM] context_length = 512, prediction_length = 720
+[TTM] ETTh1        protocol=sub16 avg MSE=0.3944 (16.4s)
+[TTM] ETTh2        protocol=sub16 avg MSE=0.3237 (0.0s)
+[TTM] ETTm1        protocol=sub16 avg MSE=0.4105 (0.0s)
+[TTM] ETTm2        protocol=sub16 avg MSE=0.3116 (0.0s)
+[TTM] Weather      protocol=sub16 avg MSE=0.2316 (0.1s)
+[TTM] Electricity  protocol=sub16 avg MSE=0.2001 (0.6s)
+[TTM] Traffic      protocol=sub16 avg MSE=0.5433 (1.4s)
+[exit 0 after 27s]
+
+$ /tmp/venv_ttm/bin/python benchmarks/run_efficiency.py --model TTM --skip-unavailable --cpu-reps 1 --reps 5
+INFO:p-431:t-135539994776320:get_model.py:get_model:Loading model from: ibm-granite/granite-timeseries-ttm-r2
+INFO:p-431:t-135539994776320:get_model.py:get_model:Model path type is 2
+INFO:p-431:t-135539994776320:get_model.py:get_model:Attempting model load from ibm-granite/granite-timeseries-ttm-r2, revision = main.
+INFO:p-431:t-135539994776320:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r2/revision/main "HTTP/1.1 200 OK"
+INFO:p-431:t-135539994776320:get_model.py:get_model:Model loaded successfully from ibm-granite/granite-timeseries-ttm-r2, revision = main.
+INFO:p-431:t-135539994776320:get_model.py:get_model:[TTM] context_length = 512, prediction_length = 96
+{'model': 'TTM', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.80528, 'gpu_time_ms': 6.093, 'gpu_mem_gb': 0.0154, 'cpu_time_s': 0.0137, 'device': 'Tesla T4'}
+         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score
+           TTM          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0019
+Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            0.0276
+     Chronos-T          32             512       96  8.394496     4345.686      3.7507     44.6471 Tesla T4            1.0000
+[exit 0 after 11s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_ttm/bin/python freeze > /kaggle/working/logs/pip_freeze_TTM.txt
+[exit 0 after 1s]

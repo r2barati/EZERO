@@ -38,13 +38,14 @@ def head_commit() -> str:
     return subprocess.check_output(["git", "-C", ROOT, "rev-parse", "HEAD"], text=True).strip()
 
 
-def render(stage: str, user: str, commit: str, machine: str) -> str:
+def render(stage: str, user: str, commit: str, machine: str, tsfm_models: str = "ALL") -> str:
     slug = f"ezero-{stage}"
     d = os.path.join(HERE, "kernels", slug)
     os.makedirs(d, exist_ok=True)
     with open(os.path.join(HERE, "kernel_runner.py")) as f:
         code = f.read()
-    code = code.replace("__REPO_URL__", REPO_URL).replace("__COMMIT__", commit).replace("__STAGE__", stage)
+    code = (code.replace("__REPO_URL__", REPO_URL).replace("__COMMIT__", commit).replace("__STAGE__", stage)
+            .replace("__TSFM_MODELS__", tsfm_models))
     with open(os.path.join(d, f"{slug}.py"), "w") as f:
         f.write(code)
     meta = {
@@ -76,11 +77,12 @@ def main(argv=None):
     p.add_argument("--machine", default="NvidiaTeslaT4")
     p.add_argument("--stages", nargs="*", default=list(STAGES))
     p.add_argument("--push", nargs="*", default=None, help="stages to push (or ALL)")
+    p.add_argument("--tsfm-models", default="ALL", help="tsfm stage: comma list of model ids to run (default ALL)")
     args = p.parse_args(argv)
     if not args.user:
         p.error("--user (Kaggle username) is required")
     commit = args.commit or head_commit()
-    dirs = {s: render(s, args.user, commit, args.machine) for s in args.stages}
+    dirs = {s: render(s, args.user, commit, args.machine, args.tsfm_models) for s in args.stages}
     for s, d in dirs.items():
         print(f"rendered {s:10s} -> {os.path.relpath(d, ROOT)} @ {commit[:10]}")
     if args.push is not None:

@@ -1,0 +1,201 @@
+
+$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_chronos
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_chronos/bin/python --version
+pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_chronos/bin/python install --quiet --no-input 'chronos-forecasting>=1.5'
+[exit 0 after 2s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_chronos/bin/python install --quiet --no-input --no-deps -e /tmp/ezero
+[exit 0 after 4s]
+
+$ /tmp/venv_chronos/bin/python benchmarks/run_benchmarks.py --model Chronos-Bolt-T,Chronos-T --protocol sub16 --no-merge --skip-unavailable
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] ETTh1        protocol=sub16 avg MSE=0.4359 (3.3s)
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] ETTh2        protocol=sub16 avg MSE=0.3449 (1.9s)
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] ETTm1        protocol=sub16 avg MSE=0.3851 (1.9s)
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] ETTm2        protocol=sub16 avg MSE=0.2951 (1.9s)
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] Weather      protocol=sub16 avg MSE=0.2842 (5.7s)
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] Electricity  protocol=sub16 avg MSE=0.1670 (89.9s)
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+[Chronos-Bolt-T] Traffic      protocol=sub16 avg MSE=0.4059 (244.0s)
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+[Chronos-T] ETTh1        protocol=sub16 avg MSE=0.5871 (111.7s)
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+[Chronos-T] ETTh2        protocol=sub16 avg MSE=0.4672 (110.8s)
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+[Chronos-T] ETTm1        protocol=sub16 avg MSE=0.7089 (111.0s)
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+[Chronos-T] ETTm2        protocol=sub16 avg MSE=0.3589 (111.0s)
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+Traceback (most recent call last):
+  File "/tmp/ezero/benchmarks/run_benchmarks.py", line 360, in main
+    eval_one_model(mid, args)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/tmp/ezero/benchmarks/run_benchmarks.py", line 206, in eval_one_model
+    rows = evaluate_forecaster(forecaster, data, horizons, args.protocol, args.batch_series,
+                               max_batches=args.max_batches)
+  File "/tmp/ezero/ezero/evaluation.py", line 55, in evaluate_forecaster
+    pred = np.asarray(forecaster.predict(ctx.astype(np.float32), data.freq, ph), dtype=np.float64)
+                      ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/ezero/baselines/tsfm.py", line 37, in predict
+    outs = [self._predict_series(series[k:k + self.batch], freq, horizon)
+            ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/ezero/baselines/tsfm.py", line 68, in _predict_series
+    _, mean = self.pipe.predict_quantiles(ctx, prediction_length=H, **kw)
+              ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos.py", line 524, in predict_quantiles
+    self.predict(inputs, prediction_length=prediction_length, **predict_kwargs).detach().swapaxes(1, 2)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos.py", line 492, in predict
+    samples = self.model(
+        token_ids.to(self.model.device),
+    ...<5 lines>...
+        top_p,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos.py", line 329, in forward
+    preds = self.model.generate(
+        input_ids=input_ids,
+    ...<11 lines>...
+        ),
+    )  # type: ignore
+  File "/usr/local/lib/python3.13/dist-packages/torch/utils/_contextlib.py", line 124, in decorate_context
+    return func(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/generation/utils.py", line 2989, in generate
+    result = decoding_method(
+        self,
+    ...<5 lines>...
+        **model_kwargs,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/transformers/generation/utils.py", line 3189, in _sample
+    outputs = self._prefill(
+        input_ids,
+    ...<2 lines>...
+        is_first_iteration=not generation_config.is_assistant,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/transformers/generation/utils.py", line 4300, in _prefill
+    return self(**model_inputs, return_dict=True)
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/utils/generic.py", line 943, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/t5/modeling_t5.py", line 1031, in forward
+    decoder_outputs = self.decoder(
+        input_ids=decoder_input_ids,
+    ...<6 lines>...
+        **kwargs,
+    )
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/utils/generic.py", line 1081, in wrapper
+    output = func(self, *args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/utils/output_capturing.py", line 287, in wrapper
+    outputs = func(self, *args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/t5/modeling_t5.py", line 728, in forward
+    hidden_states, self_attention_position_bias, cross_attention_position_bias = layer_module(
+                                                                                 ~~~~~~~~~~~~^
+        hidden_states,
+        ^^^^^^^^^^^^^^
+    ...<6 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/modeling_layers.py", line 111, in __call__
+    return super().__call__(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/t5/modeling_t5.py", line 479, in forward
+    hidden_states, cross_attn_position_bias, _ = self.layer[1](
+                                                 ~~~~~~~~~~~~~^
+        hidden_states,
+        ^^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/t5/modeling_t5.py", line 423, in forward
+    attention_output, position_bias, attn_weights = self.EncDecAttention(
+                                                    ~~~~~~~~~~~~~~~~~~~~^
+        normed_hidden_states,
+        ^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1779, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/torch/nn/modules/module.py", line 1790, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/usr/local/lib/python3.13/dist-packages/transformers/models/t5/modeling_t5.py", line 329, in forward
+    key_states, value_states = curr_past_key_values.update(key_states, value_states, self.layer_idx)
+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/cache_utils.py", line 1423, in update
+    keys, values = self.layers[layer_idx].update(key_states, value_states, *args, **kwargs)
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/dist-packages/transformers/cache_utils.py", line 135, in update
+    self.keys = torch.cat([self.keys, key_states], dim=-2)
+                ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 2.51 GiB. GPU 0 has a total capacity of 14.56 GiB of which 760.81 MiB is free. Including non-PyTorch memory, this process has 13.82 GiB memory in use. Of the allocated memory 12.62 GiB is allocated by PyTorch, and 1.07 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)
+[run_benchmarks] failures: {'Chronos-T': 'OutOfMemoryError: CUDA out of memory. Tried to allocate 2.51 GiB. GPU 0 has a total capacity of 14.56 GiB of which 760.81 MiB is free. Including non-PyTorch memory, this process has 13.82 GiB memory in use. Of the allocated memory 12.62 GiB is allocated by PyTorch, and 1.07 GiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://docs.pytorch.org/docs/stable/notes/cuda.html#optimizing-memory-usage-with-pytorch-cuda-alloc-conf)'}
+[exit 1 after 829s]
+
+$ /tmp/venv_chronos/bin/python benchmarks/run_efficiency.py --model Chronos-Bolt-T,Chronos-T --skip-unavailable --cpu-reps 1 --reps 5
+/tmp/venv_chronos/lib/python3.13/site-packages/chronos/chronos_bolt.py:550: UserWarning: We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+  warnings.warn(msg)
+{'model': 'Chronos-Bolt-T', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 8.652672, 'gpu_time_ms': 54.568, 'gpu_mem_gb': 0.1807, 'cpu_time_s': 0.9856, 'device': 'Tesla T4'}
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+We recommend keeping prediction length <= 64. The quality of longer predictions may degrade since the model is not optimized for it. 
+{'model': 'Chronos-T', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 8.394496, 'gpu_time_ms': 4345.686, 'gpu_mem_gb': 3.7507, 'cpu_time_s': 44.6471, 'device': 'Tesla T4'}
+         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score
+Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            0.0276
+     Chronos-T          32             512       96  8.394496     4345.686      3.7507     44.6471 Tesla T4            1.0000
+[exit 0 after 131s]
+
+$ /usr/bin/python3 -m pip --python /tmp/venv_chronos/bin/python freeze > /kaggle/working/logs/pip_freeze_Chronos-Bolt-T.txt
+[exit 0 after 1s]

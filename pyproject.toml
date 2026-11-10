@@ -44,8 +44,8 @@ dev = ["pytest>=7.0", "ruff>=0.4.0"]
 kaggle = ["kaggle"]
 chronos = ["chronos-forecasting>=1.5"]
 ttm = ["granite-tsfm"]
-moirai = ["uni2ts"]
-timesfm = ["timesfm[torch]>=1.2,<2"]
+moirai = ["uni2ts"]  # on Python >= 3.12 install with --no-deps; see kaggle/kernel_runner.py
+timesfm = ["timesfm[torch]>=2"]
 
 [project.urls]
 "Homepage" = "https://github.com/r2barati/EZERO"

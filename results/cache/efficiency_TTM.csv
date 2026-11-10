@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,cpu_time_s,device
+TTM,32,512,96,0.80528,6.093,0.0154,0.0137,Tesla T4

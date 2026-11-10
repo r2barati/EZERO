@@ -73,7 +73,7 @@ MODEL_REGISTRY.update({
     "Chronos-Bolt-T": dict(group="tsfm", description="amazon/chronos-bolt-tiny", package="chronos-forecasting"),
     "TTM": dict(group="tsfm", description="ibm-granite/granite-timeseries-ttm-r2", package="granite-tsfm"),
     "Moirai-S": dict(group="tsfm", description="Salesforce/moirai-1.0-R-small", package="uni2ts"),
-    "TimesFM": dict(group="tsfm", description="google/timesfm-1.0-200m-pytorch", package="timesfm"),
+    "TimesFM-2.5": dict(group="tsfm", description="google/timesfm-2.5-200m-pytorch", package="timesfm>=2"),
     "DLinear": dict(group="fullshot", description="DLinear trained per dataset/horizon"),
     "PatchTST": dict(group="fullshot", description="PatchTST trained per dataset/horizon"),
     "iTransformer": dict(group="fullshot", description="iTransformer trained per dataset/horizon"),

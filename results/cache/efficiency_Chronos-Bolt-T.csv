@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,cpu_time_s,device
+Chronos-Bolt-T,32,512,96,8.652672,54.568,0.1807,0.9856,Tesla T4

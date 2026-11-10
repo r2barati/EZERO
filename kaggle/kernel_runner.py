@@ -55,13 +55,17 @@ SMOKE = [
     f"{PY} benchmarks/run_benchmarks.py --model E-ZERO,SeasonalNaive --protocol sub16 --no-merge",
     f"{PY} benchmarks/run_efficiency.py --model E-ZERO --no-cpu",
 ]
-# package spec, model ids (one virtualenv per package; --system-site-packages reuses Kaggle's torch)
+# pip install steps, model ids (one virtualenv per package; --system-site-packages reuses Kaggle's torch).
+# uni2ts pins torch<2.5 / numpy 1.26 / scipy 1.11, which have no Python 3.13 wheels; its code runs with
+# current versions, so it is installed without dependencies plus the modules it actually imports.
 TSFM = [
-    ("chronos-forecasting>=1.5", ["Chronos-Bolt-T", "Chronos-T"]),
-    ("granite-tsfm", ["TTM"]),
-    ("uni2ts", ["Moirai-S"]),
-    ("timesfm[torch]>=1.2,<2", ["TimesFM"]),
+    (["'chronos-forecasting>=1.5'"], ["Chronos-Bolt-T", "Chronos-T"]),
+    (["granite-tsfm"], ["TTM"]),
+    (["--no-deps 'uni2ts>=2'", "einops jaxtyping jax gluonts lightning hydra-core python-dotenv safetensors"],
+     ["Moirai-S"]),
+    (["'timesfm[torch]>=2'"], ["TimesFM-2.5"]),
 ]
+TSFM_MODELS = "__TSFM_MODELS__"  # "ALL" or a comma list rendered by build_kernels.py
 
 
 def sh(cmd, cwd=None, env=None, log_name="run.log", check=False, timeout=None):
@@ -141,13 +145,20 @@ def make_venv(venv, log_name):
 
 def run_tsfm(env):
     status = {}
-    for spec, models in TSFM:
-        venv = f"/tmp/venv_{models[0].split('-')[0].lower()}"
+    wanted = None if TSFM_MODELS in ("ALL", "") else set(TSFM_MODELS.split(","))
+    for steps, all_models in TSFM:
+        models = [m for m in all_models if wanted is None or m in wanted]
+        if not models:
+            continue
+        venv = f"/tmp/venv_{all_models[0].split('-')[0].lower()}"
         vpy = os.path.join(venv, "bin", "python")
-        name = models[0]
+        name = all_models[0]
+        spec = " + ".join(steps)
         log_name = f"tsfm_{name}.log"
         install = make_venv(venv, log_name)
-        rc = 1 if install is None else install(f"'{spec}'")
+        rc = 1 if install is None else 0
+        for step in steps:
+            rc = rc or install(step)
         rc = rc or install(f"--no-deps -e {SRC}")
         if rc:
             status[spec] = f"install failed ({rc})"

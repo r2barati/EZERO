@@ -11,7 +11,7 @@ with a 512-step context, and the point forecast is the predictive mean.
 | Chronos-Bolt-T   | amazon/chronos-bolt-tiny (9M)                | chronos-forecasting   |
 | TTM              | ibm-granite/granite-timeseries-ttm-r2        | granite-tsfm          |
 | Moirai-S         | Salesforce/moirai-1.0-R-small (14M)          | uni2ts                |
-| TimesFM          | google/timesfm-1.0-200m-pytorch (200M)       | timesfm (1.x API)     |
+| TimesFM-2.5      | google/timesfm-2.5-200m-pytorch (200M)       | timesfm (>= 2)        |
 """
 from __future__ import annotations
 
@@ -170,26 +170,29 @@ class MoiraiForecaster(_SeriesForecaster):
 
 
 class TimesFMForecaster(_SeriesForecaster):
-    def __init__(self, model_id="google/timesfm-1.0-200m-pytorch", name="TimesFM", context_length=512,
-                 horizon_len=720, device=None, batch=256):
+    """TimesFM-2.5-200M (timesfm >= 2). The 1.0-200m checkpoint used in the thesis is only
+    loadable by timesfm 1.x, which has no build for Python 3.13 (the current Kaggle image)."""
+
+    def __init__(self, model_id="google/timesfm-2.5-200m-pytorch", name="TimesFM-2.5", context_length=512,
+                 max_horizon=768, device=None, batch=128):
         import timesfm
+        import torch
         self.name = name
         self.model_id = model_id
         self.batch = batch
-        backend = "gpu" if _device(device).startswith("cuda") else "cpu"
-        self.tfm = timesfm.TimesFm(
-            hparams=timesfm.TimesFmHparams(backend=backend, per_core_batch_size=32, horizon_len=horizon_len,
-                                           context_len=context_length),
-            checkpoint=timesfm.TimesFmCheckpoint(huggingface_repo_id=model_id))
-        self.gpu_only = False
+        self.device = _device(device)
+        self.tfm = timesfm.TimesFM_2p5_200M_torch.from_pretrained(model_id, torch_compile=False)
+        self.tfm.compile(timesfm.ForecastConfig(
+            max_context=context_length, max_horizon=max_horizon, normalize_inputs=True,
+            per_core_batch_size=batch, use_continuous_quantile_head=True, force_flip_invariance=True,
+            infer_is_positive=False, fix_quantile_crossing=True))
+        del torch
 
     def torch_module(self):
-        return getattr(self.tfm, "_model", None)
+        return getattr(self.tfm, "model", None)
 
     def _predict_series(self, x, freq, H):
-        b = bucket_name(freq)
-        f = 0 if b in ("second", "minute", "10min", "15min", "30min", "hour", "day") else (1 if b in ("week", "month") else 2)
-        point, _ = self.tfm.forecast(list(x), freq=[f] * len(x))
+        point, _ = self.tfm.forecast(horizon=H, inputs=[r for r in x])
         return np.asarray(point)[:, :H]
 
     def info(self):
@@ -197,9 +200,12 @@ class TimesFMForecaster(_SeriesForecaster):
 
 
 TSFM_FACTORIES = {
-    "Chronos-T": lambda **kw: ChronosForecaster("amazon/chronos-t5-tiny", "Chronos-T", **kw),
+    # T5 decodes autoregressively with sampling: 20 samples x 256 series ran out of memory on a 16 GB T4 and
+    # took ~2 min per 112 series; 10 samples x 128 series keeps Traffic (13.8k series) to ~1.5 h
+    "Chronos-T": lambda **kw: ChronosForecaster("amazon/chronos-t5-tiny", "Chronos-T",
+                                                **{"batch": 128, "num_samples": 10, **kw}),
     "Chronos-Bolt-T": lambda **kw: ChronosForecaster("amazon/chronos-bolt-tiny", "Chronos-Bolt-T", **kw),
     "TTM": lambda **kw: TTMForecaster(**kw),
     "Moirai-S": lambda **kw: MoiraiForecaster(**kw),
-    "TimesFM": lambda **kw: TimesFMForecaster(**kw),
+    "TimesFM-2.5": lambda **kw: TimesFMForecaster(**kw),
 }

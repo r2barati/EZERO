@@ -1,0 +1,17 @@
+{
+  "stage": "tsfm",
+  "commit": "d1d40d2ffab6ca5144f2f14d7efebf444aaaabae",
+  "status": {
+    "chronos-forecasting>=1.5": {
+      "eval_rc": 1,
+      "efficiency_rc": 0
+    },
+    "granite-tsfm": {
+      "eval_rc": 0,
+      "efficiency_rc": 0
+    },
+    "uni2ts": "install failed (1)",
+    "timesfm[torch]>=1.2,<2": "install failed (1)"
+  },
+  "minutes": 21.7
+}
