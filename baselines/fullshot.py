@@ -102,7 +102,8 @@ class FullShotForecaster(Forecaster):
         self.L = context_length
         self.max_epochs, self.max_steps = max_epochs, max_steps
         self.batch_windows = batch_windows
-        self.max_series_per_batch = max_series_per_batch
+        # PatchTST is channel-independent with 64 patch tokens per series: halve the series per batch
+        self.max_series_per_batch = max_series_per_batch if arch != "PatchTST" else min(max_series_per_batch, 4096)
         self.lr = lr or DEFAULT_LR[arch]
         self.patience = patience
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")

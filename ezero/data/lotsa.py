@@ -55,15 +55,25 @@ class Panel:
         return bucket_id(self.freq)
 
 
+_REPO_FILES: list[str] | None = None
+
+
+def _repo_files() -> list[str]:
+    global _REPO_FILES
+    if _REPO_FILES is None:
+        from huggingface_hub import HfApi
+        _REPO_FILES = list(HfApi().list_repo_files(LOTSA_REPO, repo_type="dataset"))
+    return _REPO_FILES
+
+
 def download_subset(name: str, root: str, max_shards: int | None = None) -> str:
     """Download one LOTSA sub-dataset folder (optionally only the first ``max_shards`` arrow shards)."""
-    from huggingface_hub import HfApi, hf_hub_download
+    from huggingface_hub import hf_hub_download
 
     target = os.path.join(root, name)
     if os.path.exists(os.path.join(target, "state.json")) and glob.glob(os.path.join(target, "*.arrow")):
         return target
-    api = HfApi()
-    files = [f for f in api.list_repo_files(LOTSA_REPO, repo_type="dataset") if f.startswith(name + "/")]
+    files = [f for f in _repo_files() if f.startswith(name + "/")]
     if not files:
         raise FileNotFoundError(f"LOTSA sub-dataset {name!r} not found in {LOTSA_REPO}")
     arrows = sorted(f for f in files if f.endswith(".arrow"))
