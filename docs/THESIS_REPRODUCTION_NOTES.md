@@ -130,6 +130,43 @@ Never adjust the model, data or evaluation to move the test numbers toward the t
 includes choosing settings by test score, reporting the leaky normalisation as the main result,
 dropping datasets or horizons, under-training baselines, or mixing copied and re-run numbers.
 
+## 8. Reproduction check against the numbers each model's paper reports
+
+**Sources.** `results/reported/*.csv` holds the long-sequence results reported by each baseline's
+own paper, or by the closest related paper where the model's own paper has none. Every value was
+parsed from the arXiv HTML tables, cross-checked against the PDFs, and stored with paper, table,
+lookback and URL. `paper/figures/compare_reported.py` joins each reported cell to our run of the
+same model, dataset, horizon, lookback and test protocol, and writes
+`paper/tables/tableV_reproduction.md` plus the row-level `tableV_reproduction_rows.csv`.
+
+**How the protocols differ, and how the check handles it**
+
+| Model | Reported protocol | Our canonical run | Like-for-like validation run |
+|---|---|---|---|
+| DLinear | lookback 336, single run | 512, budget cap | `fullval`: 336, official settings, 3 seeds ETTh1 + all datasets |
+| PatchTST | /64: lookback 512; /42: 336; reduced model on ETTh1/2; test loader `drop_last=True` | 512 | `fullval`: /42 official scripts (336, type3/OneCycle, 100 epochs) |
+| TSMixer | lookback 512, hyperparameters tuned per dataset and horizon (Table 8), 100 epochs | 512, fixed widths | `fullval`: Table 8 settings, authors' block design |
+| iTransformer, TimesNet, TimeMixer, FEDformer, Autoformer | lookback 96, official widths (FEDformer/Autoformer d_model 512, no instance norm), calendar features | 512, reduced widths | `fullval`: 96, official run-script settings |
+| TTM | per-horizon checkpoints, every sliding window (TTM Table 11) | R1: one 96-step model rolled forward | `tsfmval`: full test set |
+| Moirai | context 1000-5000, patch size and CI/channel-mixing tuned on validation, median of samples | context 512, patch 32, mean of 20 samples | `tsfmval`: full test set (our fixed settings) |
+| TimesFM | TTM Table 13 (sliding) and its own Table 5 (last window, MAE) | sub16 | `tsfmval`: full + last window |
+| Chronos, Lag-Llama | no own LSF numbers; TTM Table 15 re-evaluation, last window only; Lag-Llama pretrained on ETTh1/ETTh2/ETTm1/Electricity/Traffic | sub16 | `tsfmval`: last window |
+
+**Findings so far**
+
+- **DLinear at its paper lookback (336) reproduces.**
+  - ETTh1: within 1.4% at every horizon (0.377 vs 0.375 at H=96).
+  - ETTh2: within 2.5% at H=96/192.
+  - ETTh2 at H=336/720 differs by -13% and +22%. Five seeds give 0.389-0.451 (reported 0.448) and 0.608-0.740 (reported 0.605), so the reported single runs sit at the edge of normal seed variance. The cause is seed variance, not a bug.
+  - Emulating the paper-era test loader (`drop_last=True`, protocol `fulldl32`) changes MSE by less than 1.2%, so it does not explain the gaps.
+- **A missing LR schedule was the one real bug found.**
+  - At the reference learning rate 5e-3 and without the per-epoch halving of the reference code, DLinear scored 0.463 on ETTh1 H=96. The full-shot trainer now applies the reference `type1` schedule exactly, which gives 0.372-0.374 (reported 0.375).
+- **Not reproducible by design:**
+  - Calendar ("time-mark") embeddings, used by iTransformer, TimesNet, FEDformer and Autoformer, are not implemented here.
+  - Moirai's validation-tuned context is not replicated.
+  - TTM's per-horizon checkpoints are not used: the public R1 checkpoint is rolled forward instead.
+  - These are recorded as residual protocol differences rather than tuned away.
+
 ## 7. Making the contribution claim
 
 The claim should be stated from the re-run numbers, whichever way they fall. The thesis'
