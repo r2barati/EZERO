@@ -15,7 +15,8 @@ def toy_data(T=4000, C=3, L=64):
 
 
 def test_roster():
-    assert len(rb.ALL_MODEL_IDS) == 22
+    assert len(rb.ALL_MODEL_IDS) == 24
+    assert [m for m in rb.ALL_MODEL_IDS if rb.MODEL_REGISTRY[m].get("accuracy") is False] == ["GPT4TS", "MOMENT"]
     eras = {m: rb.MODEL_REGISTRY[m].get("era") for m in rb.ALL_MODEL_IDS if rb.MODEL_REGISTRY[m]["group"] == "tsfm"}
     assert sorted(m for m, e in eras.items() if e == "thesis") == ["Chronos-T", "Lag-Llama", "Moirai-S",
                                                                    "TTM-R1", "TimesFM-1.0"]

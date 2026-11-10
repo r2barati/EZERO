@@ -86,9 +86,21 @@ MODEL_REGISTRY.update({
                    package="granite-tsfm"),
     "TimesFM-2.5": dict(group="tsfm", era="post-thesis", description="google/timesfm-2.5-200m-pytorch (2025-09)",
                         package="timesfm>=2"),
+    # thesis Table 3/4 only: not zero-shot forecasters (need a trained head) -> timed, never scored
+    "GPT4TS": dict(group="efficiency", era="thesis", accuracy=False,
+                   description="One Fits All: GPT-2 (6 layers) + patching, untrained head (timing only)",
+                   package="transformers"),
+    "MOMENT": dict(group="efficiency", era="thesis", accuracy=False,
+                   description="AutonLab/MOMENT-1-large forecasting head (timing only, 2024-05)",
+                   package="momentfm (Python 3.11)"),
     "DLinear": dict(group="fullshot", description="DLinear trained per dataset/horizon"),
     "PatchTST": dict(group="fullshot", description="PatchTST trained per dataset/horizon"),
     "iTransformer": dict(group="fullshot", description="iTransformer trained per dataset/horizon"),
+    "TSMixer": dict(group="fullshot", description="TSMixer trained per dataset/horizon"),
+    "TimeMixer": dict(group="fullshot", description="TimeMixer trained per dataset/horizon"),
+    "TimesNet": dict(group="fullshot", description="TimesNet trained per dataset/horizon"),
+    "FEDformer": dict(group="fullshot", description="FEDformer (Fourier) trained per dataset/horizon"),
+    "Autoformer": dict(group="fullshot", description="Autoformer trained per dataset/horizon"),
 })
 ALL_MODEL_IDS = list(MODEL_REGISTRY)
 GROUPS = sorted({v["group"] for v in MODEL_REGISTRY.values()})
@@ -130,6 +142,9 @@ def make_forecaster(model_id: str, args) -> object:
     if g == "tsfm":
         from baselines.tsfm import TSFM_FACTORIES
         return TSFM_FACTORIES[model_id]()
+    if g == "efficiency":
+        from baselines.efficiency_only import EFFICIENCY_ONLY_FACTORIES
+        return EFFICIENCY_ONLY_FACTORIES[model_id]()
     if g == "fullshot":
         from baselines.fullshot import FullShotForecaster
         return FullShotForecaster(model_id, max_steps=args.fullshot_max_steps, max_epochs=args.fullshot_max_epochs)
@@ -198,6 +213,9 @@ def device_name() -> str:
 # Evaluation
 # ---------------------------------------------------------------------------
 def eval_one_model(model_id: str, args) -> list[dict]:
+    if MODEL_REGISTRY[model_id].get("accuracy") is False:
+        print(f"[{model_id}] efficiency-only model (needs a trained head); use benchmarks/run_efficiency.py")
+        return []
     datasets = args.datasets
     horizons = args.horizons
     cache = load_cache(model_id)

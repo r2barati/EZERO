@@ -76,6 +76,9 @@ TSFM = [
                 "absl-py einshape huggingface_hub utilsforecast 'numpy<2' pandas scikit-learn pyyaml 'jax<0.5' 'jaxlib<0.5'"]),
     # Lag-Llama is not a pip package: it runs the authors' GitHub code (pinned commit). Opt-in only - it runs
     # when "Lag-Llama" is named explicitly in TSFM_MODELS, never with "ALL".
+    # thesis Table 3/4 only (no zero-shot forecasting head): timed, never scored for accuracy
+    dict(models=["GPT4TS"], steps=[], efficiency_only=True),
+    dict(models=["MOMENT"], python="3.11", steps=["torch==2.4.1", "momentfm pandas pyyaml"], efficiency_only=True),
     dict(models=["Lag-Llama"], python="3.11", clone=LAG_LLAMA_REPO, opt_in=True,
          steps=["torch==2.4.1", "'gluonts[torch]==0.14.4' 'numpy<2' 'pandas<2.2' 'lightning<2.5' 'setuptools<75' "
                 "huggingface_hub scipy pyyaml"]),
@@ -199,8 +202,10 @@ def run_tsfm(env):
             status[spec] = f"install failed ({rc})"
             continue
         ids = ",".join(models)
-        rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16 --no-merge --skip-unavailable",
-                cwd=SRC, env=run_env, log_name=log_name)
+        rc = 0
+        if not entry.get("efficiency_only"):
+            rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16 --no-merge --skip-unavailable",
+                    cwd=SRC, env=run_env, log_name=log_name)
         rc2 = sh(f"{vpy} benchmarks/run_efficiency.py --model {ids} --skip-unavailable --cpu-reps 1 --reps 5",
                  cwd=SRC, env=run_env, log_name=log_name)
         sh(f"{PY} -m uv pip freeze --python {vpy} > {LOG}/pip_freeze_{name}.txt 2>/dev/null || "

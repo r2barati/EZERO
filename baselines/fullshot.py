@@ -1,7 +1,8 @@
 """Full-shot baselines trained on each dataset's train split (thesis Sec. 4.3 "other architectures").
 
 Compact re-implementations of DLinear (Zeng et al., 2023), PatchTST (Nie et al., 2023) and
-iTransformer (Liu et al., 2024). One model is trained per (dataset, horizon) with MSE, Adam,
+iTransformer (Liu et al., 2024); TSMixer, TimeMixer, TimesNet, Autoformer and FEDformer live in
+``baselines/fullshot_extra.py``. One model is trained per (dataset, horizon) with MSE, Adam,
 early stopping on the validation split. To fit Kaggle's session limits training is capped by
 ``max_steps`` / ``max_epochs``; the caps are recorded in the result rows so the budget is
 explicit when comparing with published numbers.
@@ -87,6 +88,18 @@ class _ITransformer(nn.Module):
 ARCHS = {"DLinear": _DLinear, "PatchTST": _PatchTST, "iTransformer": _ITransformer}
 DEFAULT_LR = {"DLinear": 5e-3, "PatchTST": 1e-4, "iTransformer": 5e-4}
 
+from baselines.fullshot_extra import EXTRA_ARCHS, EXTRA_LR  # noqa: E402
+
+DEFAULT_LR.update(EXTRA_LR)
+# models that embed all channels jointly: memory grows with windows, not windows x channels
+CHANNEL_MIXING = {"iTransformer", "TSMixer", "TimesNet", "Autoformer", "FEDformer"}
+
+
+def build_arch(arch: str, L: int, H: int, C: int) -> nn.Module:
+    if arch in EXTRA_ARCHS:
+        return EXTRA_ARCHS[arch](L, H, C)
+    return ARCHS[arch](L, H)
+
 
 # --------------------------------------------------------------------------- forecaster
 class FullShotForecaster(Forecaster):
@@ -132,8 +145,11 @@ class FullShotForecaster(Forecaster):
         train = data.split_values("train")
         val = data.split_values("val")
         C = train.shape[1]
-        bw = max(1, min(self.batch_windows, self.max_series_per_batch // C))
-        self.model = ARCHS[self.arch](L, H).to(self.device)
+        if self.arch in CHANNEL_MIXING:
+            bw = self.batch_windows
+        else:
+            bw = max(1, min(self.batch_windows, self.max_series_per_batch // C))
+        self.model = build_arch(self.arch, L, H, C).to(self.device)
         opt = torch.optim.Adam(self.model.parameters(), lr=self.lr)
         loss_fn = nn.MSELoss()
         tr_t = torch.from_numpy(train).to(self.device)
@@ -194,10 +210,10 @@ class FullShotForecaster(Forecaster):
     @torch.no_grad()
     def predict(self, context, freq, horizon):
         if self.model is None:  # efficiency benchmark without training
-            self.model = ARCHS[self.arch](context.shape[1], horizon).to(self.device).eval()
+            self.model = build_arch(self.arch, context.shape[1], horizon, context.shape[2]).to(self.device).eval()
         x = torch.from_numpy(context).to(self.device)
         C = context.shape[2]
-        bw = max(1, self.max_series_per_batch // C)
+        bw = self.batch_windows if self.arch in CHANNEL_MIXING else max(1, self.max_series_per_batch // C)
         outs = [self.model(x[k:k + bw]).float().cpu() for k in range(0, len(x), bw)]
         return torch.cat(outs).numpy()[:, :horizon]
 
