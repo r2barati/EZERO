@@ -121,15 +121,34 @@ def collect():
             shutil.copy2(p, dst)
 
 
+def make_venv(venv, log_name):
+    """Virtualenv that sees the system site-packages (Kaggle's torch/CUDA stack).
+
+    Kaggle's /usr/bin/python3 has no ensurepip, so the venv is created without pip and
+    packages are installed into it by the system pip (``pip --python``), or by uv as a fallback.
+    Returns a function ``install(args) -> exit code``.
+    """
+    vpy = os.path.join(venv, "bin", "python")
+    rc = sh(f"{PY} -m venv --without-pip --system-site-packages {venv}", log_name=log_name)
+    if rc == 0 and sh(f"{PY} -m pip --python {vpy} --version", log_name=log_name) == 0:
+        return lambda args: sh(f"{PY} -m pip --python {vpy} install --quiet --no-input {args}", log_name=log_name)
+    sh(f"{PY} -m pip install --quiet uv", log_name=log_name)
+    shutil.rmtree(venv, ignore_errors=True)
+    if sh(f"{PY} -m uv venv --system-site-packages --python {PY} {venv}", log_name=log_name):
+        return None
+    return lambda args: sh(f"{PY} -m uv pip install --quiet --python {vpy} {args}", log_name=log_name)
+
+
 def run_tsfm(env):
     status = {}
     for spec, models in TSFM:
         venv = f"/tmp/venv_{models[0].split('-')[0].lower()}"
         vpy = os.path.join(venv, "bin", "python")
         name = models[0]
-        rc = sh(f"{PY} -m venv --system-site-packages {venv}", log_name=f"tsfm_{name}.log")
-        rc = rc or sh(f"{vpy} -m pip install --quiet --no-input '{spec}'", log_name=f"tsfm_{name}.log")
-        rc = rc or sh(f"{vpy} -m pip install --quiet --no-input --no-deps -e {SRC}", log_name=f"tsfm_{name}.log")
+        log_name = f"tsfm_{name}.log"
+        install = make_venv(venv, log_name)
+        rc = 1 if install is None else install(f"'{spec}'")
+        rc = rc or install(f"--no-deps -e {SRC}")
         if rc:
             status[spec] = f"install failed ({rc})"
             continue
@@ -138,7 +157,7 @@ def run_tsfm(env):
                 cwd=SRC, env=env, log_name=f"tsfm_{name}.log")
         rc2 = sh(f"{vpy} benchmarks/run_efficiency.py --model {ids} --skip-unavailable --cpu-reps 1 --reps 5",
                  cwd=SRC, env=env, log_name=f"tsfm_{name}.log")
-        sh(f"{vpy} -m pip freeze > {LOG}/pip_freeze_{name}.txt", log_name=f"tsfm_{name}.log")
+        sh(f"{PY} -m pip --python {vpy} freeze > {LOG}/pip_freeze_{name}.txt", log_name=log_name)
         status[spec] = {"eval_rc": rc, "efficiency_rc": rc2}
         collect()
     return status
