@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Data (downloaded on demand; see scripts/data/)
+data/raw/
+data/lotsa/
+data/external/
+
+# Kaggle rendered kernels and local scratch
+kaggle/kernels/
+ezero_src/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

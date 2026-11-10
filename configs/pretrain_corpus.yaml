@@ -1,0 +1,16 @@
+# LOTSA pre-training corpus (Salesforce/lotsa_data), migrated from the original
+# data/config/dataloader_config.yaml. None of the evaluation datasets (ETT, Weather,
+# Electricity, Traffic) is part of this list, so evaluation is zero-shot.
+repo: Salesforce/lotsa_data
+subsets:
+  - {name: BEIJING_SUBWAY_30MIN}
+  - {name: PEMS04}
+  - {name: LOS_LOOP}
+  - {name: M_DENSE}
+  - {name: australian_electricity_demand, max_length: 100000}
+  - {name: bitcoin_with_missing}
+  - {name: cdc_fluview_ilinet}
+  - {name: beijing_air_quality}
+  # 3 GB in 10 shards: the first shard keeps the Kaggle run inside its disk/time budget
+  - {name: alibaba_cluster_trace_2018, max_shards: 1, max_series: 4000}
+  - {name: uber_tlc_daily}

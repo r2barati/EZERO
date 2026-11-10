@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite the thesis below."
+title: "E-ZERO: A More Efficient Foundation Model for Zero-Shot Forecasting"
+type: software
+authors:
+  - family-names: "Barati"
+    given-names: "Reza"
+repository-code: "https://github.com/r2barati/EZERO"
+license: MIT
+version: "2.0.0"
+keywords:
+  - time series forecasting
+  - foundation model
+  - zero-shot
+  - N-BEATS
+  - temporal convolutional network
+preferred-citation:
+  type: thesis
+  title: "E-ZERO: A More Efficient Foundation Model for Zero-Shot Forecasting"
+  authors:
+    - family-names: "Barati"
+      given-names: "Reza"
+  institution:
+    name: "Toronto Metropolitan University"
+  thesis-type: "Master's thesis"
+  year: 2024

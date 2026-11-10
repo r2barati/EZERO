@@ -1,0 +1,36 @@
+# E-ZERO final configuration (thesis Sec. 3.6.2 "Final Hyperparameters Summary").
+# Migrated from the original scripts/config/training_hyperparameters.yaml.
+model:
+  context_length: 512        # maximum context window (thesis / LOTSA protocol)
+  horizon: 720               # one head for all horizons; 96/192/336 are prefixes
+  nbeats_blocks: 3           # explored [3, 12]
+  nbeats_hidden: 64          # neurons per FC layer, explored [32, 512]
+  nbeats_layers: 4
+  crrb_resolutions: [1, 2, 4]
+  tcn_channels: 32           # "Number of Filters in TCN: 32"
+  tcn_dilations: [1, 2, 4, 8]  # 4 TCN layers, dilation 2^k
+  tcn_kernel_size: 3
+  mrc_dilations: [1, 2, 4, 8]
+  dropout: 0.2
+  rae_dim: 8
+  mixer_channels: 16
+  mixer_layers: 2
+
+training:
+  optimizer: adamw
+  learning_rate: 3.0e-4      # explored [1e-4, 1e-2]
+  weight_decay: 1.0e-3       # explored [1e-4, 1e-1]
+  batch_size: 64
+  steps: 60000
+  warmup_steps: 10000        # linear warm-up, then cosine annealing
+  gradient_clipping: 3.0
+  eval_every: 1000
+  val_batches: 32
+  early_stopping_patience: 10
+  seed: 2024
+
+sampler:
+  min_context: 32
+  max_group_channels: 8      # channels per group seen by the Exogenous Mixer
+  alpha: 0.5                 # dataset temperature: p(dataset) ~ size^alpha
+  val_fraction: 0.1          # tail of every series held out for early stopping

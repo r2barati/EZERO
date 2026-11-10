@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ezero"
+version = "2.0.0"
+authors = [
+  { name = "Reza Barati" }
+]
+description = "E-ZERO: a more efficient non-attention (N-BEATS + TCN) foundation model for zero-shot time-series forecasting."
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+keywords = [
+    "time series",
+    "forecasting",
+    "foundation model",
+    "zero-shot",
+    "N-BEATS",
+    "TCN",
+    "LOTSA",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = [
+    "numpy",
+    "pandas",
+    "torch>=2.0",
+    "PyYAML",
+    "matplotlib",
+    "datasets",
+    "huggingface_hub",
+    "pyarrow",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0", "ruff>=0.4.0"]
+kaggle = ["kaggle"]
+chronos = ["chronos-forecasting>=1.5"]
+ttm = ["granite-tsfm"]
+moirai = ["uni2ts"]
+timesfm = ["timesfm[torch]>=1.2,<2"]
+
+[project.urls]
+"Homepage" = "https://github.com/r2barati/EZERO"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["ezero*", "baselines*", "benchmarks*"]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "W"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "data: needs the LSF CSVs in data/raw (skipped otherwise)",
+]

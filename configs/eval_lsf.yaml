@@ -1,0 +1,9 @@
+# Zero-shot long-sequence forecasting protocol (thesis Table 2 / Appendix B.3)
+datasets: [ETTh1, ETTh2, ETTm1, ETTm2, Weather, Electricity, Traffic]
+horizons: [96, 192, 336, 720]
+context_length: 512
+scaler: train          # 'train' = leakage-free (default); 'full' = thesis legacy normalisation
+protocols:
+  full: every test window, stride 1 (Informer / Time-Series-Library convention, drop_last=False)
+  sub16: 16 evenly spaced test windows shared by all horizons (all channels), used to compare
+         against the slow foundation models on identical windows
