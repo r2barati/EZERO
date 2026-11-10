@@ -33,7 +33,8 @@ from ezero.data.ltsf import DEFAULT_DATASETS, DEFAULT_HORIZONS  # noqa: E402
 EXPECTED = {
     ("full", "train"): [m for m in ALL_MODEL_IDS if MODEL_REGISTRY[m]["group"] in
                         ("ezero", "ezero-ablation", "naive", "fullshot")],
-    ("sub16", "train"): ["E-ZERO"] + [m for m in ALL_MODEL_IDS if MODEL_REGISTRY[m]["group"] in ("tsfm", "naive")],
+    ("sub16", "train"): ["E-ZERO"] + [m for m in ALL_MODEL_IDS if MODEL_REGISTRY[m]["group"] in ("tsfm", "naive")
+                                      and not MODEL_REGISTRY[m].get("opt_in")],
 }
 
 

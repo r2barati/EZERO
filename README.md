@@ -27,8 +27,10 @@ suite and a publication check. Everything can be run on Kaggle GPUs with the ker
     (inference cost + efficiency score), `checkpoint.py`, `frequency.py`.
 - `baselines/`: every evaluated method behind one `predict(context, freq, horizon)` interface
   (the analogue of Paper 1's `agents/`): E-ZERO checkpoints, naive baselines, full-shot
-  DLinear / PatchTST / iTransformer, and zero-shot Chronos / TTM / Moirai / TimesFM-2.5 wrappers.
-- `benchmarks/`: `pretrain.py`, `run_benchmarks.py` (registry of **19 models**, caching, merge,
+  DLinear / PatchTST / iTransformer, and zero-shot foundation models: the thesis-era checkpoints
+  (Chronos-T, TTM-R1, Moirai-S, TimesFM-1.0, Lag-Llama) plus later releases reported separately
+  (Chronos-Bolt-T, TTM-R2, TimesFM-2.5).
+- `benchmarks/`: `pretrain.py`, `run_benchmarks.py` (registry of **22 models**, caching, merge,
   manifest), `run_efficiency.py`, `verify_publication_ready.py`.
 - `configs/`: thesis hyperparameters (`ezero_base.yaml`), LOTSA corpus (`pretrain_corpus.yaml`),
   evaluation protocol (`eval_lsf.yaml`).
@@ -86,7 +88,7 @@ python benchmarks/verify_publication_ready.py
 Other entry points:
 
 ```bash
-python benchmarks/run_benchmarks.py --list                                   # 19 registered models
+python benchmarks/run_benchmarks.py --list                                   # 22 registered models
 python benchmarks/pretrain.py --variant ALL                                  # base + 7 ablations (Table 5)
 python benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol full
 python benchmarks/run_benchmarks.py --model DLinear,PatchTST,iTransformer --protocol full
@@ -106,7 +108,7 @@ repository's own paths in `/kaggle/working/outputs/`.
 | `smoke` | a few minutes of every code path (check the environment before long runs) |
 | `core` | pre-train E-ZERO, evaluate E-ZERO + naive baselines (both protocols, both scalings), efficiency |
 | `ablations` | pre-train and evaluate the 7 ablation variants (Table 5) |
-| `tsfm` | Chronos-T, Chronos-Bolt-T, TTM, Moirai-S, TimesFM-2.5 on the `sub16` protocol, one virtualenv each |
+| `tsfm` | foundation models on the `sub16` protocol, one virtualenv each (Python 3.11 via uv for TimesFM-1.0 and Lag-Llama) |
 | `fullshot` | DLinear, PatchTST, iTransformer trained per dataset and horizon |
 
 ```bash

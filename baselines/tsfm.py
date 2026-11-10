@@ -5,13 +5,19 @@ them; ``kaggle/kernels/ezero-tsfm-*`` installs one package per kernel to avoid v
 conflicts between them. All are evaluated channel-independently on standard-scaled inputs
 with a 512-step context, and the point forecast is the predictive mean.
 
-| id               | checkpoint                                   | package               |
-|------------------|----------------------------------------------|-----------------------|
-| Chronos-T        | amazon/chronos-t5-tiny (8M)                  | chronos-forecasting   |
-| Chronos-Bolt-T   | amazon/chronos-bolt-tiny (9M)                | chronos-forecasting   |
-| TTM              | ibm-granite/granite-timeseries-ttm-r2        | granite-tsfm          |
-| Moirai-S         | Salesforce/moirai-1.0-R-small (14M)          | uni2ts                |
-| TimesFM-2.5      | google/timesfm-2.5-200m-pytorch (200M)       | timesfm (>= 2)        |
+Thesis-era checkpoints (public before the thesis, Aug/Sep 2024) are the primary comparison;
+later releases are reported separately as "post-thesis" context (HuggingFace creation dates).
+
+| id               | checkpoint (HF created)                                  | package               | era         |
+|------------------|----------------------------------------------------------|-----------------------|-------------|
+| Chronos-T        | amazon/chronos-t5-tiny, 8M (2024-02)                     | chronos-forecasting   | thesis      |
+| TTM-R1           | ibm-granite/granite-timeseries-ttm-r1 512-96 (2024-04)   | granite-tsfm          | thesis      |
+| Moirai-S         | Salesforce/moirai-1.0-R-small, 14M (2024-02)             | uni2ts                | thesis      |
+| TimesFM-1.0      | google/timesfm-1.0-200m-pytorch (2024-08)                | timesfm 1.x (py3.11)  | thesis      |
+| Lag-Llama        | time-series-foundation-models/Lag-Llama (2024-02)        | lag-llama (py3.11)    | thesis      |
+| Chronos-Bolt-T   | amazon/chronos-bolt-tiny, 9M (2024-11)                   | chronos-forecasting   | post-thesis |
+| TTM-R2           | ibm-granite/granite-timeseries-ttm-r2 (2024-10)          | granite-tsfm          | post-thesis |
+| TimesFM-2.5      | google/timesfm-2.5-200m-pytorch (2025-09)                | timesfm >= 2          | post-thesis |
 """
 from __future__ import annotations
 
@@ -199,13 +205,135 @@ class TimesFMForecaster(_SeriesForecaster):
         return {"checkpoint": self.model_id}
 
 
+class TTMR1Forecaster(Forecaster):
+    """TTM-R1 (thesis era). The released R1 checkpoint forecasts 96 steps from 512; longer horizons
+    are produced by rolling the model forward in 96-step chunks on its own forecasts."""
+    group = "tsfm"
+    multi_horizon = True
+
+    def __init__(self, model_id="ibm-granite/granite-timeseries-ttm-r1", revision="main", name="TTM-R1",
+                 context_length=512, device=None, batch=64):
+        from tsfm_public.models.tinytimemixer import TinyTimeMixerForPrediction
+        self.name = name
+        self.model_id, self.revision = model_id, revision
+        self.L = context_length
+        self.device = _device(device)
+        self.batch = batch
+        self.model = TinyTimeMixerForPrediction.from_pretrained(model_id, revision=revision).to(self.device).eval()
+        self.chunk = int(self.model.config.prediction_length)
+
+    def torch_module(self):
+        return self.model
+
+    def to_device(self, device):
+        self.device = device
+        self.model.to(device)
+        return self
+
+    def predict(self, context, freq, horizon):
+        import torch
+        outs = []
+        with torch.no_grad():
+            for k in range(0, len(context), self.batch):
+                x = torch.from_numpy(context[k:k + self.batch]).to(self.device)
+                preds, n = [], 0
+                while n < horizon:
+                    y = self.model(past_values=x[:, -self.L:]).prediction_outputs
+                    preds.append(y)
+                    x = torch.cat([x, y], dim=1)
+                    n += y.shape[1]
+                outs.append(torch.cat(preds, dim=1)[:, :horizon].float().cpu().numpy())
+        return np.concatenate(outs)
+
+    def info(self):
+        return {"checkpoint": f"{self.model_id}@{self.revision}", "rolling_chunk": self.chunk}
+
+
+class TimesFM1Forecaster(_SeriesForecaster):
+    """TimesFM-1.0-200m (thesis era), timesfm 1.x API (Python <= 3.11)."""
+
+    def __init__(self, model_id="google/timesfm-1.0-200m-pytorch", name="TimesFM-1.0", context_length=512,
+                 horizon_len=720, device=None, batch=128):
+        import timesfm
+        self.name = name
+        self.model_id = model_id
+        self.batch = batch
+        backend = "gpu" if _device(device).startswith("cuda") else "cpu"
+        self.tfm = timesfm.TimesFm(
+            hparams=timesfm.TimesFmHparams(backend=backend, per_core_batch_size=32, horizon_len=horizon_len,
+                                           context_len=context_length),
+            checkpoint=timesfm.TimesFmCheckpoint(huggingface_repo_id=model_id))
+
+    def torch_module(self):
+        return getattr(self.tfm, "_model", None)
+
+    def _predict_series(self, x, freq, H):
+        b = bucket_name(freq)
+        f = 0 if b in ("second", "minute", "10min", "15min", "30min", "hour", "day") else (1 if b in ("week", "month") else 2)
+        point, _ = self.tfm.forecast(list(x), freq=[f] * len(x))
+        return np.asarray(point)[:, :H]
+
+    def info(self):
+        return {"checkpoint": self.model_id}
+
+
+_GLUON_FREQ = {"H": "H", "15T": "15min", "10T": "10min", "D": "D", "W": "W", "30T": "30min", "5T": "5min"}
+
+
+class LagLlamaForecaster(_SeriesForecaster):
+    """Lag-Llama (thesis era) through the authors' GluonTS estimator. Zero-shot settings follow the
+    authors' defaults (context length 32 plus lag features); the point forecast is the sample mean."""
+
+    def __init__(self, ckpt_repo="time-series-foundation-models/Lag-Llama", name="Lag-Llama", context_length=32,
+                 num_samples=20, device=None, batch=64):
+        import torch
+        from huggingface_hub import hf_hub_download
+        self.name = name
+        self.ckpt_repo = ckpt_repo
+        self.ckpt = hf_hub_download(ckpt_repo, "lag-llama.ckpt")
+        self.context_length = context_length
+        self.num_samples = num_samples
+        self.device = _device(device)
+        self.batch = batch
+        self.hp = torch.load(self.ckpt, map_location="cpu", weights_only=False)["hyper_parameters"]["model_kwargs"]
+        self.predictors = {}
+
+    def _predictor(self, H):
+        if H not in self.predictors:
+            import torch
+            from lag_llama.gluon.estimator import LagLlamaEstimator
+            est = LagLlamaEstimator(
+                ckpt_path=self.ckpt, prediction_length=H, context_length=self.context_length,
+                input_size=self.hp["input_size"], n_layer=self.hp["n_layer"], n_embd_per_head=self.hp["n_embd_per_head"],
+                n_head=self.hp["n_head"], scaling=self.hp["scaling"], time_feat=self.hp["time_feat"],
+                batch_size=self.batch, num_parallel_samples=self.num_samples, device=torch.device(self.device))
+            module = est.create_lightning_module()
+            self.predictors[H] = est.create_predictor(est.create_transformation(), module)
+        return self.predictors[H]
+
+    def _predict_series(self, x, freq, H):
+        import pandas as pd
+        from gluonts.dataset.common import ListDataset
+        f = _GLUON_FREQ.get(freq, freq)
+        ds = ListDataset([{"start": pd.Period("2000-01-01 00:00", freq=f), "target": r.astype(np.float32)}
+                          for r in x], freq=f)
+        fc = list(self._predictor(H).predict(ds))
+        return np.stack([np.asarray(f_.samples).mean(axis=0)[:H] for f_ in fc])
+
+    def info(self):
+        return {"checkpoint": self.ckpt_repo, "context_length": self.context_length, "num_samples": self.num_samples}
+
+
 TSFM_FACTORIES = {
     # T5 decodes autoregressively with sampling: 20 samples x 256 series ran out of memory on a 16 GB T4 and
     # took ~2 min per 112 series; 10 samples x 128 series keeps Traffic (13.8k series) to ~1.5 h
     "Chronos-T": lambda **kw: ChronosForecaster("amazon/chronos-t5-tiny", "Chronos-T",
                                                 **{"batch": 128, "num_samples": 10, **kw}),
     "Chronos-Bolt-T": lambda **kw: ChronosForecaster("amazon/chronos-bolt-tiny", "Chronos-Bolt-T", **kw),
-    "TTM": lambda **kw: TTMForecaster(**kw),
+    "TTM-R2": lambda **kw: TTMForecaster(name="TTM-R2", **kw),
+    "TTM-R1": lambda **kw: TTMR1Forecaster(**kw),
+    "TimesFM-1.0": lambda **kw: TimesFM1Forecaster(**kw),
+    "Lag-Llama": lambda **kw: LagLlamaForecaster(**kw),
     "Moirai-S": lambda **kw: MoiraiForecaster(**kw),
     "TimesFM-2.5": lambda **kw: TimesFMForecaster(**kw),
 }

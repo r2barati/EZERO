@@ -4,7 +4,8 @@ extract_tables.py - regenerate the thesis results tables from results/*.csv.
 
 Writes Markdown and LaTeX versions to paper/tables/:
 
-  table2_zero_shot_vs_tsfm      Table 2: zero-shot E-ZERO vs TS pre-trained models (sub16 protocol)
+  table2_zero_shot_vs_tsfm      Table 2: zero-shot E-ZERO vs thesis-era TS pre-trained models (sub16)
+  table2c_post_thesis_models    the same windows vs foundation models released after the thesis
   table3_vs_architectures       Table 3 / Fig. 8: zero-shot E-ZERO vs full-shot architectures (full protocol)
   table3b_per_horizon           per-horizon MSE/MAE for every model (full protocol)
   table_inference_cost          Table 3 (inference time and memory)
@@ -30,7 +31,10 @@ from ezero.data.ltsf import DEFAULT_DATASETS, DEFAULT_HORIZONS  # noqa: E402
 
 RES = os.path.join(ROOT, "results")
 OUT = os.path.join(ROOT, "paper", "tables")
-TSFM_ORDER = ["E-ZERO", "TTM", "Chronos-T", "Chronos-Bolt-T", "Moirai-S", "TimesFM-2.5", "SeasonalNaive", "Naive"]
+# Table 2 mirrors the thesis columns with checkpoints that were public before the thesis
+TSFM_ORDER = ["E-ZERO", "TTM-R1", "Chronos-T", "Lag-Llama", "Moirai-S", "TimesFM-1.0", "SeasonalNaive", "Naive"]
+# later releases, reported separately as context
+POST_THESIS_ORDER = ["E-ZERO", "TTM-R2", "Chronos-Bolt-T", "TimesFM-2.5", "SeasonalNaive"]
 ARCH_ORDER = ["E-ZERO", "PatchTST", "iTransformer", "DLinear", "SeasonalNaive", "Naive", "Mean"]
 ABL_ORDER = ["E-ZERO", "E-ZERO-noMRC", "E-ZERO-noDTP", "E-ZERO-noRAE", "E-ZERO-noCRRB", "E-ZERO-noExog",
              "E-ZERO-noTCN", "E-ZERO-noNBEATS"]
@@ -140,10 +144,12 @@ def main():
     sub = sorted(p for p in long["protocol"].unique() if p.startswith("sub"))
     sub = sub[0] if sub else "sub16"
     write("table2_zero_shot_vs_tsfm", avg_table(long, sub, "train", TSFM_ORDER),
-          f"Zero-shot MSE vs TS pre-trained models, averaged over horizons {{96, 192, 336, 720}} "
+          f"Zero-shot MSE vs TS pre-trained models available at the time of the thesis, averaged over horizons {{96, 192, 336, 720}} "
           f"(protocol {sub}: identical test windows for every model, train-split scaling)")
     write("table2b_zero_shot_vs_tsfm_mae", avg_table(long, sub, "train", TSFM_ORDER, "mae"),
           f"Zero-shot MAE vs TS pre-trained models (protocol {sub})")
+    write("table2c_post_thesis_models", avg_table(long, sub, "train", POST_THESIS_ORDER),
+          f"Zero-shot MSE vs foundation models released after the thesis (protocol {sub}); context only")
     write("table3_vs_architectures", avg_table(long, "full", "train", ARCH_ORDER),
           "Long-sequence forecasting MSE, full test set (stride 1): zero-shot E-ZERO vs full-shot "
           "architectures trained on each dataset")

@@ -82,7 +82,55 @@ re-derived from the original artifacts. The results here come from a fresh pre-t
   batch next to a GPU time of 1.4 s. `benchmarks/run_efficiency.py` re-measures every model on
   one fixed workload.
 
-## 5. Making the contribution claim
+## 5. Baseline versions: thesis era vs later releases
+
+The thesis (August/September 2024) compared against foundation models that were public at the
+time. Several have newer releases since; using them would compare E-ZERO against models the thesis
+could not have known. The registry therefore tags every foundation model with an era (HuggingFace
+creation date of the checkpoint):
+
+| Thesis column | Thesis-era checkpoint used here | Later release (context only) |
+|---|---|---|
+| TTM | `granite-timeseries-ttm-r1` 512-96, 2024-04 (rolled to longer horizons) | `ttm-r2`, 2024-10 |
+| Chronos (ChronosT) | `chronos-t5-tiny`, 2024-02 | `chronos-bolt-tiny`, 2024-11 |
+| Lag-Llama | `Lag-Llama`, 2024-02 | - |
+| Moirai-S | `moirai-1.0-R-small`, 2024-02 | - |
+| TimesFM | `timesfm-1.0-200m-pytorch`, 2024-08 | `timesfm-2.5-200m`, 2025-09 |
+
+Table 2 (`paper/tables/table2_zero_shot_vs_tsfm`) uses only the thesis-era checkpoints.
+`table2c_post_thesis_models` reports the later releases on the same windows, as context.
+The full-shot architectures (DLinear 2022, PatchTST 2023, iTransformer 2024) all predate the thesis.
+Not re-run: MOMENT and GPT4TS (Table 3), which need a trained forecasting head rather than
+zero-shot inference, and TSMixer, TimeMixer, TimesNet, FEDformer and Autoformer.
+
+Version notes: TTM-R1's public checkpoint has a 96-step head, so horizons 192-720 are produced by
+rolling it forward on its own forecasts. Chronos-T uses 10 samples instead of the default 20,
+because 20 x 256 series ran out of GPU memory and Traffic would have taken hours. TimesFM-1.0 and
+Lag-Llama run in a Python 3.11 environment because their libraries do not support Python 3.13.
+Lag-Llama is opt-in: it is not a pip package, and running it means running the authors' GitHub
+code (pinned commit `df7531a`). It runs only when named explicitly in the `tsfm` stage.
+
+## 6. Revising the thesis safely
+
+The accepted thesis is an archived document and should stay as it is. Corrections belong in a
+separate, clearly dated record that cites it:
+
+1. Discuss the findings with the supervisor and ask the graduate school / library how they handle
+   an erratum or addendum to a deposited thesis. Procedures vary; do not edit the deposited PDF.
+2. Publish the corrected results (this repository, plus an arXiv preprint or journal paper)
+   stating plainly what changed and why: the protocol (train-split scaling instead of full-series
+   normalisation), re-run baselines instead of copied numbers, the implemented components, and the
+   actual ablation results.
+3. Report the re-run numbers whatever they are. If E-ZERO does not beat the larger models on
+   accuracy, the claim becomes an accuracy-per-cost statement rather than "outperforms".
+4. Keep the thesis-normalisation numbers (`tableS1_normalisation`) as a diagnostic that explains
+   the gap to the thesis tables, not as headline results.
+
+Never adjust the model, data or evaluation to move the test numbers toward the thesis tables. That
+includes choosing settings by test score, reporting the leaky normalisation as the main result,
+dropping datasets or horizons, under-training baselines, or mixing copied and re-run numbers.
+
+## 7. Making the contribution claim
 
 The claim should be stated from the re-run numbers, whichever way they fall. The thesis'
 central argument is efficiency (an attention-free model at about 1M parameters, with

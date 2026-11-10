@@ -55,15 +55,30 @@ SMOKE = [
     f"{PY} benchmarks/run_benchmarks.py --model E-ZERO,SeasonalNaive --protocol sub16 --no-merge",
     f"{PY} benchmarks/run_efficiency.py --model E-ZERO --no-cpu",
 ]
-# pip install steps, model ids (one virtualenv per package; --system-site-packages reuses Kaggle's torch).
-# uni2ts pins torch<2.5 / numpy 1.26 / scipy 1.11, which have no Python 3.13 wheels; its code runs with
-# current versions, so it is installed without dependencies plus the modules it actually imports.
+# One virtualenv per foundation-model package.
+#  * python=None  -> venv on Kaggle's interpreter with --system-site-packages (reuses Kaggle's torch/CUDA)
+#  * python="3.11" -> uv-managed CPython 3.11 with its own torch 2.4.1 (CUDA 12.1 wheels): the thesis-era
+#    TimesFM-1.0 (timesfm 1.x) and Lag-Llama (gluonts 0.14) have no builds for Kaggle's Python 3.13
+# uni2ts pins torch<2.5 / numpy 1.26 / scipy 1.11 (no Python 3.13 wheels); its code runs with current
+# versions, so it is installed without dependencies plus the modules it actually imports.
+LAG_LLAMA_REPO = ("https://github.com/time-series-foundation-models/lag-llama.git",
+                  "df7531a83a19b3c6a0222d703ca9bf59ef7a6ab9")
 TSFM = [
-    (["'chronos-forecasting>=1.5'"], ["Chronos-Bolt-T", "Chronos-T"]),
-    (["granite-tsfm"], ["TTM"]),
-    (["--no-deps 'uni2ts>=2'", "einops jaxtyping jax gluonts lightning hydra-core python-dotenv safetensors"],
-     ["Moirai-S"]),
-    (["'timesfm[torch]>=2'"], ["TimesFM-2.5"]),
+    dict(models=["Chronos-T", "Chronos-Bolt-T"], steps=["'chronos-forecasting>=1.5'"]),
+    dict(models=["TTM-R1", "TTM-R2"], steps=["granite-tsfm"]),
+    dict(models=["Moirai-S"], steps=["--no-deps 'uni2ts>=2'",
+                                     "einops jaxtyping jax gluonts lightning hydra-core python-dotenv safetensors"]),
+    dict(models=["TimesFM-2.5"], steps=["'timesfm[torch]>=2'"]),
+    # timesfm 1.2.6[torch] also pulls jax[cuda12] and wandb (several GB); the PyTorch path only needs a CPU jax
+    # for an import in its covariates module. Tested locally: 203.6M parameters, Python 3.11, torch 2.4.1.
+    dict(models=["TimesFM-1.0"], python="3.11",
+         steps=["torch==2.4.1", "--no-deps timesfm==1.2.6",
+                "absl-py einshape huggingface_hub utilsforecast 'numpy<2' pandas scikit-learn pyyaml 'jax<0.5' 'jaxlib<0.5'"]),
+    # Lag-Llama is not a pip package: it runs the authors' GitHub code (pinned commit). Opt-in only - it runs
+    # when "Lag-Llama" is named explicitly in TSFM_MODELS, never with "ALL".
+    dict(models=["Lag-Llama"], python="3.11", clone=LAG_LLAMA_REPO, opt_in=True,
+         steps=["torch==2.4.1", "'gluonts[torch]==0.14.4' 'numpy<2' 'pandas<2.2' 'lightning<2.5' 'setuptools<75' "
+                "huggingface_hub scipy pyyaml"]),
 ]
 TSFM_MODELS = "__TSFM_MODELS__"  # "ALL" or a comma list rendered by build_kernels.py
 
@@ -143,32 +158,53 @@ def make_venv(venv, log_name):
     return lambda args: sh(f"{PY} -m uv pip install --quiet --python {vpy} {args}", log_name=log_name)
 
 
+def make_venv311(venv, log_name):
+    """uv-managed CPython 3.11 virtualenv (no system site-packages). Returns install(args) -> rc."""
+    vpy = os.path.join(venv, "bin", "python")
+    rc = sh(f"{PY} -m pip install --quiet uv", log_name=log_name)
+    rc = rc or sh(f"{PY} -m uv python install 3.11", log_name=log_name)
+    rc = rc or sh(f"{PY} -m uv venv --python 3.11 {venv}", log_name=log_name)
+    if rc:
+        return None
+    return lambda args: sh(f"{PY} -m uv pip install --quiet --python {vpy} {args}", log_name=log_name)
+
+
 def run_tsfm(env):
     status = {}
     wanted = None if TSFM_MODELS in ("ALL", "") else set(TSFM_MODELS.split(","))
-    for steps, all_models in TSFM:
+    for entry in TSFM:
+        all_models, steps = entry["models"], entry["steps"]
+        if entry.get("opt_in") and (wanted is None or not (set(all_models) & wanted)):
+            continue
         models = [m for m in all_models if wanted is None or m in wanted]
         if not models:
             continue
-        venv = f"/tmp/venv_{all_models[0].split('-')[0].lower()}"
-        vpy = os.path.join(venv, "bin", "python")
         name = all_models[0]
+        venv = f"/tmp/venv_{name.lower().replace('.', '')}"
+        vpy = os.path.join(venv, "bin", "python")
         spec = " + ".join(steps)
         log_name = f"tsfm_{name}.log"
-        install = make_venv(venv, log_name)
+        install = make_venv311(venv, log_name) if entry.get("python") else make_venv(venv, log_name)
         rc = 1 if install is None else 0
         for step in steps:
             rc = rc or install(step)
         rc = rc or install(f"--no-deps -e {SRC}")
+        run_env = dict(env)
+        if entry.get("clone"):
+            url, rev = entry["clone"]
+            dst = f"/tmp/{name.lower()}_src"
+            rc = rc or sh(f"git clone --quiet {url} {dst} && git -C {dst} checkout --quiet {rev}", log_name=log_name)
+            run_env["PYTHONPATH"] = dst + os.pathsep + env.get("PYTHONPATH", "")
         if rc:
             status[spec] = f"install failed ({rc})"
             continue
         ids = ",".join(models)
         rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16 --no-merge --skip-unavailable",
-                cwd=SRC, env=env, log_name=f"tsfm_{name}.log")
+                cwd=SRC, env=run_env, log_name=log_name)
         rc2 = sh(f"{vpy} benchmarks/run_efficiency.py --model {ids} --skip-unavailable --cpu-reps 1 --reps 5",
-                 cwd=SRC, env=env, log_name=f"tsfm_{name}.log")
-        sh(f"{PY} -m pip --python {vpy} freeze > {LOG}/pip_freeze_{name}.txt", log_name=log_name)
+                 cwd=SRC, env=run_env, log_name=log_name)
+        sh(f"{PY} -m uv pip freeze --python {vpy} > {LOG}/pip_freeze_{name}.txt 2>/dev/null || "
+           f"{PY} -m pip --python {vpy} freeze > {LOG}/pip_freeze_{name}.txt", log_name=log_name)
         status[spec] = {"eval_rc": rc, "efficiency_rc": rc2}
         collect()
     return status

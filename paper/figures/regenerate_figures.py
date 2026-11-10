@@ -29,7 +29,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, ROOT)
 sys.path.insert(0, HERE)
-from extract_tables import ABL_LABEL, ABL_ORDER, ARCH_ORDER, TSFM_ORDER, avg_table, load_long  # noqa: E402
+from extract_tables import ABL_LABEL, ABL_ORDER, ARCH_ORDER, POST_THESIS_ORDER, TSFM_ORDER, avg_table, load_long  # noqa: E402
 
 RES = os.path.join(ROOT, "results")
 OUT = HERE
@@ -195,7 +195,9 @@ def main():
     t2 = avg_table(long, sub, "train", TSFM_ORDER)
     fig_small_multiples(t2, "fig4_zero_shot_by_dataset.png",
                         f"Zero-shot MSE by dataset (avg over horizons, protocol {sub})")
-    fig_mean(t2, "fig7_mean_error.png", "Mean zero-shot error across datasets")
+    fig_mean(t2, "fig7_mean_error.png", "Mean zero-shot error across datasets (thesis-era models)")
+    t2c = avg_table(long, sub, "train", POST_THESIS_ORDER)
+    fig_mean(t2c, "figS_post_thesis_models.png", "Mean zero-shot error: models released after the thesis")
     t3 = avg_table(long, "full", "train", ARCH_ORDER)
     fig_small_multiples(t3, "fig8_vs_architectures.png",
                         "Zero-shot E-ZERO vs full-shot architectures (MSE, full test set)")
