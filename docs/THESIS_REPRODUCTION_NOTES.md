@@ -184,3 +184,42 @@ accuracy-per-cost trade-off (e.g. error vs latency/parameters), not "outperforms
 Legitimate ways to improve the model further are a larger, still non-overlapping LOTSA corpus,
 longer pre-training, and hyperparameter search on the LOTSA validation tail. Test-set-driven
 tuning, leaky normalisation, or under-trained baselines would invalidate the comparison.
+
+## 9. Improving E-ZERO without breaking the zero-shot claim
+
+**Rule.** Every tweak is chosen on a development benchmark that shares no data with the evaluation
+datasets: no ETT, Weather, Electricity or Traffic, not even their validation splits. The benchmark
+(`ezero/devsuite.py`) has 7 held-out LOTSA datasets:
+
+- kdd_cup_2018 (hourly)
+- pedestrian_counts (hourly)
+- elecdemand (30-minute)
+- covid19_energy (hourly)
+- saugeenday (daily)
+- us_births (daily)
+- sunspot (daily)
+
+None is in any pre-training corpus here; `load_corpus` refuses them. The score is the geometric mean over datasets of MSE / MSE(seasonal naive), so lower is better and below 1 beats seasonal naive. The selection rule (`benchmarks/select_v3.py`) is fixed before any evaluation result of the candidates exists. The selected model is evaluated once, and every candidate's development score is published in `results/dev/`.
+
+**Development results for the thesis-configuration checkpoint**
+
+| Candidate | Dev score | kdd | pedestrian | elecdemand | covid | saugeen | births | sunspot |
+|---|---|---|---|---|---|---|---|---|
+| E-ZERO | 1.252 | 0.536 | 0.813 | 0.634 | 0.928 | 1.403 | 8.879 | 1.513 |
+| E-ZERO + flip averaging | **0.802** | 0.529 | 0.798 | 0.653 | 0.903 | 0.599 | 2.641 | 0.540 |
+| E-ZERO + multi-context averaging | 1.514 | 0.552 | 0.905 | 0.805 | 0.984 | 2.003 | 13.25 | 1.736 |
+| Mean (reference) | 1.055 | | | | | | | |
+
+**What this shows.** E-ZERO is good on sub-daily data and poor on daily data. Averaging f(x) with -f(-x) fixes most of the daily failures, which points to a sign asymmetry and too little low-frequency data in pre-training (the corpus has only two small daily datasets).
+
+**v3 candidates.** All keep the thesis model configuration (0.74M parameters) and optimiser:
+
+| Candidate | Change |
+|---|---|
+| v3a | extended non-overlapping corpus: 41 LOTSA subsets including M4, NN5, tourism, FRED-MD and web traffic (`configs/pretrain_corpus_extended.yaml`) |
+| v3b | v3a + random sign-flip augmentation (p = 0.5) |
+| v3c | v3b + down-sampling augmentation (p = 0.3, factors 2 and 4) + a horizon-balanced loss in which each of the four evaluation horizons weighs equally |
+
+Each candidate is scored on the development benchmark with and without flip averaging, together with the thesis-configuration checkpoint. The lowest score wins (ties go to the simpler option) and becomes `E-ZERO-v3`. `E-ZERO-flip` (the thesis checkpoint with flip averaging) is reported as well. All candidates and their scores are published, including any that do not help.
+
+**What the tweaks cannot do.** No legitimate change brings ETTh1 to the thesis value of 0.212. Under the standard protocol the strongest published models report about 0.36-0.40 on ETTh1, and our TTM and Chronos-Bolt re-runs are in that range. The realistic goal is to narrow the gap to the strongest zero-shot baselines at E-ZERO's size and cost.
