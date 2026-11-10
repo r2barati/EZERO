@@ -85,7 +85,7 @@ TWEAKS = [
     f"{PY} benchmarks/select_v3.py --label v3-candidates",
     f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-v3,E-ZERO-flip --protocol full --no-merge",
     f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-v3,E-ZERO-flip --protocol sub16 --no-merge",
-    f"{PY} benchmarks/run_efficiency.py --model E-ZERO-v3,E-ZERO-flip",
+    f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-v3,E-ZERO-flip",   # re-time with exact truncation
 ]
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",

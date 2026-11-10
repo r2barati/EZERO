@@ -110,3 +110,18 @@ def test_mixer_gradients_finite_for_identical_channels():
     y.pow(2).mean().backward()
     for n, p in m.named_parameters():
         assert p.grad is None or torch.isfinite(p.grad).all(), n
+
+
+def test_truncated_horizon_is_exact():
+    """Computing only the first h steps gives the same forecast as computing all and slicing."""
+    m = EZeroModel(small()).eval()
+    with torch.no_grad():
+        for p in m.parameters():
+            p.add_(0.05 * torch.randn_like(p))      # make the zero-initialised heads non-trivial
+        x = torch.randn(6, 64).cumsum(-1)
+        g = torch.tensor([0, 0, 1, 1, 1, 2])
+        full = m.forward_normalized(*m.normalize(x, torch.ones_like(x, dtype=torch.bool))[:1],
+                                    torch.ones_like(x, dtype=torch.bool), torch.full((6,), 6), g)
+        part = m.forward_normalized(*m.normalize(x, torch.ones_like(x, dtype=torch.bool))[:1],
+                                    torch.ones_like(x, dtype=torch.bool), torch.full((6,), 6), g, out_horizon=10)
+    assert torch.allclose(full[:, :10], part, atol=1e-5)

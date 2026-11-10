@@ -155,8 +155,12 @@ class EZeroModel(nn.Module):
 
     def forward_normalized(self, x: torch.Tensor, observed: torch.Tensor, freq_bucket: torch.Tensor,
                            group: torch.Tensor | None = None, exog_mask: torch.Tensor | None = None,
-                           exog_future: torch.Tensor | None = None) -> torch.Tensor:
-        """Forecast in the instance-normalised space. x: (N, L) normalised, zero where unobserved."""
+                           exog_future: torch.Tensor | None = None, out_horizon: int | None = None) -> torch.Tensor:
+        """Forecast in the instance-normalised space. x: (N, L) normalised, zero where unobserved.
+
+        ``out_horizon`` < horizon computes only the first ``out_horizon`` steps. This is exact: every TCN,
+        MRC, DTP and mixer operation after N-BEATS is causal along time, so step t never depends on
+        later steps (tests/test_model_contracts.py checks equality)."""
         cfg = self.config
         N, L = x.shape
         H = cfg.horizon
@@ -172,6 +176,12 @@ class EZeroModel(nn.Module):
         else:
             inp = x if cond is None else torch.cat([x, cond], dim=-1)
             forecast = self.linear_fallback(inp)
+
+        if out_horizon is not None and out_horizon < H:
+            forecast = forecast[:, :out_horizon]
+            if exog_future is not None:
+                exog_future = exog_future[:, :out_horizon]
+            H = out_horizon
 
         if self.tcn is not None:
             value = torch.cat([x, forecast], dim=-1)                                   # (N, L+H)
@@ -223,7 +233,7 @@ class EZeroModel(nn.Module):
         ef = None
         if exog_future is not None:
             ef = ((exog_future - mu) / sigma).clamp(-cfg.target_clip, cfg.target_clip)
-        y = self.forward_normalized(x, observed, freq_bucket, group, exog_mask, ef)
+        y = self.forward_normalized(x, observed, freq_bucket, group, exog_mask, ef, out_horizon=horizon)
         y = y * sigma + mu
         if horizon is not None:
             y = y[:, :horizon]
