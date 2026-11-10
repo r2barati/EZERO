@@ -1,0 +1,167 @@
+
+$ /usr/bin/python3 benchmarks/pretrain.py --variant base --time-budget-min 240
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[lotsa] BEIJING_SUBWAY_30MIN             panels=   276 channels=    552 obs=    0.50M freq=30T
+[lotsa] PEMS04                           panels=   307 channels=    921 obs=   15.65M freq=5T
+[lotsa] LOS_LOOP                         panels=     4 channels=    207 obs=    7.09M freq=5T
+[lotsa] M_DENSE                          panels=     1 channels=     30 obs=    0.53M freq=H
+[lotsa] australian_electricity_demand    panels=     1 channels=      5 obs=    0.50M freq=30T
+[lotsa] bitcoin_with_missing             panels=     1 channels=     18 obs=    0.07M freq=D
+[lotsa] cdc_fluview_ilinet               panels=    75 channels=    375 obs=    0.28M freq=W
+[lotsa] beijing_air_quality              panels=    12 channels=    132 obs=    4.56M freq=H
+[lotsa] alibaba_cluster_trace_2018       panels=  4000 channels=   8000 obs=   13.05M freq=5T
+[lotsa] uber_tlc_daily                   panels=    34 channels=    262 obs=    0.05M freq=D
+[pretrain] variant=base params=0.740M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+/tmp/ezero/ezero/data/pretrain.py:78: RuntimeWarning: All-NaN slice encountered
+  spread = np.nanmax(ctx, axis=1) - np.nanmin(ctx, axis=1) if ctx.shape[1] else np.zeros(len(ch))
+[pretrain] step   1000 train 3.4319 val 1.9480 lr 3.00e-05 47s
+[pretrain] step   2000 train 3.0401 val 1.7173 lr 6.00e-05 90s
+[pretrain] step   3000 train 2.8094 val 1.6709 lr 9.00e-05 132s
+[pretrain] step   4000 train 2.7735 val 1.6413 lr 1.20e-04 175s
+[pretrain] step   5000 train 2.7715 val 1.6438 lr 1.50e-04 217s
+[pretrain] step   6000 train 2.7601 val 1.6198 lr 1.80e-04 260s
+[pretrain] step   7000 train 2.7861 val 1.6107 lr 2.10e-04 302s
+[pretrain] step   8000 train 2.6597 val 1.5806 lr 2.40e-04 345s
+[pretrain] step   9000 train 2.6253 val 1.5803 lr 2.70e-04 388s
+[pretrain] step  10000 train 2.6307 val 1.5816 lr 3.00e-04 430s
+[pretrain] step  11000 train 2.5627 val 1.5676 lr 3.00e-04 473s
+[pretrain] step  12000 train 2.6437 val 1.5671 lr 2.99e-04 515s
+[pretrain] step  13000 train 2.5911 val 1.5970 lr 2.97e-04 558s
+[pretrain] step  14000 train 2.5377 val 1.5729 lr 2.95e-04 600s
+[pretrain] step  15000 train 2.5005 val 1.5702 lr 2.93e-04 643s
+[pretrain] step  16000 train 2.5542 val 1.5549 lr 2.90e-04 685s
+[pretrain] step  17000 train 2.5361 val 1.5615 lr 2.86e-04 728s
+[pretrain] step  18000 train 2.5159 val 1.6157 lr 2.82e-04 770s
+[pretrain] step  19000 train 2.4575 val 1.5680 lr 2.77e-04 813s
+[pretrain] step  20000 train 2.4965 val 1.5825 lr 2.72e-04 855s
+[pretrain] step  21000 train 2.5466 val 1.6258 lr 2.66e-04 898s
+[pretrain] step  22000 train 2.4797 val 1.6159 lr 2.60e-04 940s
+[pretrain] step  23000 train 2.4827 val 1.5932 lr 2.53e-04 983s
+[pretrain] step  24000 train 2.5218 val 1.5701 lr 2.46e-04 1026s
+[pretrain] step  25000 train 2.4517 val 1.5934 lr 2.39e-04 1068s
+[pretrain] step  26000 train 2.4528 val 1.5911 lr 2.31e-04 1111s
+[pretrain] step  27000 train 2.5079 val 1.6251 lr 2.23e-04 1153s
+[pretrain] step  28000 train 2.4958 val 1.6213 lr 2.15e-04 1196s
+[pretrain] step  29000 train 2.5307 val 1.5843 lr 2.06e-04 1238s
+[pretrain] step  30000 train 2.4541 val 1.5795 lr 1.97e-04 1281s
+[pretrain] step  31000 train 2.3966 val 1.5865 lr 1.88e-04 1323s
+[pretrain] step  32000 train 2.4492 val 1.6000 lr 1.79e-04 1366s
+[pretrain] step  33000 train 2.4022 val 1.5868 lr 1.70e-04 1408s
+[pretrain] step  34000 train 2.3913 val 1.5845 lr 1.61e-04 1451s
+[pretrain] step  35000 train 2.4106 val 1.5831 lr 1.51e-04 1493s
+[pretrain] step  36000 train 2.4617 val 1.6465 lr 1.42e-04 1536s
+[pretrain] step  37000 train 2.4792 val 1.6398 lr 1.33e-04 1578s
+[pretrain] step  38000 train 2.4432 val 1.5684 lr 1.24e-04 1621s
+[pretrain] step  39000 train 2.4139 val 1.5685 lr 1.15e-04 1663s
+[pretrain] step  40000 train 2.4118 val 1.5738 lr 1.06e-04 1706s
+[pretrain] step  41000 train 2.4325 val 1.5715 lr 9.68e-05 1748s
+[pretrain] saved /tmp/ezero/data/models/ezero_base.pt best_val=1.5549 @ 16000 (1748.4s, stopped=early_stopping)
+[exit 0 after 1789s]
+
+$ /usr/bin/python3 benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol full --no-merge
+[E-ZERO] ETTh1        protocol=full avg MSE=0.4497 (3.9s)
+[E-ZERO] ETTh2        protocol=full avg MSE=0.3523 (3.2s)
+[E-ZERO] ETTm1        protocol=full avg MSE=0.5635 (13.7s)
+[E-ZERO] ETTm2        protocol=full avg MSE=0.2869 (14.4s)
+[E-ZERO] Weather      protocol=full avg MSE=0.2714 (36.2s)
+[E-ZERO] Electricity  protocol=full avg MSE=0.2862 (278.9s)
+[E-ZERO] Traffic      protocol=full avg MSE=0.7592 (484.5s)
+[Naive] ETTh1        protocol=full avg MSE=1.3211 (0.3s)
+[Naive] ETTh2        protocol=full avg MSE=0.5393 (0.3s)
+[Naive] ETTm1        protocol=full avg MSE=1.2710 (1.1s)
+[Naive] ETTm2        protocol=full avg MSE=0.3850 (1.1s)
+[Naive] Weather      protocol=full avg MSE=0.3525 (2.6s)
+[Naive] Electricity  protocol=full avg MSE=1.6122 (19.1s)
+[Naive] Traffic      protocol=full avg MSE=2.7649 (32.4s)
+[SeasonalNaive] ETTh1        protocol=full avg MSE=0.5996 (0.3s)
+[SeasonalNaive] ETTh2        protocol=full avg MSE=0.4825 (0.3s)
+[SeasonalNaive] ETTm1        protocol=full avg MSE=0.4890 (1.1s)
+[SeasonalNaive] ETTm2        protocol=full avg MSE=0.3577 (1.1s)
+[SeasonalNaive] Weather      protocol=full avg MSE=0.3713 (2.8s)
+[SeasonalNaive] Electricity  protocol=full avg MSE=0.3299 (21.2s)
+[SeasonalNaive] Traffic      protocol=full avg MSE=1.1612 (33.5s)
+[Mean] ETTh1        protocol=full avg MSE=0.7081 (0.3s)
+[Mean] ETTh2        protocol=full avg MSE=0.3907 (0.3s)
+[Mean] ETTm1        protocol=full avg MSE=0.6956 (1.3s)
+[Mean] ETTm2        protocol=full avg MSE=0.3458 (1.3s)
+[Mean] Weather      protocol=full avg MSE=0.3163 (2.9s)
+[Mean] Electricity  protocol=full avg MSE=0.8612 (21.3s)
+[Mean] Traffic      protocol=full avg MSE=1.4026 (34.0s)
+[exit 0 after 1032s]
+
+$ /usr/bin/python3 benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol sub16 --no-merge
+[E-ZERO] ETTh1        protocol=sub16 avg MSE=0.4513 (0.7s)
+[E-ZERO] ETTh2        protocol=sub16 avg MSE=0.3150 (0.0s)
+[E-ZERO] ETTm1        protocol=sub16 avg MSE=0.5172 (0.0s)
+[E-ZERO] ETTm2        protocol=sub16 avg MSE=0.2965 (0.0s)
+[E-ZERO] Weather      protocol=sub16 avg MSE=0.2861 (0.1s)
+[E-ZERO] Electricity  protocol=sub16 avg MSE=0.2763 (1.0s)
+[E-ZERO] Traffic      protocol=sub16 avg MSE=0.7528 (2.6s)
+[Naive] ETTh1        protocol=sub16 avg MSE=0.8939 (0.0s)
+[Naive] ETTh2        protocol=sub16 avg MSE=0.4615 (0.0s)
+[Naive] ETTm1        protocol=sub16 avg MSE=1.3560 (0.0s)
+[Naive] ETTm2        protocol=sub16 avg MSE=0.3990 (0.0s)
+[Naive] Weather      protocol=sub16 avg MSE=0.3445 (0.0s)
+[Naive] Electricity  protocol=sub16 avg MSE=1.5287 (0.1s)
+[Naive] Traffic      protocol=sub16 avg MSE=3.1560 (0.3s)
+[SeasonalNaive] ETTh1        protocol=sub16 avg MSE=0.5741 (0.0s)
+[SeasonalNaive] ETTh2        protocol=sub16 avg MSE=0.4291 (0.0s)
+[SeasonalNaive] ETTm1        protocol=sub16 avg MSE=0.5395 (0.0s)
+[SeasonalNaive] ETTm2        protocol=sub16 avg MSE=0.3905 (0.0s)
+[SeasonalNaive] Weather      protocol=sub16 avg MSE=0.3592 (0.0s)
+[SeasonalNaive] Electricity  protocol=sub16 avg MSE=0.2957 (0.1s)
+[SeasonalNaive] Traffic      protocol=sub16 avg MSE=1.1767 (0.2s)
+[Mean] ETTh1        protocol=sub16 avg MSE=0.6913 (0.0s)
+[Mean] ETTh2        protocol=sub16 avg MSE=0.3560 (0.0s)
+[Mean] ETTm1        protocol=sub16 avg MSE=0.6835 (0.0s)
+[Mean] ETTm2        protocol=sub16 avg MSE=0.3917 (0.0s)
+[Mean] Weather      protocol=sub16 avg MSE=0.3252 (0.0s)
+[Mean] Electricity  protocol=sub16 avg MSE=0.8461 (0.1s)
+[Mean] Traffic      protocol=sub16 avg MSE=1.4011 (0.3s)
+[exit 0 after 25s]
+
+$ /usr/bin/python3 benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol full --scaler full --no-merge
+[E-ZERO] ETTh1        protocol=full avg MSE=0.3500 (4.0s)
+[E-ZERO] ETTh2        protocol=full avg MSE=0.2745 (3.3s)
+[E-ZERO] ETTm1        protocol=full avg MSE=0.4269 (14.5s)
+[E-ZERO] ETTm2        protocol=full avg MSE=0.2220 (14.1s)
+[E-ZERO] Weather      protocol=full avg MSE=0.2818 (35.5s)
+[E-ZERO] Electricity  protocol=full avg MSE=0.2857 (279.0s)
+[E-ZERO] Traffic      protocol=full avg MSE=0.5708 (484.3s)
+[Naive] ETTh1        protocol=full avg MSE=0.9915 (0.3s)
+[Naive] ETTh2        protocol=full avg MSE=0.4261 (0.3s)
+[Naive] ETTm1        protocol=full avg MSE=0.9470 (1.2s)
+[Naive] ETTm2        protocol=full avg MSE=0.3079 (1.2s)
+[Naive] Weather      protocol=full avg MSE=0.3660 (2.8s)
+[Naive] Electricity  protocol=full avg MSE=1.6236 (19.5s)
+[Naive] Traffic      protocol=full avg MSE=2.2118 (33.4s)
+[SeasonalNaive] ETTh1        protocol=full avg MSE=0.4720 (0.3s)
+[SeasonalNaive] ETTh2        protocol=full avg MSE=0.3687 (0.3s)
+[SeasonalNaive] ETTm1        protocol=full avg MSE=0.3869 (1.1s)
+[SeasonalNaive] ETTm2        protocol=full avg MSE=0.2722 (1.2s)
+[SeasonalNaive] Weather      protocol=full avg MSE=0.3802 (2.8s)
+[SeasonalNaive] Electricity  protocol=full avg MSE=0.3281 (18.7s)
+[SeasonalNaive] Traffic      protocol=full avg MSE=0.8644 (32.9s)
+[Mean] ETTh1        protocol=full avg MSE=0.5353 (0.3s)
+[Mean] ETTh2        protocol=full avg MSE=0.3111 (0.3s)
+[Mean] ETTm1        protocol=full avg MSE=0.5227 (1.3s)
+[Mean] ETTm2        protocol=full avg MSE=0.2671 (1.3s)
+[Mean] Weather      protocol=full avg MSE=0.3295 (2.9s)
+[Mean] Electricity  protocol=full avg MSE=0.8664 (19.3s)
+[Mean] Traffic      protocol=full avg MSE=1.1232 (34.0s)
+[exit 0 after 1027s]
+
+$ /usr/bin/python3 benchmarks/run_efficiency.py --model E-ZERO,group:naive
+{'model': 'E-ZERO', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.740134, 'gpu_time_ms': 11.907, 'gpu_mem_gb': 0.0525, 'cpu_time_s': 0.1183, 'device': 'Tesla T4'}
+{'model': 'Naive', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': None, 'gpu_time_ms': 0.012, 'gpu_mem_gb': 0.0096, 'cpu_time_s': 0.0, 'device': 'Tesla T4'}
+{'model': 'SeasonalNaive', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': None, 'gpu_time_ms': 0.024, 'gpu_mem_gb': 0.0096, 'cpu_time_s': 0.0, 'device': 'Tesla T4'}
+{'model': 'Mean', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': None, 'gpu_time_ms': 0.035, 'gpu_mem_gb': 0.0096, 'cpu_time_s': 0.0, 'device': 'Tesla T4'}
+         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score
+         Naive          32             512       96       NaN        0.012      0.0096      0.0000 Tesla T4            0.0178
+          Mean          32             512       96       NaN        0.035      0.0096      0.0000 Tesla T4            0.0179
+ SeasonalNaive          32             512       96       NaN        0.024      0.0096      0.0000 Tesla T4            0.0179
+           TTM          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0703
+        E-ZERO          32             512       96  0.740134       11.907      0.0525      0.1183 Tesla T4            0.2096
+Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            1.0000
+[exit 0 after 5s]

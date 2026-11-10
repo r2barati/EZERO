@@ -1,0 +1,250 @@
+{
+  "generated_at": "2026-11-10T20:16:08Z",
+  "git_commit": "0fc201b0a5871c1bbf69c72bb8f322985819b2dc",
+  "model_roster_count": 29,
+  "models": [
+    "E-ZERO",
+    "E-ZERO-noMRC",
+    "E-ZERO-noDTP",
+    "E-ZERO-noRAE",
+    "E-ZERO-noCRRB",
+    "E-ZERO-noExog",
+    "E-ZERO-noTCN",
+    "E-ZERO-noNBEATS",
+    "Naive",
+    "SeasonalNaive",
+    "Mean",
+    "Chronos-T",
+    "TTM-R1",
+    "Moirai-S",
+    "TimesFM-1.0",
+    "Lag-Llama",
+    "Chronos-Bolt-T",
+    "TTM-R2",
+    "TimesFM-2.5",
+    "GPT4TS",
+    "MOMENT",
+    "DLinear",
+    "PatchTST",
+    "iTransformer",
+    "TSMixer",
+    "TimeMixer",
+    "TimesNet",
+    "FEDformer",
+    "Autoformer"
+  ],
+  "groups": {
+    "efficiency": [
+      "GPT4TS",
+      "MOMENT"
+    ],
+    "ezero": [
+      "E-ZERO"
+    ],
+    "ezero-ablation": [
+      "E-ZERO-noMRC",
+      "E-ZERO-noDTP",
+      "E-ZERO-noRAE",
+      "E-ZERO-noCRRB",
+      "E-ZERO-noExog",
+      "E-ZERO-noTCN",
+      "E-ZERO-noNBEATS"
+    ],
+    "fullshot": [
+      "DLinear",
+      "PatchTST",
+      "iTransformer",
+      "TSMixer",
+      "TimeMixer",
+      "TimesNet",
+      "FEDformer",
+      "Autoformer"
+    ],
+    "naive": [
+      "Naive",
+      "SeasonalNaive",
+      "Mean"
+    ],
+    "tsfm": [
+      "Chronos-T",
+      "TTM-R1",
+      "Moirai-S",
+      "TimesFM-1.0",
+      "Lag-Llama",
+      "Chronos-Bolt-T",
+      "TTM-R2",
+      "TimesFM-2.5"
+    ]
+  },
+  "datasets": [
+    "ETTh1",
+    "ETTh2",
+    "ETTm1",
+    "ETTm2",
+    "Weather",
+    "Electricity",
+    "Traffic"
+  ],
+  "horizons": [
+    96,
+    192,
+    336,
+    720
+  ],
+  "dataset_sha256": {
+    "ETTh1": "f18de3ad269cef59bb07b5438d79bb3042d3be49bdeecf01c1cd6d29695ee066",
+    "ETTh2": "a3dc2c597b9218c7ce1cd55eb77b283fd459a1d09d753063f944967dd6b9218b",
+    "ETTm1": "6ce1759b1a18e3328421d5d75fadcb316c449fcd7cec32820c8dafda71986c9e",
+    "ETTm2": "db973ca252c6410a30d0469b13d696cf919648d0f3fd588c60f03fdbdbadd1fd",
+    "Weather": "34ee981d07313e51da2a50bb600072c8ae4a69cb4b0651f4cb93a069d7a2ba63",
+    "Electricity": "7e45845d54c5219bad0ae6bc1b5316cf8ff9cead5d33fa998a5a51c2e4a497ad",
+    "Traffic": "cb06463d56fa17d87f47027cd9389ceae82a69eddee51cdb61480e120dab0b16"
+  },
+  "canonical_csv_path": "results/benchmark_final_merged.csv",
+  "long_csv_path": "results/benchmark_long.csv",
+  "efficiency_csv_path": null,
+  "coverage": {
+    "full/full": {
+      "E-ZERO": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Mean": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Naive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "SeasonalNaive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ]
+    },
+    "full/train": {
+      "E-ZERO": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Mean": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Naive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "SeasonalNaive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ]
+    },
+    "sub16/train": {
+      "Chronos-Bolt-T": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Mean": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Naive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "SeasonalNaive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TTM-R2": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ]
+    }
+  },
+  "checkpoints": {
+    "E-ZERO": {
+      "path": "data/models/ezero_base.pt",
+      "bytes": 3014006,
+      "sha256": "20f805fa5924a34d4542b7480c56c44aa8e58e6116633693163888b7fae0b6d1"
+    }
+  },
+  "devices": [
+    "Tesla T4"
+  ]
+}

@@ -1,0 +1,10 @@
+**Efficiency score (Eq. 27, equal weights; lower is better)**
+
+| Model | Efficiency score |
+|---|---|
+| Naive | 0.0178 |
+| Mean | 0.0179 |
+| SeasonalNaive | 0.0179 |
+| TTM-R2 | 0.0703 |
+| E-ZERO | 0.2096 |
+| Chronos-Bolt-T | 1.0000 |

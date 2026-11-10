@@ -1,0 +1,43 @@
+
+$ git clone --quiet https://github.com/r2barati/EZERO.git /tmp/ezero
+[exit 0 after 1s]
+
+$ git -C /tmp/ezero fetch --quiet origin fcc6702f649b051557b3206b03374853de1e34cc || true
+[exit 0 after 0s]
+
+$ git -C /tmp/ezero checkout --quiet fcc6702f649b051557b3206b03374853de1e34cc
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -m pip install --quiet --no-input -e /tmp/ezero
+[exit 0 after 7s]
+
+$ nvidia-smi || true
+Tue Nov 10 19:06:50 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |
+| N/A   55C    P8             12W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |
+| N/A   54C    P8             11W /   70W |       0MiB /  15360MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+[exit 0 after 0s]
+
+$ /usr/bin/python3 -c "import torch;print(torch.__version__, torch.cuda.is_available())"
+2.11.0+cu130 True
+[exit 0 after 9s]

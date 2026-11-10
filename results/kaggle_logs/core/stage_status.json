@@ -1,0 +1,12 @@
+{
+  "stage": "core",
+  "commit": "fcc6702f649b051557b3206b03374853de1e34cc",
+  "status": {
+    "/usr/bin/python3 benchmarks/pretrain.py --variant base --time-budget-min 240": 0,
+    "/usr/bin/python3 benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol full --no-merge": 0,
+    "/usr/bin/python3 benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol sub16 --no-merge": 0,
+    "/usr/bin/python3 benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol full --scaler full --no-merge": 0,
+    "/usr/bin/python3 benchmarks/run_efficiency.py --model E-ZERO,group:naive": 0
+  },
+  "minutes": 64.9
+}

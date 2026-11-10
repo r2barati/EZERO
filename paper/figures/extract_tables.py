@@ -91,9 +91,9 @@ def to_markdown(t: pd.DataFrame, nd=3, rank=True, index_name="Dataset") -> str:
     return "\n".join(lines)
 
 
-def to_latex(t: pd.DataFrame, caption: str, label: str, nd=3, rank=True) -> str:
+def to_latex(t: pd.DataFrame, caption: str, label: str, nd=3, rank=True, index_name="Dataset") -> str:
     cols = list(t.columns)
-    head = " & ".join(["Dataset"] + [c.replace("_", r"\_") for c in cols]) + r" \\"
+    head = " & ".join([index_name] + [c.replace("_", r"\_") for c in cols]) + r" \\"
     body = []
     for idx, row in t.iterrows():
         vals = row.values.astype(float)
@@ -113,17 +113,17 @@ def to_latex(t: pd.DataFrame, caption: str, label: str, nd=3, rank=True) -> str:
                       head, r"\midrule", *body, r"\bottomrule", r"\end{tabular}}", r"\end{table}"])
 
 
-def write(name, t, caption, nd=3, rank=True, note=""):
+def write(name, t, caption, nd=3, rank=True, note="", index_name="Dataset"):
     os.makedirs(OUT, exist_ok=True)
     if t is None or t.empty:
         print(f"[tables] {name}: no data yet")
         return
     with open(os.path.join(OUT, f"{name}.md"), "w") as f:
-        f.write(f"**{caption}**\n\n{to_markdown(t, nd, rank)}\n")
+        f.write(f"**{caption}**\n\n{to_markdown(t, nd, rank, index_name)}\n")
         if note:
             f.write(f"\n{note}\n")
     with open(os.path.join(OUT, f"{name}.tex"), "w") as f:
-        f.write(to_latex(t, caption, f"tab:{name}", nd, rank) + "\n")
+        f.write(to_latex(t, caption, f"tab:{name}", nd, rank, index_name) + "\n")
     t.to_csv(os.path.join(OUT, f"{name}.csv"))
     print(f"[tables] {name}: {t.shape[0]} rows x {t.shape[1]} models")
 
@@ -154,7 +154,7 @@ def main():
           "Long-sequence forecasting MSE, full test set (stride 1): zero-shot E-ZERO vs full-shot "
           "architectures trained on each dataset")
     write("table3b_per_horizon", per_horizon(long, "full", "train", ARCH_ORDER + ABL_ORDER[1:]),
-          "Per-horizon MSE, full protocol")
+          "Per-horizon MSE, full protocol", index_name="Dataset / horizon")
     abl = avg_table(long, "full", "train", ABL_ORDER)
     if not abl.empty:
         abl = abl.rename(columns=ABL_LABEL)
@@ -178,11 +178,11 @@ def main():
         cost = eff[cols].rename(columns={"gpu_time_ms": "GPU TIME (ms)", "params_m": "Params (M)",
                                          "gpu_mem_gb": "MEM (GB)", "cpu_time_s": "CPU TIME (s)"})
         write("table_inference_cost", cost, "Inference time per batch (32 series, context 512, horizon 96) "
-              "and memory", nd=4, rank=False)
+              "and memory", nd=4, rank=False, index_name="Model")
         if "efficiency_score" in eff.columns:
             write("table4_efficiency", eff[["efficiency_score"]].sort_values("efficiency_score")
                   .rename(columns={"efficiency_score": "Efficiency score"}),
-                  "Efficiency score (Eq. 27, equal weights; lower is better)", nd=4, rank=False)
+                  "Efficiency score (Eq. 27, equal weights; lower is better)", nd=4, rank=False, index_name="Model")
 
 
 if __name__ == "__main__":

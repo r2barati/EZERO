@@ -1,0 +1,20 @@
+\begin{table}[ht]
+\centering
+\caption{Zero-shot MAE vs TS pre-trained models (protocol sub16)}
+\label{tab:table2b_zero_shot_vs_tsfm_mae}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccc}
+\toprule
+Dataset & E-ZERO & SeasonalNaive & Naive \\
+\midrule
+ETTh1 & \textbf{0.461} & \underline{0.467} & 0.596 \\
+ETTh2 & \textbf{0.375} & \underline{0.412} & 0.451 \\
+ETTm1 & \underline{0.472} & \textbf{0.433} & 0.707 \\
+ETTm2 & \textbf{0.347} & \underline{0.369} & 0.389 \\
+Weather & \underline{0.321} & 0.327 & \textbf{0.314} \\
+Electricity & \underline{0.369} & \textbf{0.326} & 0.937 \\
+Traffic & \textbf{0.472} & \underline{0.481} & 1.159 \\
+Average & \underline{0.403} & \textbf{0.402} & 0.650 \\
+\bottomrule
+\end{tabular}}
+\end{table}
