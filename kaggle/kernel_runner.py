@@ -38,7 +38,7 @@ CORE = [
     f"{PY} benchmarks/run_efficiency.py --model E-ZERO,group:naive",
 ]
 ABLATIONS = [
-    f"{PY} benchmarks/pretrain.py --variant noMRC,noDTP,noRAE,noCRRB,noExog,noTCN,noNBEATS --time-budget-min 60",
+    f"{PY} benchmarks/pretrain.py --variant noMRC,noDTP,noRAE,noCRRB,noExog,noTCN,noNBEATS --time-budget-min 75",
     f"{PY} benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol full --no-merge --skip-unavailable",
     f"{PY} benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol sub16 --no-merge --skip-unavailable",
     f"{PY} benchmarks/run_efficiency.py --model group:ezero-ablation --no-cpu --skip-unavailable",

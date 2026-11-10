@@ -104,7 +104,8 @@ def main(argv=None):
         summary = pretrain(model, sampler, steps=steps, batch_size=bs, lr=float(tr["learning_rate"]),
                            weight_decay=float(tr["weight_decay"]), warmup=int(tr["warmup_steps"]),
                            grad_clip=float(tr["gradient_clipping"]), eval_every=args.eval_every or tr["eval_every"],
-                           val_batches=tr["val_batches"], patience=tr["early_stopping_patience"], device=device,
+                           val_batches=tr["val_batches"], patience=tr["early_stopping_patience"],
+                           min_steps=int(tr.get("early_stopping_min_steps", 0)), device=device,
                            log_path=os.path.join(args.log_dir, f"ezero_{var}.csv"), seed=seed, amp=args.amp,
                            time_budget_s=None if args.time_budget_min is None else 60 * args.time_budget_min)
         summary.update(variant=var, params=model.num_parameters(), device=device, corpus=corpus_desc,

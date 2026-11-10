@@ -51,7 +51,7 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
              lr: float = 3e-4, weight_decay: float = 1e-3, warmup: int = 10000, grad_clip: float = 3.0,
              eval_every: int = 1000, val_batches: int = 32, patience: int = 10, device: str = "cpu",
              log_path: str | None = None, seed: int = 0, amp: bool = False, verbose: bool = True,
-             time_budget_s: float | None = None, max_skipped: int = 100) -> dict:
+             time_budget_s: float | None = None, max_skipped: int = 100, min_steps: int = 0) -> dict:
     torch.manual_seed(seed)
     np.random.seed(seed)
     model.to(device)
@@ -133,7 +133,7 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
                 best_state = {k: v.detach().cpu().clone() for k, v in model.state_dict().items()}
             else:
                 bad += 1
-                if bad >= patience and step > warmup:
+                if bad >= patience and step > max(warmup, min_steps):
                     stopped = "early_stopping"
                     break
             if time_budget_s is not None and el > time_budget_s:
@@ -146,4 +146,5 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
     model.eval()
     return dict(best_val_loss=best, best_step=best_step, last_step=step, stopped=stopped, skipped_steps=skipped,
                 train_seconds=round(time.time() - t0, 1), warmup=warmup, steps=steps, batch_size=batch_size,
-                lr=lr, weight_decay=weight_decay, grad_clip=grad_clip)
+                lr=lr, weight_decay=weight_decay, grad_clip=grad_clip, patience=patience, min_steps=min_steps,
+                val_batches=val_batches)

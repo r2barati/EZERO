@@ -25,8 +25,13 @@ training:
   warmup_steps: 10000        # linear warm-up, then cosine annealing
   gradient_clipping: 3.0
   eval_every: 1000
-  val_batches: 32
-  early_stopping_patience: 10
+  # v2 (fixed before any test-set result was looked at): with 32 validation batches and patience 10,
+  # validation noise (+-0.05) stopped the first Kaggle run at step 27k with the LR still at 2.2e-4,
+  # i.e. before the cosine schedule annealed. More validation batches, more patience, and no early
+  # stopping before 2/3 of the schedule; the best checkpoint on LOTSA validation is still kept.
+  val_batches: 128
+  early_stopping_patience: 20
+  early_stopping_min_steps: 40000
   seed: 2024
 
 sampler:
