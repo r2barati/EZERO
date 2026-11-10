@@ -54,3 +54,18 @@ def test_drop_last_emulation_drops_remainder_windows():
 def test_last_window_protocol_scores_one_window_per_horizon():
     rows = evaluate_forecaster(NaiveForecaster(), toy_data(), [24, 48], "last")
     assert all(r["n_windows"] == 1 for r in rows)
+
+
+def test_every_paper_config_builds_and_trains_one_step():
+    import torch
+
+    from baselines.fullshot import ARCHS, EXTRA_ARCHS
+    from baselines.paper_configs import PAPER_CONFIGS, lookup
+    for (arch, ds) in PAPER_CONFIGS:
+        for h in (96, 192, 336, 720):
+            lookback, kw, tr = lookup(arch, ds, h)
+            assert {"lr", "epochs", "patience", "batch"} <= set(tr)
+            m = EXTRA_ARCHS[arch](lookback, h, 7, **kw) if arch in EXTRA_ARCHS else ARCHS[arch](lookback, h, **kw)
+            y = m(torch.randn(2, lookback, 7))
+            assert y.shape == (2, h, 7)
+            y.pow(2).mean().backward()

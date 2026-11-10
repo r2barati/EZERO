@@ -32,6 +32,8 @@ STAGES = {
     "fullshot": "Full-shot baselines (DLinear, PatchTST, iTransformer)",
     "fullshot2": "Full-shot baselines (TSMixer, TimeMixer, TimesNet)",
     "fullshot3": "Full-shot baselines (FEDformer, Autoformer)",
+    "tsfmval": "Foundation models under their papers' protocols (reproduction check)",
+    "fullval": "Full-shot baselines with their official settings (reproduction check)",
     "smoke": "Short end-to-end environment check",
 }
 

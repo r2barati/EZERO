@@ -3,8 +3,10 @@
 Compact re-implementations of DLinear (Zeng et al., 2023), PatchTST (Nie et al., 2023) and
 iTransformer (Liu et al., 2024); TSMixer, TimeMixer, TimesNet, Autoformer and FEDformer live in
 ``baselines/fullshot_extra.py``. One model is trained per (dataset, horizon) with MSE, Adam, the
-learning rate halved after every epoch (Time-Series-Library "type1" schedule) and early stopping
-on the validation split (patience 3 epochs, best validation checkpoint kept). To fit Kaggle's session limits training is capped by
+Time-Series-Library "type1" schedule (epochs 1-2 at the base rate, then halved every epoch) and early
+stopping on the validation split (patience 3 epochs, best validation checkpoint kept).
+``paper_config=True`` (reproduction check) uses each model's official settings from
+``baselines/paper_configs.py`` instead, without a step budget. To fit Kaggle's session limits training is capped by
 ``max_steps`` / ``max_epochs``; the caps are recorded in the result rows so the budget is
 explicit when comparing with published numbers.
 """
@@ -118,8 +120,10 @@ class FullShotForecaster(Forecaster):
 
     def __init__(self, arch: str, context_length: int = 512, max_epochs: int = 10, max_steps: int = 3000,
                  batch_windows: int = 32, max_series_per_batch: int = 8192, lr: float | None = None,
-                 patience: int = 3, device: str | None = None, seed: int = 0, val_max_windows: int = 512):
+                 patience: int = 3, device: str | None = None, seed: int = 0, val_max_windows: int = 512,
+                 paper_config: bool = False):
         self.name = arch
+        self.paper_config = paper_config
         self.arch = arch
         self.L = context_length
         self.max_epochs, self.max_steps = max_epochs, max_steps
@@ -154,18 +158,38 @@ class FullShotForecaster(Forecaster):
         train = data.split_values("train")
         val = data.split_values("val")
         C = train.shape[1]
-        if self.arch in CHANNEL_MIXING:
+        lr, max_epochs, patience, max_steps = self.lr, self.max_epochs, self.patience, self.max_steps
+        lradj, pct_start, val_max = "type1", 0.3, self.val_max_windows
+        model_kw = None
+        if self.paper_config:
+            from baselines.paper_configs import lookup
+            cfg = lookup(self.arch, data.name, horizon)
+            if cfg is None:
+                raise ValueError(f"no paper configuration for {self.arch} on {data.name}")
+            lookback, model_kw, tr = cfg
+            if lookback != L:
+                raise ValueError(f"{self.arch}/{data.name}: paper lookback {lookback} != --context-length {L}")
+            lr, max_epochs, patience = tr["lr"], tr["epochs"], tr["patience"]
+            lradj, pct_start = tr.get("lradj", "type1"), tr.get("pct_start", 0.3)
+            bw = tr["batch"]
+            max_steps, val_max = 10 ** 9, 10 ** 9      # no budget cap, every validation window
+        elif self.arch in CHANNEL_MIXING:
             bw = self.batch_windows
         else:
             bw = max(1, min(self.batch_windows, self.max_series_per_batch // C))
-        self.model = build_arch(self.arch, L, H, C, data.name).to(self.device)
-        opt = torch.optim.Adam(self.model.parameters(), lr=self.lr)
+        if model_kw is None:
+            self.model = build_arch(self.arch, L, H, C, data.name).to(self.device)
+        elif self.arch in EXTRA_ARCHS:
+            self.model = EXTRA_ARCHS[self.arch](L, H, C, **model_kw).to(self.device)
+        else:
+            self.model = ARCHS[self.arch](L, H, **model_kw).to(self.device)
+        opt = torch.optim.Adam(self.model.parameters(), lr=lr)
         loss_fn = nn.MSELoss()
         tr_t = torch.from_numpy(train).to(self.device)
         va_t = torch.from_numpy(val).to(self.device)
         n_tr = len(train) - L - H + 1
         n_va = len(val) - L - H + 1
-        va_idx = np.linspace(0, n_va - 1, num=min(self.val_max_windows, n_va)).astype(int) if n_va > 0 else []
+        va_idx = np.linspace(0, n_va - 1, num=min(val_max, n_va)).astype(int) if n_va > 0 else []
         ar = torch.arange(L + H, device=self.device)
 
         def batch(t, idx):
@@ -188,11 +212,23 @@ class FullShotForecaster(Forecaster):
         best, best_state, bad, steps = float("inf"), None, 0, 0
         t0 = time.time()
         epochs = 0
-        for ep in range(self.max_epochs):
+        steps_per_epoch = int(np.ceil(n_tr / bw))
+        sched = None
+        if lradj == "TST":   # OneCycle, stepped every batch (PatchTST / TimeMixer)
+            sched = torch.optim.lr_scheduler.OneCycleLR(opt, max_lr=lr, epochs=max_epochs,
+                                                        steps_per_epoch=steps_per_epoch, pct_start=pct_start)
+        for ep in range(max_epochs):
             epochs = ep + 1
-            # Time-Series-Library "type1" schedule: the learning rate halves after every epoch
-            for g in opt.param_groups:
-                g["lr"] = self.lr * (0.5 ** ep)
+            # epoch-wise schedules as in the reference code (adjust_learning_rate(epoch + 1) after each epoch)
+            if lradj == "type1":       # TSLib: epochs 1-2 at lr, then halve every epoch
+                cur = lr * 0.5 ** max(0, ep - 1)
+            elif lradj == "type3":     # PatchTST: lr for the first epochs, then x0.9 per epoch
+                cur = lr if ep < 4 else lr * 0.9 ** (ep - 3)
+            else:                      # constant / TST (handled per step)
+                cur = None
+            if cur is not None:
+                for g in opt.param_groups:
+                    g["lr"] = cur
             perm = rng.permutation(n_tr)
             for k in range(0, n_tr, bw):
                 x, y = batch(tr_t, perm[k:k + bw])
@@ -200,8 +236,10 @@ class FullShotForecaster(Forecaster):
                 loss = loss_fn(self.model(x), y)
                 loss.backward()
                 opt.step()
+                if sched is not None:
+                    sched.step()
                 steps += 1
-                if steps >= self.max_steps:
+                if steps >= max_steps:
                     break
             vl = vloss()
             if vl < best - 1e-6:
@@ -209,14 +247,15 @@ class FullShotForecaster(Forecaster):
                 best_state = {k: v.detach().clone() for k, v in self.model.state_dict().items()}
             else:
                 bad += 1
-            if bad >= self.patience or steps >= self.max_steps:
+            if bad >= patience or steps >= max_steps:
                 break
         if best_state is not None:
             self.model.load_state_dict(best_state)
         self.model.eval()
         self.fit_info = dict(train_steps=steps, epochs=epochs, best_val_mse=best, batch_windows=bw,
-                             train_seconds=round(time.time() - t0, 1), max_steps=self.max_steps,
-                             max_epochs=self.max_epochs, lr=self.lr, lr_schedule="halve_per_epoch")
+                             train_seconds=round(time.time() - t0, 1), max_steps=max_steps,
+                             max_epochs=max_epochs, lr=lr, lr_schedule=lradj, paper_config=self.paper_config,
+                             model_kwargs=None if model_kw is None else str(model_kw))
         return self
 
     @torch.no_grad()

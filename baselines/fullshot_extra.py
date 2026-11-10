@@ -98,12 +98,38 @@ class _DataEmb(nn.Module):
 
 
 # --------------------------------------------------------------------------- TSMixer
-class TSMixer(nn.Module):
-    """Chen et al. (2023): interleaved time-mixing and feature-mixing MLPs, then a temporal projection."""
+class _TSMixerPaperBlock(nn.Module):
+    """Block of the authors' TF implementation (tsmixer_basic): BatchNorm over (time, feature),
+    time mixing = Linear(L, L) + ReLU + dropout, feature mixing = MLP(C -> ff_dim -> C), residuals."""
 
-    def __init__(self, L, H, C, n_block=2, d_model=256, dropout=0.1):
+    def __init__(self, L, C, ff_dim, dropout):
+        super().__init__()
+        self.n1 = nn.BatchNorm1d(L * C)
+        self.time = nn.Sequential(nn.Linear(L, L), nn.ReLU(), nn.Dropout(dropout))
+        self.n2 = nn.BatchNorm1d(L * C)
+        self.feat = nn.Sequential(nn.Linear(C, ff_dim), nn.ReLU(), nn.Dropout(dropout), nn.Linear(ff_dim, C),
+                                  nn.Dropout(dropout))
+
+    def forward(self, x):
+        B, L, C = x.shape
+        h = self.n1(x.reshape(B, -1)).reshape(B, L, C)
+        x = x + self.time(h.transpose(1, 2)).transpose(1, 2)
+        h = self.n2(x.reshape(B, -1)).reshape(B, L, C)
+        return x + self.feat(h)
+
+
+class TSMixer(nn.Module):
+    """Chen et al. (2023): interleaved time-mixing and feature-mixing MLPs, then a temporal projection.
+    ``paper=True`` uses the authors' block (see _TSMixerPaperBlock) with ``ff_dim``."""
+
+    def __init__(self, L, H, C, n_block=2, d_model=256, dropout=0.1, paper=False, ff_dim=64):
         super().__init__()
         self.norm = _Norm()
+        self.paper = paper
+        if paper:
+            self.pblocks = nn.ModuleList(_TSMixerPaperBlock(L, C, ff_dim, dropout) for _ in range(n_block))
+            self.proj = nn.Linear(L, H)
+            return
         self.blocks = nn.ModuleList()
         for _ in range(n_block):
             self.blocks.append(nn.ModuleDict({
@@ -114,6 +140,10 @@ class TSMixer(nn.Module):
 
     def forward(self, x):
         x, st = self.norm(x, "norm")
+        if self.paper:
+            for b in self.pblocks:
+                x = b(x)
+            return self.norm(self.proj(x.transpose(1, 2)).transpose(1, 2), "denorm", st)
         for b in self.blocks:
             x = x + b["time"](x.transpose(1, 2)).transpose(1, 2)
             x = x + b["feat"](x)
@@ -394,7 +424,7 @@ class _DecompTransformer(nn.Module):
     """Shared encoder-decoder of Autoformer and FEDformer (seasonal-trend decomposition architecture)."""
 
     def __init__(self, L, H, C, kind, d_model=128, n_heads=8, e_layers=2, d_layers=1, d_ff=256, kernel=25,
-                 dropout=0.1, modes=32):
+                 dropout=0.1, modes=32, factor=1, use_norm=True):
         super().__init__()
         self.L, self.H = L, H
         self.label = L // 2
@@ -404,13 +434,15 @@ class _DecompTransformer(nn.Module):
         self.dec_emb = _DataEmb(C, d_model, dropout, pos=False)
 
         def enc_inner(i):
-            return _AutoCorrelation() if kind == "auto" else _FourierBlock(d_model, n_heads, L, modes, seed=i)
+            return _AutoCorrelation(factor) if kind == "auto" else _FourierBlock(d_model, n_heads, L, modes, seed=i)
 
         def dec_self(i):
-            return _AutoCorrelation() if kind == "auto" else _FourierBlock(d_model, n_heads, Td, modes, seed=100 + i)
+            return (_AutoCorrelation(factor) if kind == "auto"
+                    else _FourierBlock(d_model, n_heads, Td, modes, seed=100 + i))
 
         def dec_cross(i):
-            return _AutoCorrelation() if kind == "auto" else _FourierCross(d_model, n_heads, Td, L, modes, seed=200 + i)
+            return (_AutoCorrelation(factor) if kind == "auto"
+                    else _FourierCross(d_model, n_heads, Td, L, modes, seed=200 + i))
 
         self.enc = nn.ModuleList(_EncLayer(_AttnLayer(enc_inner(i), d_model, n_heads), d_model, d_ff, kernel, dropout)
                                  for i in range(e_layers))
@@ -420,10 +452,12 @@ class _DecompTransformer(nn.Module):
                                            dropout) for i in range(d_layers))
         self.dec_norm = _MyLayerNorm(d_model)
         self.out = nn.Linear(d_model, C)
-        self.norm = _Norm()
+        self.norm = _Norm() if use_norm else None   # the original Autoformer/FEDformer have no instance norm
 
     def forward(self, x):
-        x, st = self.norm(x, "norm")
+        st = None
+        if self.norm is not None:
+            x, st = self.norm(x, "norm")
         B, L, C = x.shape
         mean = x.mean(1, keepdim=True).repeat(1, self.H, 1)
         seas, trend = self.decomp(x)
@@ -439,7 +473,7 @@ class _DecompTransformer(nn.Module):
             d, t = layer(d, e)
             trend_acc = trend_acc + t
         y = (self.out(self.dec_norm(d)) + trend_acc)[:, -self.H:]
-        return self.norm(y, "denorm", st)
+        return y if self.norm is None else self.norm(y, "denorm", st)
 
 
 def Autoformer(L, H, C, **kw):

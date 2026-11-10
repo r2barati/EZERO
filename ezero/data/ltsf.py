@@ -199,7 +199,7 @@ def window_starts(data: LSFData, protocol: str, horizon_max: int = 720, horizon_
     if protocol == "last":
         return np.unique([data.n_windows(h) - 1 for h in (horizon_min, horizon_max)] +
                          [data.n_windows(h) - 1 for h in (192, 336)])
-    if protocol == "full" or protocol.startswith("fulldl"):
+    if protocol in ("full", "fullpaper") or protocol.startswith("fulldl"):
         return np.arange(data.n_windows(horizon_min))
     if protocol.startswith("sub"):
         k = int(protocol[3:])

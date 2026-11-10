@@ -59,6 +59,19 @@ FULLSHOT3 = [
     "--skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10",
     f"{PY} benchmarks/run_efficiency.py --model FEDformer,Autoformer --skip-unavailable",
 ]
+# fullval: full-shot baselines with their official per-dataset settings (baselines/paper_configs.py),
+# 3 seeds on ETTh1 and 1 seed on ETTm1, plus DLinear at its paper lookback on every dataset.
+_RB = f"{PY} benchmarks/run_benchmarks.py --protocol full --no-merge --skip-unavailable"
+FULLVAL = []
+for _ds, _seeds in (("ETTh1", (0, 1, 2)), ("ETTm1", (0,))):
+    for _seed in _seeds:
+        FULLVAL += [
+            f"{_RB} --paper-config --seed {_seed} --datasets {_ds} --context-length 336 --model DLinear,PatchTST",
+            f"{_RB} --paper-config --seed {_seed} --datasets {_ds} --context-length 512 --model TSMixer",
+            f"{_RB} --paper-config --seed {_seed} --datasets {_ds} --context-length 96 "
+            "--model iTransformer,TimesNet,TimeMixer,FEDformer,Autoformer",
+        ]
+FULLVAL.append(f"{_RB} --context-length 336 --model DLinear --fullshot-max-steps 1000000000 --fullshot-max-epochs 10")
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 1e-4 --out results/training_logs/nan_probe_eps1e-4.json",
@@ -95,6 +108,20 @@ TSFM = [
                 "huggingface_hub scipy pyyaml"]),
 ]
 TSFM_MODELS = "__TSFM_MODELS__"  # "ALL" or a comma list rendered by build_kernels.py
+
+# tsfmval stage: the protocols the models' own / related papers used (reproduction check).
+# full = every sliding test window (TTM Tables 11/13, Moirai Table 22); last = last test window
+# (TTM Table 15, TimesFM Table 5). Moirai excludes Traffic (in its pre-training data).
+_ALL = "ETTh1 ETTh2 ETTm1 ETTm2 Weather Electricity Traffic"
+_NO_TRAFFIC = "ETTh1 ETTh2 ETTm1 ETTm2 Weather Electricity"
+TSFM_VAL = {
+    "TTM-R1": [("full", _ALL), ("last", _ALL)],
+    "TTM-R2": [("full", _ALL)],
+    "Moirai-S": [("full", _NO_TRAFFIC)],
+    "TimesFM-1.0": [("full", _NO_TRAFFIC), ("last", "ETTh1 ETTh2 ETTm1 ETTm2")],
+    "Chronos-T": [("last", _ALL)],
+    "Lag-Llama": [("last", _ALL)],
+}
 
 
 def sh(cmd, cwd=None, env=None, log_name="run.log", check=False, timeout=None):
@@ -213,12 +240,19 @@ def run_tsfm(env):
             status[spec] = f"install failed ({rc})"
             continue
         ids = ",".join(models)
-        rc = 0
-        if not entry.get("efficiency_only"):
-            rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16 --no-merge --skip-unavailable",
-                    cwd=SRC, env=run_env, log_name=log_name)
-        rc2 = sh(f"{vpy} benchmarks/run_efficiency.py --model {ids} --skip-unavailable --cpu-reps 1 --reps 5",
-                 cwd=SRC, env=run_env, log_name=log_name)
+        rc, rc2 = 0, 0
+        if STAGE == "tsfmval":
+            for m in models:
+                for prot, dsets in TSFM_VAL.get(m, []):
+                    rc = rc or sh(f"{vpy} benchmarks/run_benchmarks.py --model {m} --protocol {prot} --datasets {dsets} "
+                                  "--no-merge --skip-unavailable", cwd=SRC, env=run_env, log_name=log_name)
+                    collect()
+        else:
+            if not entry.get("efficiency_only"):
+                rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16 --no-merge --skip-unavailable",
+                        cwd=SRC, env=run_env, log_name=log_name)
+            rc2 = sh(f"{vpy} benchmarks/run_efficiency.py --model {ids} --skip-unavailable --cpu-reps 1 --reps 5",
+                     cwd=SRC, env=run_env, log_name=log_name)
         sh(f"{PY} -m uv pip freeze --python {vpy} > {LOG}/pip_freeze_{name}.txt 2>/dev/null || "
            f"{PY} -m pip --python {vpy} freeze > {LOG}/pip_freeze_{name}.txt", log_name=log_name)
         status[spec] = {"eval_rc": rc, "efficiency_rc": rc2}
@@ -232,11 +266,11 @@ def main():
     sh("nvidia-smi || true")
     sh(f"{PY} -c \"import torch;print(torch.__version__, torch.cuda.is_available())\"")
     status = {}
-    if STAGE == "tsfm":
+    if STAGE in ("tsfm", "tsfmval"):
         status = run_tsfm(env)
     else:
         cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "fullshot2": FULLSHOT2,
-                "fullshot3": FULLSHOT3, "smoke": SMOKE}[STAGE]
+                "fullshot3": FULLSHOT3, "fullval": FULLVAL, "smoke": SMOKE}[STAGE]
         for c in cmds:
             status[c] = sh(c, cwd=SRC, env=env, log_name=f"{STAGE}.log")
             collect()

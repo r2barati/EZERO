@@ -70,27 +70,42 @@ def main():
     ours = pd.read_csv(long_p)
     if "smoke" in ours.columns:
         ours = ours[~ours["smoke"].astype(bool)]
-    ours = ours[ours["protocol"].isin(["full", "last"]) & (ours["scaler"] == "train")]
+    ours = ours[ours["protocol"].isin(["full", "fullpaper", "last"]) & (ours["scaler"] == "train")]
+    # a paper-configuration run is the like-for-like comparison of a full-test-set row
+    ours["proto_key"] = ours["protocol"].replace({"fullpaper": "full"})
+    ours["is_paper_cfg"] = ours["protocol"] == "fullpaper"
     ours["context_length"] = ours["context_length"].fillna(512).astype(int)
     rep = load_reported()
     rows = []
     for _, r in rep.iterrows():
         cand = ours[(ours["model"] == r["our_model"]) & (ours["dataset"] == r["dataset"])
-                    & (ours["horizon"] == r["horizon"]) & (ours["protocol"] == r["protocol"])]
+                    & (ours["horizon"] == r["horizon"]) & (ours["proto_key"] == r["protocol"])]
+        if cand["is_paper_cfg"].any():
+            cand = cand[cand["is_paper_cfg"]]
         lb = pd.to_numeric(str(r.get("lookback")).rstrip("*"), errors="coerce")
         hit, how = None, None
         if not np.isnan(lb) and (cand["context_length"] == int(lb)).any():
-            hit, how = cand[cand["context_length"] == int(lb)].iloc[-1], "matched"
+            hit = cand[cand["context_length"] == int(lb)].iloc[-1]
+            how = "matched (paper config)" if bool(hit["is_paper_cfg"]) else "matched (lookback only)"
         elif (cand["context_length"] == 512).any():
             hit, how = cand[cand["context_length"] == 512].iloc[-1], "L512"
         if hit is None:
             continue
+        # all seeds of the same configuration (paper-config runs on ETTh1 use 3 seeds)
+        same = cand[(cand["context_length"] == hit["context_length"]) & (cand["protocol"] == hit["protocol"])]
+        mses = same["mse"].astype(float)
+        if len(mses) > 1:
+            hit = hit.copy()
+            hit["mse"] = mses.mean()
+            hit["mae"] = same["mae"].astype(float).mean()
         gap = (hit["mse"] - r["mse"]) / r["mse"]
         rows.append(dict(model=r["our_model"], variant=r.get("variant"), paper=r.get("paper"), table=r.get("table"),
                          protocol=r["protocol"],
                          dataset=r["dataset"], horizon=r["horizon"], reported_lookback=r.get("lookback"),
                          our_lookback=int(hit["context_length"]), comparison=how,
-                         reported_mse=r["mse"], our_mse=round(float(hit["mse"]), 4),
+                         reported_mse=r["mse"], our_mse=round(float(hit["mse"]), 4), seeds=len(mses),
+                         our_mse_min=round(float(mses.min()), 4), our_mse_max=round(float(mses.max()), 4),
+                         reported_in_seed_range=bool(len(mses) > 1 and mses.min() <= r["mse"] <= mses.max()),
                          mse_gap_pct=round(100 * gap, 1), reported_mae=r.get("mae"),
                          our_mae=round(float(hit["mae"]), 4), source_url=r.get("source_url")))
     if not rows:
@@ -103,18 +118,23 @@ def main():
     df["variant"] = df["variant"].astype(str) + " / " + df["paper"].astype(str) + " " + df["table"].astype(str)
     for (m, v, how), g in df.groupby(["model", "variant", "comparison"]):
         a = g["mse_gap_pct"].abs()
+        reproduced = (a <= 5) | g["reported_in_seed_range"]
         summ.append(dict(model=m, variant=v, comparison=how, cells=len(g), median_gap_pct=round(g["mse_gap_pct"].median(), 1),
                          max_abs_gap_pct=round(a.max(), 1), within_5pct=f"{(a <= 5).mean():.0%}",
-                         within_10pct=f"{(a <= 10).mean():.0%}"))
+                         within_10pct=f"{(a <= 10).mean():.0%}", reproduced=f"{reproduced.mean():.0%}",
+                         seeds=int(g["seeds"].max())))
     s = pd.DataFrame(summ).sort_values(["comparison", "model"])
     with open(os.path.join(OUT, "tableV_reproduction.md"), "w") as f:
         f.write("**Reproduction check: our MSE vs the MSE reported in each model's paper** "
                 "(gap = ours / reported - 1; positive = we are worse)\n\n")
-        f.write("| model | paper variant | comparison | cells | median gap % | max abs gap % | within 5% | within 10% |\n")
-        f.write("|---|---|---|---|---|---|---|---|\n")
+        f.write("| model | paper variant | comparison | seeds | cells | median gap % | max abs gap % | within 5% | "
+                "within 10% | reproduced* |\n")
+        f.write("|---|---|---|---|---|---|---|---|---|---|\n")
         for _, r in s.iterrows():
-            f.write(f"| {r['model']} | {r['variant']} | {r['comparison']} | {r['cells']} | {r['median_gap_pct']:+.1f} | "
-                    f"{r['max_abs_gap_pct']:.1f} | {r['within_5pct']} | {r['within_10pct']} |\n")
+            f.write(f"| {r['model']} | {r['variant']} | {r['comparison']} | {r['seeds']} | {r['cells']} | "
+                    f"{r['median_gap_pct']:+.1f} | {r['max_abs_gap_pct']:.1f} | {r['within_5pct']} | {r['within_10pct']} | "
+                    f"{r['reproduced']} |\n")
+        f.write("\n*reproduced = gap within 5%, or the reported value lies inside the range of our seeds.\n")
         f.write("\n`matched` = run at the paper's lookback; `L512` = only our canonical 512-step run exists, so the "
                 "gap mixes protocol and implementation differences. Row-level data: tableV_reproduction_rows.csv.\n")
     print(s.to_string(index=False))

@@ -149,7 +149,8 @@ def make_forecaster(model_id: str, args) -> object:
     if g == "fullshot":
         from baselines.fullshot import FullShotForecaster
         return FullShotForecaster(model_id, context_length=args.context_length, max_steps=args.fullshot_max_steps,
-                                  max_epochs=args.fullshot_max_epochs)
+                                  max_epochs=args.fullshot_max_epochs, paper_config=getattr(args, "paper_config", False),
+                                  seed=getattr(args, "seed", 0))
     raise ValueError(model_id)
 
 
@@ -169,11 +170,14 @@ def load_cache(model_id: str) -> pd.DataFrame:
     return pd.read_csv(p) if os.path.exists(p) else pd.DataFrame()
 
 
-def _done(df: pd.DataFrame, dataset: str, protocol: str, scaler: str, horizons, context_length: int = 512) -> bool:
+def _done(df: pd.DataFrame, dataset: str, protocol: str, scaler: str, horizons, context_length: int = 512,
+          seed: int = 0) -> bool:
     if df.empty:
         return False
     ctx = df["context_length"] if "context_length" in df else 512
-    m = (df["dataset"] == dataset) & (df["protocol"] == protocol) & (df["scaler"] == scaler) & (ctx == context_length)
+    sd = df["seed"].fillna(0) if "seed" in df else 0
+    m = ((df["dataset"] == dataset) & (df["protocol"] == protocol) & (df["scaler"] == scaler)
+         & (ctx == context_length) & (sd == seed))
     return set(int(h) for h in horizons) <= set(df.loc[m, "horizon"].astype(int))
 
 
@@ -182,7 +186,10 @@ def append_rows(model_id: str, rows: list[dict]):
     new = pd.DataFrame(rows)
     old = load_cache(model_id)
     if not old.empty:
-        key = ["dataset", "horizon", "protocol", "scaler", "context_length"]
+        for d_ in (old, new):
+            if "seed" not in d_:
+                d_["seed"] = 0
+        key = ["dataset", "horizon", "protocol", "scaler", "context_length", "seed"]
         merged = pd.concat([old, new], ignore_index=True)
         merged = merged.drop_duplicates(subset=key, keep="last")
     else:
@@ -223,7 +230,7 @@ def eval_one_model(model_id: str, args) -> list[dict]:
     horizons = args.horizons
     cache = load_cache(model_id)
     todo = [d for d in datasets if args.force or not _done(cache, d, args.protocol, args.scaler, horizons,
-                                                            args.context_length)]
+                                                            args.context_length, args.seed)]
     if not todo:
         print(f"[{model_id}] all {len(datasets)} datasets cached for protocol={args.protocol} scaler={args.scaler}")
         return []
@@ -249,7 +256,7 @@ def eval_one_model(model_id: str, args) -> list[dict]:
         info = dict(info_base)
         info.pop("config", None)
         for r in rows:
-            r.update(model=model_id, group=MODEL_REGISTRY[model_id]["group"],
+            r.update(model=model_id, group=MODEL_REGISTRY[model_id]["group"], seed=args.seed,
                      zero_shot=bool(getattr(forecaster, "zero_shot", True)), wall_seconds=round(time.time() - t0, 2),
                      load_seconds=round(load_s, 2), device=device_name(), git_commit=git_commit(),
                      timestamp=_now(),
@@ -284,7 +291,8 @@ def merge_all(include_smoke: bool = False) -> pd.DataFrame:
 
     # wide table: canonical context length (512) only; paper-protocol validation runs at other lookbacks
     # stay in the long CSV (context_length column) and feed the reproduction check
-    wide_src = long[long["context_length"].fillna(512).astype(int) == 512]
+    seed_col = long["seed"].fillna(0) if "seed" in long else 0
+    wide_src = long[(long["context_length"].fillna(512).astype(int) == 512) & (seed_col == 0)]
     rows = []
     order = [m for m in ALL_MODEL_IDS if m in set(wide_src["model"])]
     for (prot, sc, ds), g in wide_src.groupby(["protocol", "scaler", "dataset"], sort=False):
@@ -374,6 +382,10 @@ def main(argv=None):
     p.add_argument("--models-dir", default=MODELS_DIR)
     p.add_argument("--fullshot-max-steps", type=int, default=3000)
     p.add_argument("--fullshot-max-epochs", type=int, default=10)
+    p.add_argument("--paper-config", action="store_true",
+                   help="full-shot models: official per-dataset settings (baselines/paper_configs.py); results are "
+                        "stored as protocol 'fullpaper' for the reproduction check")
+    p.add_argument("--seed", type=int, default=0, help="training seed of full-shot models (part of the cache key)")
     p.add_argument("--force", action="store_true", help="re-run even if cached")
     p.add_argument("--skip-unavailable", action="store_true", help="continue when a model cannot be loaded")
     p.add_argument("--list", action="store_true")
@@ -389,6 +401,10 @@ def main(argv=None):
         return 0
     if not args.model:
         p.error("--model is required (or use --list / --merge-only)")
+    if args.paper_config:
+        if args.protocol != "full":
+            p.error("--paper-config is evaluated on the full protocol")
+        args.protocol = "fullpaper"
     unknown = [d for d in args.datasets if d not in LSF_DATASETS]
     if unknown:
         p.error(f"unknown datasets {unknown}")
