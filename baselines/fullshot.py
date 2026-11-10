@@ -96,10 +96,18 @@ DEFAULT_LR.update(EXTRA_LR)
 CHANNEL_MIXING = {"iTransformer", "TSMixer", "TimesNet", "Autoformer", "FEDformer"}
 
 
-def build_arch(arch: str, L: int, H: int, C: int) -> nn.Module:
+# Dataset-specific sizes stated by the original papers.
+# PatchTST (Nie et al., 2023, App. A.1.4): "a reduced size of model (H=4, D=16, F=128)" for ILI, ETTh1, ETTh2.
+PAPER_SIZES = {
+    ("PatchTST", "ETTh1"): dict(heads=4, d_model=16, ff=128),
+    ("PatchTST", "ETTh2"): dict(heads=4, d_model=16, ff=128),
+}
+
+
+def build_arch(arch: str, L: int, H: int, C: int, dataset: str | None = None) -> nn.Module:
     if arch in EXTRA_ARCHS:
         return EXTRA_ARCHS[arch](L, H, C)
-    return ARCHS[arch](L, H)
+    return ARCHS[arch](L, H, **PAPER_SIZES.get((arch, dataset), {}))
 
 
 # --------------------------------------------------------------------------- forecaster
@@ -150,7 +158,7 @@ class FullShotForecaster(Forecaster):
             bw = self.batch_windows
         else:
             bw = max(1, min(self.batch_windows, self.max_series_per_batch // C))
-        self.model = build_arch(self.arch, L, H, C).to(self.device)
+        self.model = build_arch(self.arch, L, H, C, data.name).to(self.device)
         opt = torch.optim.Adam(self.model.parameters(), lr=self.lr)
         loss_fn = nn.MSELoss()
         tr_t = torch.from_numpy(train).to(self.device)
