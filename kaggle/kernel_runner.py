@@ -11,6 +11,7 @@ Stages
   ablations  pre-train the 7 ablation variants (thesis Table 5) and evaluate them.
   tsfm       zero-shot foundation-model baselines, each package in its own virtualenv.
   fullshot   DLinear / PatchTST / iTransformer trained per dataset and horizon.
+  smoke      a few minutes of every code path (environment check before the long runs).
 """
 import json
 import os
@@ -46,6 +47,13 @@ FULLSHOT = [
     f"{PY} benchmarks/run_benchmarks.py --model DLinear,iTransformer,PatchTST --protocol full --no-merge "
     "--skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10",
     f"{PY} benchmarks/run_efficiency.py --model DLinear,iTransformer,PatchTST --skip-unavailable",
+]
+SMOKE = [
+    f"{PY} benchmarks/pretrain.py --variant base --steps 300 --eval-every 100",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol full --max-batches 2 --no-merge",
+    f"{PY} benchmarks/run_benchmarks.py --model DLinear,iTransformer,PatchTST --protocol sub16 --datasets ETTh1 "
+    "Traffic --fullshot-max-steps 20 --fullshot-max-epochs 1 --no-merge --skip-unavailable",
+    f"{PY} benchmarks/run_efficiency.py --model E-ZERO,Naive",
 ]
 # package spec, model ids (one virtualenv per package; --system-site-packages reuses Kaggle's torch)
 TSFM = [
@@ -145,7 +153,7 @@ def main():
     if STAGE == "tsfm":
         status = run_tsfm(env)
     else:
-        cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT}[STAGE]
+        cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "smoke": SMOKE}[STAGE]
         for c in cmds:
             status[c] = sh(c, cwd=SRC, env=env, log_name=f"{STAGE}.log")
             collect()
