@@ -11,6 +11,7 @@ Stages
   ablations  pre-train the 7 ablation variants (thesis Table 5) and evaluate them.
   tsfm       zero-shot foundation-model baselines, each package in its own virtualenv.
   fullshot   DLinear / PatchTST / iTransformer trained per dataset and horizon.
+  fullshot2  TSMixer / TimeMixer / TimesNet;  fullshot3  FEDformer / Autoformer (same protocol).
   smoke      a few minutes of every code path (environment check before the long runs).
 """
 import json
@@ -47,6 +48,16 @@ FULLSHOT = [
     f"{PY} benchmarks/run_benchmarks.py --model DLinear,iTransformer,PatchTST --protocol full --no-merge "
     "--skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10",
     f"{PY} benchmarks/run_efficiency.py --model DLinear,iTransformer,PatchTST --skip-unavailable",
+]
+FULLSHOT2 = [
+    f"{PY} benchmarks/run_benchmarks.py --model TSMixer,TimeMixer,TimesNet --protocol full --no-merge "
+    "--skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10",
+    f"{PY} benchmarks/run_efficiency.py --model TSMixer,TimeMixer,TimesNet --skip-unavailable",
+]
+FULLSHOT3 = [
+    f"{PY} benchmarks/run_benchmarks.py --model FEDformer,Autoformer --protocol full --no-merge "
+    "--skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10",
+    f"{PY} benchmarks/run_efficiency.py --model FEDformer,Autoformer --skip-unavailable",
 ]
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
@@ -224,7 +235,8 @@ def main():
     if STAGE == "tsfm":
         status = run_tsfm(env)
     else:
-        cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "smoke": SMOKE}[STAGE]
+        cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "fullshot2": FULLSHOT2,
+                "fullshot3": FULLSHOT3, "smoke": SMOKE}[STAGE]
         for c in cmds:
             status[c] = sh(c, cwd=SRC, env=env, log_name=f"{STAGE}.log")
             collect()

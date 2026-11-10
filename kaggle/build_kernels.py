@@ -30,6 +30,8 @@ STAGES = {
     "ablations": "E-ZERO ablation variants (thesis Table 5)",
     "tsfm": "Zero-shot foundation-model baselines (Chronos, TTM, Moirai, TimesFM)",
     "fullshot": "Full-shot baselines (DLinear, PatchTST, iTransformer)",
+    "fullshot2": "Full-shot baselines (TSMixer, TimeMixer, TimesNet)",
+    "fullshot3": "Full-shot baselines (FEDformer, Autoformer)",
     "smoke": "Short end-to-end environment check",
 }
 

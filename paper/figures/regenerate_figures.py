@@ -143,6 +143,8 @@ def fig_ablation(long):
     base = t["E-ZERO"]
     rel = (t.drop(columns=["E-ZERO"]).div(base, axis=0) - 1.0) * 100
     r = rel.loc["Average"].dropna().sort_values(ascending=False)
+    if r.empty:
+        return
     fig, ax = plt.subplots(figsize=(6.4, 0.38 * len(r) + 1.2))
     y = np.arange(len(r))
     ax.barh(y, r.values, color=HIGHLIGHT, height=0.62, edgecolor=SURFACE, linewidth=2)

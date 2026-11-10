@@ -2,8 +2,9 @@
 
 Compact re-implementations of DLinear (Zeng et al., 2023), PatchTST (Nie et al., 2023) and
 iTransformer (Liu et al., 2024); TSMixer, TimeMixer, TimesNet, Autoformer and FEDformer live in
-``baselines/fullshot_extra.py``. One model is trained per (dataset, horizon) with MSE, Adam,
-early stopping on the validation split. To fit Kaggle's session limits training is capped by
+``baselines/fullshot_extra.py``. One model is trained per (dataset, horizon) with MSE, Adam, the
+learning rate halved after every epoch (Time-Series-Library "type1" schedule) and early stopping
+on the validation split (patience 3 epochs, best validation checkpoint kept). To fit Kaggle's session limits training is capped by
 ``max_steps`` / ``max_epochs``; the caps are recorded in the result rows so the budget is
 explicit when comparing with published numbers.
 """
@@ -181,6 +182,9 @@ class FullShotForecaster(Forecaster):
         epochs = 0
         for ep in range(self.max_epochs):
             epochs = ep + 1
+            # Time-Series-Library "type1" schedule: the learning rate halves after every epoch
+            for g in opt.param_groups:
+                g["lr"] = self.lr * (0.5 ** ep)
             perm = rng.permutation(n_tr)
             for k in range(0, n_tr, bw):
                 x, y = batch(tr_t, perm[k:k + bw])
@@ -204,7 +208,7 @@ class FullShotForecaster(Forecaster):
         self.model.eval()
         self.fit_info = dict(train_steps=steps, epochs=epochs, best_val_mse=best, batch_windows=bw,
                              train_seconds=round(time.time() - t0, 1), max_steps=self.max_steps,
-                             max_epochs=self.max_epochs, lr=self.lr)
+                             max_epochs=self.max_epochs, lr=self.lr, lr_schedule="halve_per_epoch")
         return self
 
     @torch.no_grad()

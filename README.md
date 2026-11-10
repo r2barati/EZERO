@@ -110,6 +110,7 @@ repository's own paths in `/kaggle/working/outputs/`.
 | `ablations` | pre-train and evaluate the 7 ablation variants (Table 5) |
 | `tsfm` | foundation models on the `sub16` protocol, one virtualenv each (Python 3.11 via uv for TimesFM-1.0 and Lag-Llama) |
 | `fullshot` | DLinear, PatchTST, iTransformer trained per dataset and horizon |
+| `fullshot2` / `fullshot3` | TSMixer, TimeMixer, TimesNet / FEDformer, Autoformer, same protocol |
 
 ```bash
 pip install kaggle                                   # needs Kaggle API credentials
