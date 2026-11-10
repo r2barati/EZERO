@@ -36,6 +36,14 @@ re-derived from the original artifacts. The results here come from a fresh pre-t
   - the embedding "similarity matching layer" and adaptive inference (Sec. 3.3.5);
   - conditional convolutions: the frequency embedding (RAE) is fed to the TCN as constant
     input channels instead.
+- **Zero-variance groups in the Exogenous Mixer.** Channels of one group can forecast identical
+  values, giving a group variance of exactly 0, where the gradient of `sqrt(var)` is unbounded.
+  On a Kaggle T4 (torch 2.11, CUDA 13) this produced non-finite gradients in all 143 parameter
+  tensors on the very first step (`scripts/debug/nan_probe.py --mixer-eps 0`), while the same
+  code trained normally on CPU. The group standard deviation is therefore `sqrt(var + 1e-4)`.
+  With that change the probe ran 400 finite steps; the minimum group variance seen was 0 to
+  about 4e-7. As a backstop, training also skips any optimiser step with a non-finite loss or
+  gradient norm and records the count.
 - **One head for all horizons.** The model always predicts 720 steps; 96/192/336 are prefixes.
 - **Loss robustness.** Pre-training uses MSE in the instance-normalised space. Targets are
   clipped to ±10 context standard deviations and windows with a constant context are skipped.
