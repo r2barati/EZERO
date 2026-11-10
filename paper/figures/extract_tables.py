@@ -53,8 +53,9 @@ def load_long() -> pd.DataFrame:
     return df
 
 
-def avg_table(long, protocol, scaler, models, metric="mse"):
+def avg_table(long, protocol, scaler, models, metric="mse", context_length=512):
     """dataset x model table of the metric averaged over the four canonical horizons."""
+    long = long[long["context_length"].fillna(512).astype(int) == context_length]
     d = long[(long["protocol"] == protocol) & (long["scaler"] == scaler)
              & long["horizon"].isin(DEFAULT_HORIZONS) & long["model"].isin(models)]
     cnt = d.groupby(["dataset", "model"])["horizon"].nunique()
@@ -128,7 +129,8 @@ def write(name, t, caption, nd=3, rank=True, note="", index_name="Dataset"):
     print(f"[tables] {name}: {t.shape[0]} rows x {t.shape[1]} models")
 
 
-def per_horizon(long, protocol, scaler, models):
+def per_horizon(long, protocol, scaler, models, context_length=512):
+    long = long[long["context_length"].fillna(512).astype(int) == context_length]
     d = long[(long["protocol"] == protocol) & (long["scaler"] == scaler) & long["model"].isin(models)]
     if d.empty:
         return None

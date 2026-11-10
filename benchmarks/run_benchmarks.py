@@ -141,13 +141,15 @@ def make_forecaster(model_id: str, args) -> object:
                 "Mean": naive.MeanForecaster}[model_id]()
     if g == "tsfm":
         from baselines.tsfm import TSFM_FACTORIES
-        return TSFM_FACTORIES[model_id]()
+        kw = {} if model_id in ("Chronos-T", "Chronos-Bolt-T", "Lag-Llama") else {"context_length": args.context_length}
+        return TSFM_FACTORIES[model_id](**kw)
     if g == "efficiency":
         from baselines.efficiency_only import EFFICIENCY_ONLY_FACTORIES
         return EFFICIENCY_ONLY_FACTORIES[model_id]()
     if g == "fullshot":
         from baselines.fullshot import FullShotForecaster
-        return FullShotForecaster(model_id, max_steps=args.fullshot_max_steps, max_epochs=args.fullshot_max_epochs)
+        return FullShotForecaster(model_id, context_length=args.context_length, max_steps=args.fullshot_max_steps,
+                                  max_epochs=args.fullshot_max_epochs)
     raise ValueError(model_id)
 
 
@@ -167,10 +169,11 @@ def load_cache(model_id: str) -> pd.DataFrame:
     return pd.read_csv(p) if os.path.exists(p) else pd.DataFrame()
 
 
-def _done(df: pd.DataFrame, dataset: str, protocol: str, scaler: str, horizons) -> bool:
+def _done(df: pd.DataFrame, dataset: str, protocol: str, scaler: str, horizons, context_length: int = 512) -> bool:
     if df.empty:
         return False
-    m = (df["dataset"] == dataset) & (df["protocol"] == protocol) & (df["scaler"] == scaler)
+    ctx = df["context_length"] if "context_length" in df else 512
+    m = (df["dataset"] == dataset) & (df["protocol"] == protocol) & (df["scaler"] == scaler) & (ctx == context_length)
     return set(int(h) for h in horizons) <= set(df.loc[m, "horizon"].astype(int))
 
 
@@ -179,7 +182,7 @@ def append_rows(model_id: str, rows: list[dict]):
     new = pd.DataFrame(rows)
     old = load_cache(model_id)
     if not old.empty:
-        key = ["dataset", "horizon", "protocol", "scaler"]
+        key = ["dataset", "horizon", "protocol", "scaler", "context_length"]
         merged = pd.concat([old, new], ignore_index=True)
         merged = merged.drop_duplicates(subset=key, keep="last")
     else:
@@ -219,7 +222,8 @@ def eval_one_model(model_id: str, args) -> list[dict]:
     datasets = args.datasets
     horizons = args.horizons
     cache = load_cache(model_id)
-    todo = [d for d in datasets if args.force or not _done(cache, d, args.protocol, args.scaler, horizons)]
+    todo = [d for d in datasets if args.force or not _done(cache, d, args.protocol, args.scaler, horizons,
+                                                            args.context_length)]
     if not todo:
         print(f"[{model_id}] all {len(datasets)} datasets cached for protocol={args.protocol} scaler={args.scaler}")
         return []
@@ -229,7 +233,7 @@ def eval_one_model(model_id: str, args) -> list[dict]:
     info_base = forecaster.info() if hasattr(forecaster, "info") else {}
     all_rows = []
     for ds in todo:
-        data = load_lsf(ds, context_length=512, scaler=args.scaler)
+        data = load_lsf(ds, context_length=args.context_length, scaler=args.scaler)
         t0 = time.time()
         rows = []
         if getattr(forecaster, "zero_shot", True):
@@ -278,10 +282,12 @@ def merge_all(include_smoke: bool = False) -> pd.DataFrame:
     long = long.sort_values(["protocol", "scaler", "dataset", "horizon", "model"])
     long.to_csv(LONG_CSV, index=False)
 
-    # wide table: one row per (protocol, scaler, dataset, horizon) + 'avg' rows
+    # wide table: canonical context length (512) only; paper-protocol validation runs at other lookbacks
+    # stay in the long CSV (context_length column) and feed the reproduction check
+    wide_src = long[long["context_length"].fillna(512).astype(int) == 512]
     rows = []
-    order = [m for m in ALL_MODEL_IDS if m in set(long["model"])]
-    for (prot, sc, ds), g in long.groupby(["protocol", "scaler", "dataset"], sort=False):
+    order = [m for m in ALL_MODEL_IDS if m in set(wide_src["model"])]
+    for (prot, sc, ds), g in wide_src.groupby(["protocol", "scaler", "dataset"], sort=False):
         horizons = sorted(g["horizon"].astype(int).unique())
         for h in horizons + ["avg"]:
             row = {"Protocol": prot, "Scaler": sc, "Dataset": ds, "Horizon": h}
@@ -321,8 +327,8 @@ def write_manifest(long: pd.DataFrame):
             ckpts[mid] = {"path": os.path.relpath(p, PROJECT_ROOT), "bytes": os.path.getsize(p),
                           "sha256": file_sha256(p)}
     coverage = {}
-    for (prot, sc), g in long.groupby(["protocol", "scaler"]):
-        coverage[f"{prot}/{sc}"] = {m: sorted(gm["dataset"].unique().tolist()) for m, gm in g.groupby("model")}
+    for (prot, sc, ctx), g in long.groupby(["protocol", "scaler", "context_length"]):
+        coverage[f"{prot}/{sc}/L{int(ctx)}"] = {m: sorted(gm["dataset"].unique().tolist()) for m, gm in g.groupby("model")}
     eff = os.path.join(RESULTS_DIR, "efficiency.csv")
     manifest = {
         "generated_at": _now(),
@@ -361,6 +367,8 @@ def main(argv=None):
     p.add_argument("--horizons", nargs="*", type=int, default=list(DEFAULT_HORIZONS))
     p.add_argument("--protocol", default="full", help="full | subN (e.g. sub16) | strideN")
     p.add_argument("--scaler", default="train", choices=["train", "full"])
+    p.add_argument("--context-length", type=int, default=512,
+                   help="lookback window (canonical 512; other values for paper-protocol validation runs)")
     p.add_argument("--batch-series", type=int, default=4096)
     p.add_argument("--max-batches", type=int, default=None, help="smoke test: limit batches per dataset")
     p.add_argument("--models-dir", default=MODELS_DIR)
