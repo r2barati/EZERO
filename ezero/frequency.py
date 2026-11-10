@@ -82,3 +82,12 @@ def season_length(freq: str | None) -> int:
 def pool_window_table() -> list[int]:
     """Pooling window indexed by bucket id (used on-device by DTP)."""
     return [BUCKETS[name][1] for name in BUCKET_NAMES]
+
+
+def scale_freq(freq: str | None, k: int) -> str:
+    """Frequency string of a series down-sampled by factor k (e.g. '5T' x 2 -> '10T', 'H' x 4 -> '4H')."""
+    m = _FREQ_RE.match(str(freq or ""))
+    if not m:
+        return freq or ""
+    mult = int(m.group(1)) if m.group(1) else 1
+    return f"{mult * k}{m.group(2)}"

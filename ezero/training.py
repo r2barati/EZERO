@@ -27,7 +27,15 @@ def _to_tensors(batch: dict, device):
     return ctx, tgt, freq, group
 
 
-def masked_loss(model: EZeroModel, ctx, tgt, freq, group):
+def horizon_weights(H: int, horizons=(96, 192, 336, 720), device=None):
+    """Weights so that each evaluation horizon contributes equally: w_t = mean_h 1[t < h] / h, scaled to
+    mean 1 over the first max(horizons) steps. With plain MSE the 720-step tail dominates the loss."""
+    t = torch.arange(H, device=device, dtype=torch.float32)
+    w = sum(((t < h).float() / h) for h in horizons) / len(horizons)
+    return w / w[: max(horizons)].mean()
+
+
+def masked_loss(model: EZeroModel, ctx, tgt, freq, group, weights=None):
     cfg = model.config
     obs = torch.isfinite(ctx)
     x, mu, sigma = model.normalize(torch.nan_to_num(ctx, nan=0.0), obs)
@@ -35,7 +43,9 @@ def masked_loss(model: EZeroModel, ctx, tgt, freq, group):
     y = ((torch.nan_to_num(tgt, nan=0.0) - mu) / sigma).clamp(-cfg.target_clip, cfg.target_clip)
     pred = model.forward_normalized(x, obs, freq, group)
     w = tmask.to(pred.dtype)
-    return ((pred - y) ** 2 * w).sum() / w.sum().clamp(min=1.0)
+    if weights is not None:
+        w = w * weights[: w.shape[1]].unsqueeze(0)
+    return ((pred - y) ** 2 * w).sum() / w.sum().clamp(min=1e-6)
 
 
 def lr_lambda(warmup: int, total: int, min_ratio: float = 0.01):
@@ -51,7 +61,8 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
              lr: float = 3e-4, weight_decay: float = 1e-3, warmup: int = 10000, grad_clip: float = 3.0,
              eval_every: int = 1000, val_batches: int = 32, patience: int = 10, device: str = "cpu",
              log_path: str | None = None, seed: int = 0, amp: bool = False, verbose: bool = True,
-             time_budget_s: float | None = None, max_skipped: int = 100, min_steps: int = 0) -> dict:
+             time_budget_s: float | None = None, max_skipped: int = 100, min_steps: int = 0,
+             horizon_weighting: str = "none") -> dict:
     torch.manual_seed(seed)
     np.random.seed(seed)
     model.to(device)
@@ -59,6 +70,7 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
     opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
     sched = torch.optim.lr_scheduler.LambdaLR(opt, lr_lambda(warmup, steps))
     use_amp = amp and str(device).startswith("cuda")
+    hw = horizon_weights(model.config.horizon, device=device) if horizon_weighting == "balanced" else None
     scaler = torch.amp.GradScaler("cuda", enabled=use_amp)
 
     # fixed validation batches (future targets of every panel)
@@ -73,7 +85,7 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
         tot, n = 0.0, 0
         with torch.no_grad():
             for b in val:
-                tot += float(masked_loss(model, *_to_tensors(b, device)))
+                tot += float(masked_loss(model, *_to_tensors(b, device)))   # validation: plain MSE
                 n += 1
         model.train()
         return tot / max(1, n)
@@ -100,7 +112,7 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
     for step in range(1, steps + 1):
         ctx, tgt, freq, group = _to_tensors(sampler.sample(batch_size), device)
         with torch.autocast("cuda", dtype=torch.float16, enabled=use_amp):
-            loss = masked_loss(model, ctx, tgt, freq, group)
+            loss = masked_loss(model, ctx, tgt, freq, group, hw)
         opt.zero_grad(set_to_none=True)
         scaler.scale(loss).backward()
         scaler.unscale_(opt)
@@ -147,4 +159,5 @@ def pretrain(model: EZeroModel, sampler: WindowSampler, steps: int = 50000, batc
     return dict(best_val_loss=best, best_step=best_step, last_step=step, stopped=stopped, skipped_steps=skipped,
                 train_seconds=round(time.time() - t0, 1), warmup=warmup, steps=steps, batch_size=batch_size,
                 lr=lr, weight_decay=weight_decay, grad_clip=grad_clip, patience=patience, min_steps=min_steps,
+                horizon_weighting=horizon_weighting,
                 val_batches=val_batches)

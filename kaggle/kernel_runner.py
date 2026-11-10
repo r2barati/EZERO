@@ -72,6 +72,21 @@ for _ds, _seeds in (("ETTh1", (0, 1, 2)), ("ETTm1", (0,))):
             "--model iTransformer,TimesNet,TimeMixer,FEDformer,Autoformer",
         ]
 FULLVAL.append(f"{_RB} --context-length 336 --model DLinear --fullshot-max-steps 1000000000 --fullshot-max-epochs 10")
+# tweaks: E-ZERO v3 candidates (configs/ezero_v3{a,b,c}.yaml on the extended corpus), scored on the
+# zero-shot development benchmark, automatic pre-registered selection (benchmarks/select_v3.py), then a
+# single evaluation of the selected model (and of the v2 checkpoint with flip averaging) on the LSF data.
+TWEAKS = [
+    f"{PY} benchmarks/pretrain.py --variant base --config configs/{c}.yaml "
+    f"--corpus configs/pretrain_corpus_extended.yaml --name {c} --time-budget-min 120"
+    for c in ("ezero_v3a", "ezero_v3b", "ezero_v3c")
+] + [
+    f"{PY} benchmarks/dev_eval.py --checkpoint data/models/ezero_base.pt data/models/ezero_v3a_base.pt "
+    "data/models/ezero_v3b_base.pt data/models/ezero_v3c_base.pt --tta none flip --label v3-candidates --baselines",
+    f"{PY} benchmarks/select_v3.py --label v3-candidates",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-v3,E-ZERO-flip --protocol full --no-merge",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-v3,E-ZERO-flip --protocol sub16 --no-merge",
+    f"{PY} benchmarks/run_efficiency.py --model E-ZERO-v3,E-ZERO-flip",
+]
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 1e-4 --out results/training_logs/nan_probe_eps1e-4.json",
@@ -161,7 +176,7 @@ def setup():
 
 def collect():
     """Copy artifacts to /kaggle/working/outputs/<repo path>."""
-    for rel in ("results/cache", "results/training_logs", "data/models"):
+    for rel in ("results/cache", "results/training_logs", "results/dev", "data/models"):
         src = os.path.join(SRC, rel)
         if not os.path.isdir(src):
             continue
@@ -270,7 +285,7 @@ def main():
         status = run_tsfm(env)
     else:
         cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "fullshot2": FULLSHOT2,
-                "fullshot3": FULLSHOT3, "fullval": FULLVAL, "smoke": SMOKE}[STAGE]
+                "fullshot3": FULLSHOT3, "fullval": FULLVAL, "tweaks": TWEAKS, "smoke": SMOKE}[STAGE]
         for c in cmds:
             status[c] = sh(c, cwd=SRC, env=env, log_name=f"{STAGE}.log")
             collect()

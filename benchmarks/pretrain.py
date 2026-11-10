@@ -45,6 +45,7 @@ def main(argv=None):
     p.add_argument("--corpus", default=os.path.join(PROJECT_ROOT, "configs", "pretrain_corpus.yaml"))
     p.add_argument("--lotsa-root", default=os.environ.get("EZERO_LOTSA_DIR", os.path.join(PROJECT_ROOT, "data", "lotsa")))
     p.add_argument("--out-dir", default=MODELS_DIR)
+    p.add_argument("--name", default="ezero", help="checkpoint prefix: <name>_<variant>.pt (e.g. ezero_v3a)")
     p.add_argument("--log-dir", default=LOG_DIR, help="training curves / summaries (default results/training_logs)")
     p.add_argument("--steps", type=int, default=None)
     p.add_argument("--batch-size", type=int, default=None)
@@ -90,7 +91,7 @@ def main(argv=None):
     for var in variants:
         if var not in ABLATION_VARIANTS:
             raise SystemExit(f"unknown variant {var}")
-        out = os.path.join(args.out_dir, f"ezero_{var}.pt")
+        out = os.path.join(args.out_dir, f"{args.name}_{var}.pt")
         if args.skip_existing and os.path.exists(out):
             print(f"[pretrain] {var}: {out} exists, skipping")
             continue
@@ -98,24 +99,30 @@ def main(argv=None):
         torch.manual_seed(seed)  # identical initialisation for every run of a variant
         model = EZeroModel(mcfg)
         sampler = WindowSampler(panels, mcfg.context_length, mcfg.horizon, sp["min_context"], 1,
-                                sp["max_group_channels"], sp["alpha"], sp["val_fraction"], seed)
+                                sp["max_group_channels"], sp["alpha"], sp["val_fraction"], seed,
+                                flip_prob=float(sp.get("flip_prob", 0.0)),
+                                downsample_prob=float(sp.get("downsample_prob", 0.0)),
+                                downsample_factors=tuple(sp.get("downsample_factors", (2, 4))))
         print(f"[pretrain] variant={var} params={model.num_parameters() / 1e6:.3f}M device={device} steps={steps}")
         print(f"[pretrain] dataset mix: {sampler.describe()}")
         summary = pretrain(model, sampler, steps=steps, batch_size=bs, lr=float(tr["learning_rate"]),
                            weight_decay=float(tr["weight_decay"]), warmup=int(tr["warmup_steps"]),
                            grad_clip=float(tr["gradient_clipping"]), eval_every=args.eval_every or tr["eval_every"],
                            val_batches=tr["val_batches"], patience=tr["early_stopping_patience"],
-                           min_steps=int(tr.get("early_stopping_min_steps", 0)), device=device,
-                           log_path=os.path.join(args.log_dir, f"ezero_{var}.csv"), seed=seed, amp=args.amp,
+                           min_steps=int(tr.get("early_stopping_min_steps", 0)),
+                           horizon_weighting=tr.get("horizon_weighting", "none"), device=device,
+                           log_path=os.path.join(args.log_dir, f"{args.name}_{var}.csv"), seed=seed, amp=args.amp,
                            time_budget_s=None if args.time_budget_min is None else 60 * args.time_budget_min)
-        summary.update(variant=var, params=model.num_parameters(), device=device, corpus=corpus_desc,
+        summary.update(variant=var, name=args.name, config=os.path.relpath(args.config, PROJECT_ROOT),
+                       corpus_file=os.path.relpath(args.corpus, PROJECT_ROOT) if not args.synthetic else None,
+                       sampler=sp, params=model.num_parameters(), device=device, corpus=corpus_desc,
                        corpus_load_seconds=round(load_s, 1), dataset_mix=sampler.describe(),
                        n_panels=len(panels), n_channels=sum(p_.channels for p_ in panels),
                        synthetic=args.synthetic)
         sha = save_checkpoint(model.cpu(), out, extra={"training": summary})
         summary["checkpoint_sha256"] = sha
         os.makedirs(args.log_dir, exist_ok=True)
-        with open(os.path.join(args.log_dir, f"ezero_{var}.json"), "w") as f:
+        with open(os.path.join(args.log_dir, f"{args.name}_{var}.json"), "w") as f:
             json.dump(summary, f, indent=2)
         print(f"[pretrain] saved {out} best_val={summary['best_val_loss']:.4f} @ {summary['best_step']} "
               f"({summary['train_seconds']}s, stopped={summary['stopped']})", flush=True)

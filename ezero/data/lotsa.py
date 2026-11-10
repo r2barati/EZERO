@@ -147,6 +147,10 @@ def load_corpus(subsets: list[dict], root: str, download: bool = True, verbose: 
     """Load all sub-datasets listed in the corpus config (see ``configs/pretrain_corpus.yaml``)."""
     if not allow_eval_overlap:
         check_no_eval_overlap([s["name"] for s in subsets])
+        from ezero.devsuite import DEV_SUBSETS
+        dev = sorted(set(DEV_SUBSETS) & {s["name"] for s in subsets})
+        if dev:
+            raise ValueError(f"pre-training corpus contains development-benchmark subsets: {dev}")
     panels: list[Panel] = []
     for spec in subsets:
         name = spec["name"]

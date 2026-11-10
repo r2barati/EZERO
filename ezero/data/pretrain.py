@@ -17,12 +17,20 @@ from collections import defaultdict
 import numpy as np
 
 from ezero.data.lotsa import Panel
+from ezero.frequency import bucket_id, scale_freq
 
 
 class WindowSampler:
     def __init__(self, panels: list[Panel], context_length: int = 512, horizon: int = 720,
                  min_context: int = 32, min_target: int = 1, max_group_channels: int = 8,
-                 alpha: float = 0.5, val_fraction: float = 0.1, seed: int = 0):
+                 alpha: float = 0.5, val_fraction: float = 0.1, seed: int = 0, flip_prob: float = 0.0,
+                 downsample_prob: float = 0.0, downsample_factors=(2, 4)):
+        """flip_prob: probability of multiplying a training group by -1 (sign-symmetry augmentation).
+        downsample_prob: probability of average-pooling a training group by a factor from
+        downsample_factors, which creates a lower-resolution copy (diverse-resolution augmentation)."""
+        self.flip_prob = flip_prob
+        self.downsample_prob = downsample_prob
+        self.downsample_factors = tuple(downsample_factors)
         if not panels:
             raise ValueError("no panels to sample from")
         self.panels = panels
@@ -71,9 +79,23 @@ class WindowSampler:
             limit = self.split[i] if split == "train" else p.length
             k = min(self.G, p.channels, batch_size - n)
             ch = self.rng.choice(p.channels, size=k, replace=False)
-            c0 = max(0, t - self.L)
+            f = 1
+            if split == "train" and self.downsample_prob > 0 and self.rng.random() < self.downsample_prob:
+                f = int(self.rng.choice(self.downsample_factors))
+            c0 = max(0, t - self.L * f)
             ctx = p.values[ch, c0:t]
-            tgt = p.values[ch, t:min(t + self.H, limit)]
+            tgt = p.values[ch, t:min(t + self.H * f, limit)]
+            if f > 1:   # average-pool by f (aligned to the cut point t)
+                cl = (ctx.shape[1] // f) * f
+                ctx = ctx[:, ctx.shape[1] - cl:]
+                tl = (tgt.shape[1] // f) * f
+                if cl == 0 or tl == 0:
+                    continue
+                with np.errstate(all="ignore"):
+                    ctx = np.nanmean(ctx.reshape(ctx.shape[0], -1, f), axis=2)
+                    tgt = np.nanmean(tgt[:, :tl].reshape(tgt.shape[0], -1, f), axis=2)
+            if split == "train" and self.flip_prob > 0 and self.rng.random() < self.flip_prob:
+                ctx, tgt = -ctx, -tgt
             with np.errstate(all="ignore"):
                 spread = np.nanmax(ctx, axis=1) - np.nanmin(ctx, axis=1) if ctx.shape[1] else np.zeros(len(ch))
             # drop channels with too few observations or a constant (zero-variance) context
@@ -89,7 +111,7 @@ class WindowSampler:
             y[:, :tgt.shape[1]] = tgt
             ctxs.append(c)
             tgts.append(y)
-            freqs.append(np.full(m, p.bucket, np.int64))
+            freqs.append(np.full(m, p.bucket if f == 1 else bucket_id(scale_freq(p.freq, f)), np.int64))
             groups.append(np.full(m, g, np.int64))
             n += m
             g += 1

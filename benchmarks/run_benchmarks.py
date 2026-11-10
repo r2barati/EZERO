@@ -65,6 +65,13 @@ MODEL_REGISTRY: dict[str, dict] = {}
 for _mid, _var in EZERO_VARIANTS.items():
     MODEL_REGISTRY[_mid] = dict(group="ezero" if _var == "base" else "ezero-ablation", variant=_var,
                                 description=f"E-ZERO pre-trained on LOTSA ({_var})")
+# Tweaks chosen on the zero-shot development benchmark (ezero/devsuite.py), never on the evaluation data:
+# E-ZERO-flip = thesis-config checkpoint + sign-flip test-time averaging (dev score 0.80 vs 1.25);
+# E-ZERO-v3 = the candidate picked by benchmarks/select_v3.py (results/dev/selection.json).
+MODEL_REGISTRY["E-ZERO-flip"] = dict(group="ezero", variant="base", tta="flip",
+                                     description="E-ZERO + sign-flip test-time averaging (chosen on dev benchmark)")
+MODEL_REGISTRY["E-ZERO-v3"] = dict(group="ezero", checkpoint="ezero_v3.pt", tta="selection",
+                                   description="E-ZERO v3: candidate selected on the dev benchmark")
 MODEL_REGISTRY.update({
     "Naive": dict(group="naive", description="last value"),
     "SeasonalNaive": dict(group="naive", description="repeat last season"),
@@ -107,7 +114,21 @@ GROUPS = sorted({v["group"] for v in MODEL_REGISTRY.values()})
 
 
 def checkpoint_path(model_id: str, models_dir: str = MODELS_DIR) -> str:
-    return os.path.join(models_dir, f"ezero_{MODEL_REGISTRY[model_id]['variant']}.pt")
+    meta = MODEL_REGISTRY[model_id]
+    if "checkpoint" in meta:
+        return os.path.join(models_dir, meta["checkpoint"])
+    return os.path.join(models_dir, f"ezero_{meta['variant']}.pt")
+
+
+def model_tta(model_id: str) -> str:
+    tta = MODEL_REGISTRY[model_id].get("tta", "none")
+    if tta == "selection":
+        sel = os.path.join(RESULTS_DIR, "dev", "selection.json")
+        if not os.path.exists(sel):
+            raise FileNotFoundError(f"{sel} missing - run benchmarks/select_v3.py")
+        with open(sel) as f:
+            tta = json.load(f)["tta"]
+    return tta
 
 
 def resolve_models(spec: str) -> list[str]:
@@ -133,8 +154,8 @@ def make_forecaster(model_id: str, args) -> object:
         from baselines.ezero_forecaster import EZeroForecaster
         ckpt = checkpoint_path(model_id, args.models_dir)
         if not os.path.exists(ckpt):
-            raise FileNotFoundError(f"{ckpt} missing - run benchmarks/pretrain.py --variant {meta['variant']}")
-        return EZeroForecaster(ckpt, name=model_id, batch_series=args.batch_series)
+            raise FileNotFoundError(f"{ckpt} missing - run benchmarks/pretrain.py (or select_v3.py for E-ZERO-v3)")
+        return EZeroForecaster(ckpt, name=model_id, batch_series=args.batch_series, tta=model_tta(model_id))
     if g == "naive":
         from baselines import naive
         return {"Naive": naive.NaiveForecaster, "SeasonalNaive": naive.SeasonalNaiveForecaster,

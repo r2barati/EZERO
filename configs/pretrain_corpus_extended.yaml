@@ -1,0 +1,51 @@
+# Extended LOTSA pre-training corpus (E-ZERO v3 candidates). Chosen to add the low-frequency data the
+# development benchmark showed E-ZERO lacks (daily / weekly / monthly / quarterly / yearly), plus more
+# sub-daily sensor and demand series. Excluded: every subset sharing a source with the evaluation data
+# (ezero.data.lotsa.EVAL_OVERLAP_BLOCKLIST) and every subset of the development benchmark
+# (ezero/devsuite.py); ezero.data.lotsa.load_corpus checks both.
+repo: Salesforce/lotsa_data
+subsets:
+  # original corpus (configs/pretrain_corpus.yaml)
+  - {name: BEIJING_SUBWAY_30MIN}
+  - {name: PEMS04}
+  - {name: LOS_LOOP}
+  - {name: M_DENSE}
+  - {name: australian_electricity_demand, max_length: 100000}
+  - {name: bitcoin_with_missing}
+  - {name: cdc_fluview_ilinet}
+  - {name: beijing_air_quality}
+  - {name: alibaba_cluster_trace_2018, max_shards: 1, max_series: 4000}
+  - {name: uber_tlc_daily}
+  # low-frequency additions
+  - {name: m4_daily, max_series: 2000}
+  - {name: m4_weekly}
+  - {name: m4_monthly, max_series: 5000, min_length: 48}
+  - {name: m4_quarterly, max_series: 3000, min_length: 32}
+  - {name: m4_yearly, max_series: 2000, min_length: 24}
+  - {name: nn5_daily_with_missing}
+  - {name: nn5_weekly, min_length: 48}
+  - {name: tourism_monthly, min_length: 48}
+  - {name: tourism_quarterly, min_length: 24}
+  - {name: hospital, min_length: 48}
+  - {name: fred_md}
+  - {name: car_parts_with_missing, min_length: 40}
+  - {name: monash_m3_monthly, min_length: 48}
+  - {name: favorita_transactions}
+  - {name: kaggle_web_traffic_weekly, max_series: 2000, min_length: 48}
+  - {name: wiki-rolling_nips, max_series: 2000}
+  - {name: temperature_rain_with_missing, max_series: 1000}
+  # sub-daily additions
+  - {name: m4_hourly}
+  - {name: uber_tlc_hourly}
+  - {name: rideshare_with_missing}
+  - {name: taxi_30min, max_series: 300}
+  - {name: LOOP_SEATTLE, max_series: 100, max_length: 30000}
+  - {name: PEMS_BAY, max_series: 100, max_length: 30000}
+  - {name: PEMS08}
+  - {name: SZ_TAXI}
+  - {name: HZMETRO}
+  - {name: SHMETRO}
+  - {name: oikolab_weather, max_length: 50000}
+  - {name: bdg-2_fox}
+  - {name: china_air_quality, max_series: 200}
+  - {name: kdd2022, max_series: 60, max_length: 30000}
