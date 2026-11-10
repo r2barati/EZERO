@@ -97,3 +97,16 @@ def test_checkpoint_roundtrip(tmp_path):
 def test_both_backbones_disabled_is_rejected():
     with pytest.raises(ValueError):
         EZeroModel(small(use_nbeats=False, use_tcn=False))
+
+
+def test_mixer_gradients_finite_for_identical_channels():
+    """Regression: sqrt(var) at zero group variance produced NaN gradients on GPU."""
+    m = EZeroModel(small()).train()
+    with torch.no_grad():
+        for p in m.mixer.head.parameters():
+            p.normal_(0, 0.5)
+    x = torch.randn(1, 64).repeat(4, 1)            # four identical channels in one group
+    y = m(x, 6, group=torch.zeros(4, dtype=torch.long))
+    y.pow(2).mean().backward()
+    for n, p in m.named_parameters():
+        assert p.grad is None or torch.isfinite(p.grad).all(), n

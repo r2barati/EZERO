@@ -70,7 +70,7 @@ class ResolutionEmbedding(nn.Module):
         return self.emb(freq_bucket.clamp(0, self.emb.num_embeddings - 1))
 
 
-def group_stats(x: torch.Tensor, group: torch.Tensor):
+def group_stats(x: torch.Tensor, group: torch.Tensor, eps: float = 1e-4):
     """Mean / std of rows of ``x`` (N, H) within each group id (N,), broadcast back to rows."""
     n_groups = int(group.max().item()) + 1 if group.numel() else 0
     ones = torch.ones(x.shape[0], 1, device=x.device, dtype=x.dtype)
@@ -79,7 +79,8 @@ def group_stats(x: torch.Tensor, group: torch.Tensor):
     s2 = torch.zeros(n_groups, x.shape[1], device=x.device, dtype=x.dtype).index_add_(0, group, x * x)
     mean = s1 / cnt
     var = (s2 / cnt - mean * mean).clamp(min=0.0)
-    return mean[group], var.sqrt()[group], cnt[group]
+    # eps keeps d(std)/d(var) bounded when all channels of a group forecast (nearly) the same values
+    return mean[group], (var + eps).sqrt()[group], cnt[group]
 
 
 class ExogenousMixer(nn.Module):

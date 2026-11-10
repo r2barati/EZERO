@@ -95,6 +95,7 @@ def main(argv=None):
             print(f"[pretrain] {var}: {out} exists, skipping")
             continue
         mcfg = EZeroConfig.from_dict({**base_model_cfg.to_dict(), **ABLATION_VARIANTS[var]})
+        torch.manual_seed(seed)  # identical initialisation for every run of a variant
         model = EZeroModel(mcfg)
         sampler = WindowSampler(panels, mcfg.context_length, mcfg.horizon, sp["min_context"], 1,
                                 sp["max_group_channels"], sp["alpha"], sp["val_fraction"], seed)

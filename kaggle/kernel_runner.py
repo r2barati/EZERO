@@ -49,11 +49,11 @@ FULLSHOT = [
     f"{PY} benchmarks/run_efficiency.py --model DLinear,iTransformer,PatchTST --skip-unavailable",
 ]
 SMOKE = [
-    f"{PY} benchmarks/pretrain.py --variant base --steps 300 --eval-every 100",
-    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO,group:naive --protocol full --max-batches 2 --no-merge",
-    f"{PY} benchmarks/run_benchmarks.py --model DLinear,iTransformer,PatchTST --protocol sub16 --datasets ETTh1 "
-    "Traffic --fullshot-max-steps 20 --fullshot-max-epochs 1 --no-merge --skip-unavailable",
-    f"{PY} benchmarks/run_efficiency.py --model E-ZERO,Naive",
+    f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
+    f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 1e-4 --out results/training_logs/nan_probe_eps1e-4.json",
+    f"{PY} benchmarks/pretrain.py --variant base --steps 1500 --eval-every 250",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO,SeasonalNaive --protocol sub16 --no-merge",
+    f"{PY} benchmarks/run_efficiency.py --model E-ZERO --no-cpu",
 ]
 # package spec, model ids (one virtualenv per package; --system-site-packages reuses Kaggle's torch)
 TSFM = [
