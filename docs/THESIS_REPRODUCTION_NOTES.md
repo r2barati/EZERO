@@ -130,7 +130,7 @@ Never adjust the model, data or evaluation to move the test numbers toward the t
 includes choosing settings by test score, reporting the leaky normalisation as the main result,
 dropping datasets or horizons, under-training baselines, or mixing copied and re-run numbers.
 
-## 8. Reproduction check against the numbers each model's paper reports
+## 7. Reproduction check against the numbers each model's paper reports
 
 **Sources.** `results/reported/*.csv` holds the long-sequence results reported by each baseline's
 own paper, or by the closest related paper where the model's own paper has none. Every value was
@@ -167,7 +167,7 @@ same model, dataset, horizon, lookback and test protocol, and writes
   - TTM's per-horizon checkpoints are not used: the public R1 checkpoint is rolled forward instead.
   - These are recorded as residual protocol differences rather than tuned away.
 
-## 7. Making the contribution claim
+## 8. Making the contribution claim
 
 The claim should be stated from the re-run numbers, whichever way they fall. The thesis'
 central argument is efficiency (an attention-free model at about 1M parameters, with
