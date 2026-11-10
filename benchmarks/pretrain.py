@@ -45,6 +45,7 @@ def main(argv=None):
     p.add_argument("--corpus", default=os.path.join(PROJECT_ROOT, "configs", "pretrain_corpus.yaml"))
     p.add_argument("--lotsa-root", default=os.environ.get("EZERO_LOTSA_DIR", os.path.join(PROJECT_ROOT, "data", "lotsa")))
     p.add_argument("--out-dir", default=MODELS_DIR)
+    p.add_argument("--log-dir", default=LOG_DIR, help="training curves / summaries (default results/training_logs)")
     p.add_argument("--steps", type=int, default=None)
     p.add_argument("--batch-size", type=int, default=None)
     p.add_argument("--eval-every", type=int, default=None)
@@ -103,7 +104,7 @@ def main(argv=None):
                            weight_decay=float(tr["weight_decay"]), warmup=int(tr["warmup_steps"]),
                            grad_clip=float(tr["gradient_clipping"]), eval_every=args.eval_every or tr["eval_every"],
                            val_batches=tr["val_batches"], patience=tr["early_stopping_patience"], device=device,
-                           log_path=os.path.join(LOG_DIR, f"ezero_{var}.csv"), seed=seed, amp=args.amp,
+                           log_path=os.path.join(args.log_dir, f"ezero_{var}.csv"), seed=seed, amp=args.amp,
                            time_budget_s=None if args.time_budget_min is None else 60 * args.time_budget_min)
         summary.update(variant=var, params=model.num_parameters(), device=device, corpus=corpus_desc,
                        corpus_load_seconds=round(load_s, 1), dataset_mix=sampler.describe(),
@@ -111,8 +112,8 @@ def main(argv=None):
                        synthetic=args.synthetic)
         sha = save_checkpoint(model.cpu(), out, extra={"training": summary})
         summary["checkpoint_sha256"] = sha
-        os.makedirs(LOG_DIR, exist_ok=True)
-        with open(os.path.join(LOG_DIR, f"ezero_{var}.json"), "w") as f:
+        os.makedirs(args.log_dir, exist_ok=True)
+        with open(os.path.join(args.log_dir, f"ezero_{var}.json"), "w") as f:
             json.dump(summary, f, indent=2)
         print(f"[pretrain] saved {out} best_val={summary['best_val_loss']:.4f} @ {summary['best_step']} "
               f"({summary['train_seconds']}s, stopped={summary['stopped']})", flush=True)
