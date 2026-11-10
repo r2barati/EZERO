@@ -46,3 +46,17 @@ def test_sampler_targets_never_cross_split():
         assert cut <= int(p.length * 0.8) + 1
     vb = s.sample(16, "val")
     assert np.isfinite(vb["target"]).any()
+
+
+def test_corpus_has_no_eval_overlap():
+    import os
+
+    import pytest
+    import yaml
+
+    from ezero.data.lotsa import check_no_eval_overlap
+    root = os.path.join(os.path.dirname(__file__), "..", "configs", "pretrain_corpus.yaml")
+    names = [s["name"] for s in yaml.safe_load(open(root))["subsets"]]
+    check_no_eval_overlap(names)
+    with pytest.raises(ValueError):
+        check_no_eval_overlap(names + ["traffic_hourly"])

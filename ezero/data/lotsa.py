@@ -24,6 +24,17 @@ from ezero.frequency import bucket_id
 
 LOTSA_REPO = "Salesforce/lotsa_data"
 
+# LOTSA subsets that share a source with the zero-shot evaluation datasets. Pre-training on
+# them would leak test information (e.g. Monash ``traffic_hourly`` is the PeMS-SF data behind
+# the LSF Traffic benchmark), so ``load_corpus`` refuses them unless explicitly allowed.
+EVAL_OVERLAP_BLOCKLIST = {
+    "traffic_hourly": "Traffic (PeMS-SF occupancy)",
+    "traffic_weekly": "Traffic (PeMS-SF occupancy)",
+    "electricity_hourly": "Electricity (UCI ElectricityLoadDiagrams)",
+    "electricity_weekly": "Electricity (UCI ElectricityLoadDiagrams)",
+    "ett_h1": "ETTh1", "ett_h2": "ETTh2", "ett_m1": "ETTm1", "ett_m2": "ETTm2",
+}
+
 
 @dataclass
 class Panel:
@@ -115,8 +126,17 @@ def load_panels(name: str, path: str, max_series: int | None = None, min_length:
     return panels
 
 
-def load_corpus(subsets: list[dict], root: str, download: bool = True, verbose: bool = True) -> list[Panel]:
+def check_no_eval_overlap(names) -> None:
+    bad = {n: EVAL_OVERLAP_BLOCKLIST[n.lower()] for n in names if n.lower() in EVAL_OVERLAP_BLOCKLIST}
+    if bad:
+        raise ValueError(f"pre-training corpus overlaps the evaluation data: {bad}")
+
+
+def load_corpus(subsets: list[dict], root: str, download: bool = True, verbose: bool = True,
+                allow_eval_overlap: bool = False) -> list[Panel]:
     """Load all sub-datasets listed in the corpus config (see ``configs/pretrain_corpus.yaml``)."""
+    if not allow_eval_overlap:
+        check_no_eval_overlap([s["name"] for s in subsets])
     panels: list[Panel] = []
     for spec in subsets:
         name = spec["name"]
