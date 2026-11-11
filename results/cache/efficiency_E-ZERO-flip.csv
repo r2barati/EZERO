@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,cpu_time_s,device
+E-ZERO-flip,32,512,96,0.740134,19.558,0.0319,0.1117,Tesla T4

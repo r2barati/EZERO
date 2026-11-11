@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-11T08:26:32Z",
-  "git_commit": "b37375dcbecb176f50efe80e2db7dece7d6e7bdf",
+  "generated_at": "2026-11-11T10:33:58Z",
+  "git_commit": "f2dd0b1eb49ed1e6ccb404c7f49881ecbef83dba",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -175,6 +175,15 @@
         "Traffic",
         "Weather"
       ],
+      "E-ZERO-flip": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "E-ZERO-noCRRB": [
         "ETTh1",
         "ETTh2",
@@ -230,6 +239,24 @@
         "Weather"
       ],
       "E-ZERO-noTCN": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-skip": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-v3": [
         "ETTh1",
         "ETTh2",
         "ETTm1",
@@ -312,6 +339,15 @@
         "Traffic",
         "Weather"
       ],
+      "E-ZERO-flip": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "E-ZERO-noCRRB": [
         "ETTh1",
         "ETTh2",
@@ -367,6 +403,24 @@
         "Weather"
       ],
       "E-ZERO-noTCN": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-skip": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-v3": [
         "ETTh1",
         "ETTh2",
         "ETTm1",

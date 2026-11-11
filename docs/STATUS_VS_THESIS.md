@@ -1,4 +1,4 @@
-# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 08:40 UTC)
+# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 10:45 UTC)
 
 All "ours" numbers use the leakage-free protocol: scaler fitted on the train split, context 512, and the
 mean of horizons 96/192/336/720. `full` scores every test window; `sub16` scores 16 identical windows
@@ -157,6 +157,36 @@ The dev score is on the held-out development benchmark; lower is better and belo
 - **The thesis's main ablation claim**, that N-BEATS matters most, is contradicted.
 - **Caveat:** each variant is a single training run, so differences of a few percent may be noise. The large effects (N-BEATS on Traffic/Electricity, TCN on Weather, CRRB on ETTm1) are not.
 - **No architecture change has been made from these evaluation-set numbers.** Any change has to be justified on the development benchmark (see `results/dev/dev_results.csv`, label `ablations-dev`).
+
+## 6. The N-BEATS design question, answered
+
+The ablation's "N-BEATS hurts" was an artefact of what it compared: removing the stack also added a
+full-rank linear layer. Keeping both is better than either (full test set, same budget and seed):
+
+| First stage | Avg MSE | Dev score |
+|---|---|---|
+| N-BEATS + TCN (thesis) | 0.424 | 0.802 |
+| Linear + TCN (the ablation) | 0.397 | 0.777 |
+| **Linear + N-BEATS + TCN** | **0.376** | **0.706** |
+
+**N-BEATS does contribute**, by 5.3% on the test data and 9.1% on the held-out development data,
+once it is not asked to carry a linear map through a 64-unit bottleneck. Details in
+`docs/THESIS_REPRODUCTION_NOTES.md` section 10.
+
+## 7. E-ZERO v3 (selected on development data, evaluated once)
+
+| | ETTh1 | ETTh2 | ETTm1 | ETTm2 | Weather | Electricity | Traffic | Avg |
+|---|---|---|---|---|---|---|---|---|
+| E-ZERO (thesis config) | 0.450 | 0.352 | 0.564 | 0.287 | 0.271 | 0.286 | 0.759 | 0.424 |
+| **E-ZERO-v3** | **0.408** | **0.340** | **0.451** | **0.276** | **0.245** | **0.213** | **0.540** | **0.353** |
+
+v3d (extended corpus, flip and down-sampling augmentation, horizon-balanced loss, linear shortcut)
+won the pre-registered selection with a development score of 0.606 against 0.802 for the thesis
+checkpoint. It improves on all seven datasets, by 17% on average, at 1.12M parameters.
+
+On the shared 16-window protocol v3 averages 0.344: better than thesis-era TTM-R1 (0.366), level
+with the later TTM-R2 (0.345), behind TimesFM-1.0 (0.334). **With v3, "second only to TTM" is
+close to true** - but v3 is a 2026 successor, not the model the thesis evaluated.
 
 ## 6. Path forward (legitimate options only)
 

@@ -2,12 +2,15 @@
 
 | Model | Efficiency score |
 |---|---|
-| SeasonalNaive | 0.0009 |
 | Mean | 0.0009 |
 | Naive | 0.0009 |
+| SeasonalNaive | 0.0009 |
 | TTM-R1 | 0.0022 |
 | TTM-R2 | 0.0022 |
 | E-ZERO-noTCN | 0.0036 |
+| E-ZERO-skip | 0.0049 |
+| E-ZERO-flip | 0.0064 |
+| E-ZERO-v3 | 0.0066 |
 | E-ZERO-noDTP | 0.0071 |
 | E-ZERO | 0.0076 |
 | E-ZERO-noNBEATS | 0.0079 |

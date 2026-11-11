@@ -3,18 +3,18 @@
 \caption{First-stage design study: MSE on the full test set (same corpus, budget and seed for every column)}
 \label{tab:table5b_nbeats_design}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-Dataset & N-BEATS + TCN (thesis) & Linear + TCN & N-BEATS only \\
+Dataset & N-BEATS + TCN (thesis) & Linear + TCN & Linear + N-BEATS + TCN & N-BEATS only \\
 \midrule
-ETTh1 & \underline{0.450} & \textbf{0.429} & 0.456 \\
-ETTh2 & \underline{0.352} & \textbf{0.348} & 0.356 \\
-ETTm1 & \textbf{0.564} & 0.578 & \underline{0.573} \\
-ETTm2 & \underline{0.287} & 0.303 & \textbf{0.284} \\
-Weather & \textbf{0.271} & \underline{0.301} & 0.311 \\
-Electricity & \underline{0.286} & \textbf{0.246} & 0.296 \\
-Traffic & \underline{0.759} & \textbf{0.572} & 0.783 \\
-Average & \underline{0.424} & \textbf{0.397} & 0.437 \\
+ETTh1 & 0.450 & \underline{0.429} & \textbf{0.423} & 0.456 \\
+ETTh2 & 0.352 & \underline{0.348} & \textbf{0.347} & 0.356 \\
+ETTm1 & \underline{0.564} & 0.578 & \textbf{0.516} & 0.573 \\
+ETTm2 & 0.287 & 0.303 & \textbf{0.280} & \underline{0.284} \\
+Weather & \underline{0.271} & 0.301 & \textbf{0.270} & 0.311 \\
+Electricity & 0.286 & \textbf{0.246} & \underline{0.252} & 0.296 \\
+Traffic & 0.759 & \underline{0.572} & \textbf{0.541} & 0.783 \\
+Average & 0.424 & \underline{0.397} & \textbf{0.376} & 0.437 \\
 \bottomrule
 \end{tabular}}
 \end{table}

@@ -1,12 +1,12 @@
 **First-stage design study: MSE on the full test set (same corpus, budget and seed for every column)**
 
-| Dataset | N-BEATS + TCN (thesis) | Linear + TCN | N-BEATS only |
-|---|---|---|---|
-| ETTh1 | _0.450_ | **0.429** | 0.456 |
-| ETTh2 | _0.352_ | **0.348** | 0.356 |
-| ETTm1 | **0.564** | 0.578 | _0.573_ |
-| ETTm2 | _0.287_ | 0.303 | **0.284** |
-| Weather | **0.271** | _0.301_ | 0.311 |
-| Electricity | _0.286_ | **0.246** | 0.296 |
-| Traffic | _0.759_ | **0.572** | 0.783 |
-| Average | _0.424_ | **0.397** | 0.437 |
+| Dataset | N-BEATS + TCN (thesis) | Linear + TCN | Linear + N-BEATS + TCN | N-BEATS only |
+|---|---|---|---|---|
+| ETTh1 | 0.450 | _0.429_ | **0.423** | 0.456 |
+| ETTh2 | 0.352 | _0.348_ | **0.347** | 0.356 |
+| ETTm1 | _0.564_ | 0.578 | **0.516** | 0.573 |
+| ETTm2 | 0.287 | 0.303 | **0.280** | _0.284_ |
+| Weather | _0.271_ | 0.301 | **0.270** | 0.311 |
+| Electricity | 0.286 | **0.246** | _0.252_ | 0.296 |
+| Traffic | 0.759 | _0.572_ | **0.541** | 0.783 |
+| Average | 0.424 | _0.397_ | **0.376** | 0.437 |

@@ -1,0 +1,24 @@
+{
+  "rule": "lowest development score; ties (<0.5%) -> base checkpoint, then tta=none",
+  "label": "v3-candidates",
+  "chosen": "ezero_v3d_base.pt|tta=flip",
+  "checkpoint": "ezero_v3d_base.pt",
+  "tta": "flip",
+  "score": 0.6064694787407459,
+  "all_scores": {
+    "ezero_v3d_base.pt|tta=flip": 0.6064694787407459,
+    "ezero_v3d_base.pt|tta=none": 0.6155880236867466,
+    "ezero_v3a_base.pt|tta=flip": 0.6995926455779138,
+    "ezero_skip_base.pt|tta=flip": 0.7057674080333164,
+    "ezero_v3c_base.pt|tta=flip": 0.7263543704735741,
+    "ezero_v3a_base.pt|tta=none": 0.7323551376604485,
+    "ezero_v3c_base.pt|tta=none": 0.7511667369923167,
+    "ezero_v3b_base.pt|tta=flip": 0.7582609682906155,
+    "ezero_v3b_base.pt|tta=none": 0.7854272264633623,
+    "ezero_base.pt|tta=flip": 0.8016019816104516,
+    "ezero_skip_base.pt|tta=none": 0.9233757009109071,
+    "Mean": 1.0548696943495304,
+    "ezero_base.pt|tta=none": 1.2519771151562689,
+    "Naive": 1.7259026437340166
+  }
+}
