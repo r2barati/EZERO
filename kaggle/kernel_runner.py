@@ -16,6 +16,7 @@ Stages
 """
 import json
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -75,17 +76,27 @@ FULLVAL.append(f"{_RB} --context-length 336 --model DLinear --fullshot-max-steps
 # tweaks: E-ZERO v3 candidates (configs/ezero_v3{a,b,c}.yaml on the extended corpus), scored on the
 # zero-shot development benchmark, automatic pre-registered selection (benchmarks/select_v3.py), then a
 # single evaluation of the selected model (and of the v2 checkpoint with flip averaging) on the LSF data.
+_EXT = "--corpus configs/pretrain_corpus_extended.yaml"
 TWEAKS = [
-    f"{PY} benchmarks/pretrain.py --variant base --config configs/{c}.yaml "
-    f"--corpus configs/pretrain_corpus_extended.yaml --name {c} --time-budget-min 120"
-    for c in ("ezero_v3a", "ezero_v3b", "ezero_v3c")
+    # N-BEATS design study at the thesis recipe (same corpus/budget/seed as the ablation variants):
+    # linear shortcut + N-BEATS + TCN, comparable with E-ZERO (N-BEATS + TCN) and E-ZERO-noNBEATS (linear + TCN)
+    f"{PY} benchmarks/pretrain.py --variant base --config configs/ezero_skip.yaml --name ezero_skip --time-budget-min 75",
 ] + [
-    f"{PY} benchmarks/dev_eval.py --checkpoint data/models/ezero_base.pt data/models/ezero_v3a_base.pt "
-    "data/models/ezero_v3b_base.pt data/models/ezero_v3c_base.pt --tta none flip --label v3-candidates --baselines",
+    f"{PY} benchmarks/pretrain.py --variant base --config configs/{c}.yaml {_EXT} --name {c} --time-budget-min 75"
+    for c in ("ezero_v3a", "ezero_v3b", "ezero_v3c", "ezero_v3d")
+] + [
+    # candidates for E-ZERO-v3: every one keeps the N-BEATS stack
+    f"{PY} benchmarks/dev_eval.py --checkpoint data/models/ezero_base.pt data/models/ezero_skip_base.pt "
+    "data/models/ezero_v3a_base.pt data/models/ezero_v3b_base.pt data/models/ezero_v3c_base.pt "
+    "data/models/ezero_v3d_base.pt --tta none flip --label v3-candidates --baselines",
+    # reference only (not eligible): the linear + TCN ablation variant
+    f"{PY} benchmarks/dev_eval.py --checkpoint data/models/ezero_noNBEATS.pt --tta none flip --label v3-reference",
     f"{PY} benchmarks/select_v3.py --label v3-candidates",
-    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-v3,E-ZERO-flip --protocol full --no-merge",
-    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-v3,E-ZERO-flip --protocol sub16 --no-merge",
-    f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-v3,E-ZERO-flip",   # re-time with exact truncation
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-skip,E-ZERO-v3,E-ZERO-flip --protocol full --no-merge "
+    "--skip-unavailable",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-skip,E-ZERO-v3,E-ZERO-flip --protocol sub16 --no-merge "
+    "--skip-unavailable",
+    f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-skip,E-ZERO-v3,E-ZERO-flip --skip-unavailable",
 ]
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
@@ -139,10 +150,25 @@ TSFM_VAL = {
 }
 
 
+# Kaggle stops a session after 12 h and may discard its outputs. Every command therefore runs under a
+# shared deadline (10.5 h after start): when it is reached the command is killed, later commands are
+# skipped (exit code 124) and whatever was produced so far is still collected and saved.
+DEADLINE = time.time() + 10.5 * 3600
+
+
 def sh(cmd, cwd=None, env=None, log_name="run.log", check=False, timeout=None):
     os.makedirs(LOG, exist_ok=True)
     print(f"\n$ {cmd}", flush=True)
     t0 = time.time()
+    remaining = int(DEADLINE - t0)
+    if remaining < 60:
+        print("[skipped: stage deadline reached]", flush=True)
+        with open(os.path.join(LOG, log_name), "a") as log:
+            log.write(f"\n$ {cmd}\n[skipped: stage deadline reached]\n")
+        if check:
+            raise SystemExit(124)
+        return 124
+    cmd = f"timeout -k 30 {remaining} bash -c {shlex.quote(cmd)}"
     with open(os.path.join(LOG, log_name), "a") as log:
         log.write(f"\n$ {cmd}\n")
         log.flush()

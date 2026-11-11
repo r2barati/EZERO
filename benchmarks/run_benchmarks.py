@@ -70,6 +70,9 @@ for _mid, _var in EZERO_VARIANTS.items():
 # E-ZERO-v3 = the candidate picked by benchmarks/select_v3.py (results/dev/selection.json).
 MODEL_REGISTRY["E-ZERO-flip"] = dict(group="ezero", variant="base", tta="flip",
                                      description="E-ZERO + sign-flip test-time averaging (chosen on dev benchmark)")
+# Design study prompted by the ablation: linear shortcut next to the N-BEATS stack (thesis recipe otherwise)
+MODEL_REGISTRY["E-ZERO-skip"] = dict(group="ezero", checkpoint="ezero_skip_base.pt",
+                                     description="E-ZERO + linear shortcut (N-BEATS + linear + TCN), thesis recipe")
 MODEL_REGISTRY["E-ZERO-v3"] = dict(group="ezero", checkpoint="ezero_v3.pt", tta="selection",
                                    description="E-ZERO v3: candidate selected on the dev benchmark")
 MODEL_REGISTRY.update({

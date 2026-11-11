@@ -162,6 +162,13 @@ def main():
         abl = abl.rename(columns=ABL_LABEL)
     write("table5_ablation", abl, "E-ZERO ablations: MSE with and without each component (full protocol)",
           rank=False)
+    # N-BEATS design study: what the first stage of the model should be
+    design = avg_table(long, "full", "train", ["E-ZERO", "E-ZERO-noNBEATS", "E-ZERO-skip", "E-ZERO-noTCN"])
+    if not design.empty:
+        design = design.rename(columns={"E-ZERO": "N-BEATS + TCN (thesis)", "E-ZERO-noNBEATS": "Linear + TCN",
+                                        "E-ZERO-skip": "Linear + N-BEATS + TCN", "E-ZERO-noTCN": "N-BEATS only"})
+    write("table5b_nbeats_design", design, "First-stage design study: MSE on the full test set (same corpus, "
+          "budget and seed for every column)")
     sc = []
     for s in ("train", "full"):
         t = avg_table(long, "full", s, ["E-ZERO"])

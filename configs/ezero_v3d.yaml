@@ -1,0 +1,53 @@
+# E-ZERO v3 candidate d: v3c recipe + linear shortcut next to the N-BEATS stack.
+# Selected on the development benchmark only (ezero/devsuite.py).
+model:
+  context_length: 512
+  horizon: 720
+  nbeats_blocks: 3
+  nbeats_hidden: 64
+  nbeats_layers: 4
+  crrb_resolutions:
+  - 1
+  - 2
+  - 4
+  tcn_channels: 32
+  tcn_dilations:
+  - 1
+  - 2
+  - 4
+  - 8
+  tcn_kernel_size: 3
+  mrc_dilations:
+  - 1
+  - 2
+  - 4
+  - 8
+  dropout: 0.2
+  rae_dim: 8
+  mixer_channels: 16
+  mixer_layers: 2
+  use_linear_skip: true
+training:
+  optimizer: adamw
+  learning_rate: 0.0003
+  weight_decay: 0.001
+  batch_size: 64
+  steps: 60000
+  warmup_steps: 10000
+  gradient_clipping: 3.0
+  eval_every: 1000
+  val_batches: 128
+  early_stopping_patience: 20
+  early_stopping_min_steps: 40000
+  seed: 2024
+  horizon_weighting: balanced
+sampler:
+  min_context: 32
+  max_group_channels: 8
+  alpha: 0.5
+  val_fraction: 0.1
+  flip_prob: 0.5
+  downsample_prob: 0.3
+  downsample_factors:
+  - 2
+  - 4

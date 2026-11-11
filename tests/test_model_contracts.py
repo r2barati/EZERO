@@ -125,3 +125,17 @@ def test_truncated_horizon_is_exact():
         part = m.forward_normalized(*m.normalize(x, torch.ones_like(x, dtype=torch.bool))[:1],
                                     torch.ones_like(x, dtype=torch.bool), torch.full((6,), 6), g, out_horizon=10)
     assert torch.allclose(full[:, :10], part, atol=1e-5)
+
+
+def test_linear_skip_variant():
+    """Linear shortcut + N-BEATS: forward works, old configs load unchanged, parameters are added."""
+    base = EZeroModel(small())
+    skip = EZeroModel(small(use_linear_skip=True)).eval()
+    assert skip.linear_skip is not None and base.linear_skip is None
+    assert skip.num_parameters() == base.num_parameters() + (64 + 4) * 24 + 24
+    x = torch.randn(5, 64).cumsum(-1)
+    y = skip(x, 6, group=torch.tensor([0, 0, 1, 1, 1]))
+    assert y.shape == (5, 24) and torch.isfinite(y).all()
+    assert torch.allclose(skip(x, 6, horizon=10), skip(x, 6)[:, :10], atol=1e-5)
+    old_cfg = {k: v for k, v in small().to_dict().items() if k != "use_linear_skip"}
+    assert EZeroConfig.from_dict(old_cfg).use_linear_skip is False

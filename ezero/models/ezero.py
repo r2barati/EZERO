@@ -16,7 +16,8 @@ prefix of the output, so one checkpoint serves the 96/192/336/720 protocol.
 Ablation flags reproduce the thesis ablation study (Table 5): ``use_mrc``, ``use_dtp``,
 ``use_rae``, ``use_crrb``, ``use_exog``, ``use_tcn``, ``use_nbeats``. Without N-BEATS the
 coarse forecast comes from a single linear projection of the context; without TCN the
-N-BEATS forecast is used directly.
+N-BEATS forecast is used directly. ``use_linear_skip`` adds that linear projection to the N-BEATS
+forecast (linear shortcut + nonlinear N-BEATS residual).
 """
 from __future__ import annotations
 
@@ -61,6 +62,11 @@ class EZeroConfig:
     use_exog: bool = True
     use_tcn: bool = True
     use_nbeats: bool = True
+    # Design option studied after the ablation (docs/THESIS_REPRODUCTION_NOTES.md, section 10): a linear
+    # shortcut from the context to the horizon, added to the N-BEATS forecast, as the global linear
+    # residual of TiDE (Das et al., 2023). The 64-unit N-BEATS blocks then model the nonlinear residual
+    # of a full-rank linear forecast instead of having to pass periodic patterns through a bottleneck.
+    use_linear_skip: bool = False
 
     def to_dict(self) -> dict:
         d = asdict(self)
@@ -119,9 +125,11 @@ class EZeroModel(nn.Module):
                           for _ in range(cfg.nbeats_blocks)]
             self.blocks = nn.ModuleList(blocks)
             self.linear_fallback = None
+            self.linear_skip = nn.Linear(L + cond_dim, H) if cfg.use_linear_skip else None
         else:
             self.blocks = None
             self.linear_fallback = nn.Linear(L + cond_dim, H)
+            self.linear_skip = None
 
         if cfg.use_tcn:
             in_ch = 3 + cond_dim  # value, observed flag, forecast-slot flag (+ RAE channels)
@@ -173,6 +181,8 @@ class EZeroModel(nn.Module):
                 b, f = block(residual, cond)
                 residual = residual - b
                 forecast = forecast + f
+            if self.linear_skip is not None:
+                forecast = forecast + self.linear_skip(x if cond is None else torch.cat([x, cond], dim=-1))
         else:
             inp = x if cond is None else torch.cat([x, cond], dim=-1)
             forecast = self.linear_fallback(inp)

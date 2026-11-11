@@ -1,0 +1,20 @@
+\begin{table}[ht]
+\centering
+\caption{First-stage design study: MSE on the full test set (same corpus, budget and seed for every column)}
+\label{tab:table5b_nbeats_design}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{lccc}
+\toprule
+Dataset & N-BEATS + TCN (thesis) & Linear + TCN & N-BEATS only \\
+\midrule
+ETTh1 & \underline{0.450} & \textbf{0.429} & 0.456 \\
+ETTh2 & \underline{0.352} & \textbf{0.348} & 0.356 \\
+ETTm1 & \textbf{0.564} & 0.578 & \underline{0.573} \\
+ETTm2 & \underline{0.287} & 0.303 & \textbf{0.284} \\
+Weather & \textbf{0.271} & \underline{0.301} & 0.311 \\
+Electricity & \underline{0.286} & \textbf{0.246} & 0.296 \\
+Traffic & \underline{0.759} & \textbf{0.572} & 0.783 \\
+Average & \underline{0.424} & \textbf{0.397} & 0.437 \\
+\bottomrule
+\end{tabular}}
+\end{table}
