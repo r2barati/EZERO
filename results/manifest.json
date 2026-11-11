@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-10T20:16:08Z",
-  "git_commit": "0fc201b0a5871c1bbf69c72bb8f322985819b2dc",
-  "model_roster_count": 29,
+  "generated_at": "2026-11-11T00:21:32Z",
+  "git_commit": "0a25ed10223e46049fc4a86ee6193387815f9432",
+  "model_roster_count": 31,
   "models": [
     "E-ZERO",
     "E-ZERO-noMRC",
@@ -11,6 +11,8 @@
     "E-ZERO-noExog",
     "E-ZERO-noTCN",
     "E-ZERO-noNBEATS",
+    "E-ZERO-flip",
+    "E-ZERO-v3",
     "Naive",
     "SeasonalNaive",
     "Mean",
@@ -39,7 +41,9 @@
       "MOMENT"
     ],
     "ezero": [
-      "E-ZERO"
+      "E-ZERO",
+      "E-ZERO-flip",
+      "E-ZERO-v3"
     ],
     "ezero-ablation": [
       "E-ZERO-noMRC",
@@ -102,9 +106,9 @@
   },
   "canonical_csv_path": "results/benchmark_final_merged.csv",
   "long_csv_path": "results/benchmark_long.csv",
-  "efficiency_csv_path": null,
+  "efficiency_csv_path": "results/efficiency.csv",
   "coverage": {
-    "full/full": {
+    "full/full/L512": {
       "E-ZERO": [
         "ETTh1",
         "ETTh2",
@@ -142,8 +146,71 @@
         "Weather"
       ]
     },
-    "full/train": {
+    "full/train/L512": {
       "E-ZERO": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noCRRB": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noDTP": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noExog": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noMRC": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noNBEATS": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noRAE": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noTCN": [
         "ETTh1",
         "ETTh2",
         "ETTm1",
@@ -180,7 +247,7 @@
         "Weather"
       ]
     },
-    "sub16/train": {
+    "sub16/train/L512": {
       "Chronos-Bolt-T": [
         "ETTh1",
         "ETTh2",
@@ -191,6 +258,69 @@
         "Weather"
       ],
       "E-ZERO": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noCRRB": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noDTP": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noExog": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noMRC": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noNBEATS": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noRAE": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-noTCN": [
         "ETTh1",
         "ETTh2",
         "ETTm1",
@@ -242,6 +372,41 @@
       "path": "data/models/ezero_base.pt",
       "bytes": 3014006,
       "sha256": "20f805fa5924a34d4542b7480c56c44aa8e58e6116633693163888b7fae0b6d1"
+    },
+    "E-ZERO-noMRC": {
+      "path": "data/models/ezero_noMRC.pt",
+      "bytes": 3011535,
+      "sha256": "5934bab69c92249e36d494ff5ebfb156db37def219d24ae7eb7e74663d6b4bce"
+    },
+    "E-ZERO-noDTP": {
+      "path": "data/models/ezero_noDTP.pt",
+      "bytes": 3009309,
+      "sha256": "18c7e2ff36d777a6ae17c93e34b10867cd1605b3500429c04473b4459faa9a1d"
+    },
+    "E-ZERO-noRAE": {
+      "path": "data/models/ezero_noRAE.pt",
+      "bytes": 2991967,
+      "sha256": "d60fa0e35f650f5d7cd96499db8299056a6e5afc2e56a99096a925329c8ff703"
+    },
+    "E-ZERO-noCRRB": {
+      "path": "data/models/ezero_noCRRB.pt",
+      "bytes": 1662843,
+      "sha256": "facf0b404fed457201c24746193902d04033e00334020fa56fa23beea86d4962"
+    },
+    "E-ZERO-noExog": {
+      "path": "data/models/ezero_noExog.pt",
+      "bytes": 2997916,
+      "sha256": "321c49880fc601399b16e0df27ec24ce9fad97805422420ba45d8c2f545bff6c"
+    },
+    "E-ZERO-noTCN": {
+      "path": "data/models/ezero_noTCN.pt",
+      "bytes": 2892305,
+      "sha256": "52c9dd589ce005276198239772bfcbc46795e5c4eff6745f9c7dc01e2863bf8e"
+    },
+    "E-ZERO-noNBEATS": {
+      "path": "data/models/ezero_noNBEATS.pt",
+      "bytes": 1642425,
+      "sha256": "f7567ab688405ace4ae2da5b3466df4d2603749fc0872323c5591d4118189777"
     }
   },
   "devices": [

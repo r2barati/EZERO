@@ -1,0 +1,533 @@
+
+$ /usr/bin/python3 benchmarks/pretrain.py --variant noMRC,noDTP,noRAE,noCRRB,noExog,noTCN,noNBEATS --time-budget-min 75
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[lotsa] BEIJING_SUBWAY_30MIN             panels=   276 channels=    552 obs=    0.50M freq=30T
+[lotsa] PEMS04                           panels=   307 channels=    921 obs=   15.65M freq=5T
+[lotsa] LOS_LOOP                         panels=     4 channels=    207 obs=    7.09M freq=5T
+[lotsa] M_DENSE                          panels=     1 channels=     30 obs=    0.53M freq=H
+[lotsa] australian_electricity_demand    panels=     1 channels=      5 obs=    0.50M freq=30T
+[lotsa] bitcoin_with_missing             panels=     1 channels=     18 obs=    0.07M freq=D
+[lotsa] cdc_fluview_ilinet               panels=    75 channels=    375 obs=    0.28M freq=W
+[lotsa] beijing_air_quality              panels=    12 channels=    132 obs=    4.56M freq=H
+[lotsa] alibaba_cluster_trace_2018       panels=  4000 channels=   8000 obs=   13.05M freq=5T
+[lotsa] uber_tlc_daily                   panels=    34 channels=    262 obs=    0.05M freq=D
+[pretrain] variant=noMRC params=0.740M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+/tmp/ezero/ezero/data/pretrain.py:78: RuntimeWarning: All-NaN slice encountered
+  spread = np.nanmax(ctx, axis=1) - np.nanmin(ctx, axis=1) if ctx.shape[1] else np.zeros(len(ch))
+[pretrain] step   1000 train 3.4316 val 1.9484 lr 3.00e-05 43s
+[pretrain] step   2000 train 3.0365 val 1.7122 lr 6.00e-05 83s
+[pretrain] step   3000 train 2.7983 val 1.6614 lr 9.00e-05 123s
+[pretrain] step   4000 train 2.7621 val 1.6308 lr 1.20e-04 163s
+[pretrain] step   5000 train 2.7620 val 1.6406 lr 1.50e-04 203s
+[pretrain] step   6000 train 2.7470 val 1.6088 lr 1.80e-04 243s
+[pretrain] step   7000 train 2.7735 val 1.6093 lr 2.10e-04 283s
+[pretrain] step   8000 train 2.6533 val 1.5719 lr 2.40e-04 323s
+[pretrain] step   9000 train 2.6204 val 1.5828 lr 2.70e-04 363s
+[pretrain] step  10000 train 2.6298 val 1.5916 lr 3.00e-04 402s
+[pretrain] step  11000 train 2.5610 val 1.5749 lr 3.00e-04 442s
+[pretrain] step  12000 train 2.6392 val 1.5762 lr 2.99e-04 482s
+[pretrain] step  13000 train 2.5927 val 1.6126 lr 2.97e-04 522s
+[pretrain] step  14000 train 2.5364 val 1.5801 lr 2.95e-04 562s
+[pretrain] step  15000 train 2.5015 val 1.5720 lr 2.93e-04 601s
+[pretrain] step  16000 train 2.5581 val 1.5587 lr 2.90e-04 641s
+[pretrain] step  17000 train 2.5370 val 1.5602 lr 2.86e-04 681s
+[pretrain] step  18000 train 2.5196 val 1.6199 lr 2.82e-04 721s
+[pretrain] step  19000 train 2.4581 val 1.5592 lr 2.77e-04 761s
+[pretrain] step  20000 train 2.4988 val 1.5912 lr 2.72e-04 800s
+[pretrain] step  21000 train 2.5450 val 1.6356 lr 2.66e-04 840s
+[pretrain] step  22000 train 2.4765 val 1.6341 lr 2.60e-04 880s
+[pretrain] step  23000 train 2.4898 val 1.5984 lr 2.53e-04 919s
+[pretrain] step  24000 train 2.5237 val 1.5773 lr 2.46e-04 959s
+[pretrain] step  25000 train 2.4526 val 1.5870 lr 2.39e-04 999s
+[pretrain] step  26000 train 2.4570 val 1.5899 lr 2.31e-04 1039s
+[pretrain] step  27000 train 2.5107 val 1.6192 lr 2.23e-04 1078s
+[pretrain] step  28000 train 2.4970 val 1.6189 lr 2.15e-04 1118s
+[pretrain] step  29000 train 2.5330 val 1.5736 lr 2.06e-04 1158s
+[pretrain] step  30000 train 2.4587 val 1.5796 lr 1.97e-04 1198s
+[pretrain] step  31000 train 2.4017 val 1.6041 lr 1.88e-04 1237s
+[pretrain] step  32000 train 2.4510 val 1.5903 lr 1.79e-04 1277s
+[pretrain] step  33000 train 2.4055 val 1.5775 lr 1.70e-04 1317s
+[pretrain] step  34000 train 2.3956 val 1.5806 lr 1.61e-04 1357s
+[pretrain] step  35000 train 2.4127 val 1.5776 lr 1.51e-04 1397s
+[pretrain] step  36000 train 2.4697 val 1.6413 lr 1.42e-04 1436s
+[pretrain] step  37000 train 2.4801 val 1.6398 lr 1.33e-04 1476s
+[pretrain] step  38000 train 2.4469 val 1.5656 lr 1.24e-04 1516s
+[pretrain] step  39000 train 2.4150 val 1.5580 lr 1.15e-04 1555s
+[pretrain] step  40000 train 2.4212 val 1.5780 lr 1.06e-04 1595s
+[pretrain] step  41000 train 2.4368 val 1.5749 lr 9.68e-05 1634s
+[pretrain] step  42000 train 2.3975 val 1.5708 lr 8.83e-05 1674s
+[pretrain] step  43000 train 2.4331 val 1.5813 lr 8.00e-05 1714s
+[pretrain] step  44000 train 2.4117 val 1.5702 lr 7.19e-05 1753s
+[pretrain] step  45000 train 2.4504 val 1.5872 lr 6.42e-05 1793s
+[pretrain] step  46000 train 2.3387 val 1.5675 lr 5.68e-05 1833s
+[pretrain] step  47000 train 2.3988 val 1.5867 lr 4.98e-05 1872s
+[pretrain] step  48000 train 2.3782 val 1.5737 lr 4.32e-05 1912s
+[pretrain] step  49000 train 2.3652 val 1.5773 lr 3.71e-05 1952s
+[pretrain] step  50000 train 2.4325 val 1.5897 lr 3.14e-05 1991s
+[pretrain] step  51000 train 2.4028 val 1.5961 lr 2.61e-05 2031s
+[pretrain] step  52000 train 2.3390 val 1.5905 lr 2.14e-05 2071s
+[pretrain] step  53000 train 2.3470 val 1.5753 lr 1.71e-05 2110s
+[pretrain] step  54000 train 2.3382 val 1.5744 lr 1.34e-05 2149s
+[pretrain] step  55000 train 2.4898 val 1.5844 lr 1.03e-05 2189s
+[pretrain] step  56000 train 2.3253 val 1.5809 lr 7.67e-06 2229s
+[pretrain] step  57000 train 2.3615 val 1.5886 lr 5.63e-06 2268s
+[pretrain] step  58000 train 2.3326 val 1.5865 lr 4.17e-06 2308s
+[pretrain] step  59000 train 2.4271 val 1.5868 lr 3.29e-06 2347s
+[pretrain] saved /tmp/ezero/data/models/ezero_noMRC.pt best_val=1.5580 @ 39000 (2347.2s, stopped=early_stopping)
+[pretrain] variant=noDTP params=0.739M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+[pretrain] step   1000 train 3.4328 val 1.9522 lr 3.00e-05 39s
+[pretrain] step   2000 train 3.0786 val 1.7174 lr 6.00e-05 77s
+[pretrain] step   3000 train 2.8115 val 1.6639 lr 9.00e-05 116s
+[pretrain] step   4000 train 2.7675 val 1.6424 lr 1.20e-04 154s
+[pretrain] step   5000 train 2.7668 val 1.6431 lr 1.50e-04 193s
+[pretrain] step   6000 train 2.7516 val 1.6007 lr 1.80e-04 232s
+[pretrain] step   7000 train 2.7734 val 1.5990 lr 2.10e-04 271s
+[pretrain] step   8000 train 2.6455 val 1.5666 lr 2.40e-04 310s
+[pretrain] step   9000 train 2.6139 val 1.5780 lr 2.70e-04 349s
+[pretrain] step  10000 train 2.6159 val 1.5835 lr 3.00e-04 388s
+[pretrain] step  11000 train 2.5527 val 1.5695 lr 3.00e-04 427s
+[pretrain] step  12000 train 2.6334 val 1.5648 lr 2.99e-04 466s
+[pretrain] step  13000 train 2.5866 val 1.5940 lr 2.97e-04 505s
+[pretrain] step  14000 train 2.5272 val 1.5733 lr 2.95e-04 544s
+[pretrain] step  15000 train 2.4965 val 1.5679 lr 2.93e-04 583s
+[pretrain] step  16000 train 2.5437 val 1.5515 lr 2.90e-04 622s
+[pretrain] step  17000 train 2.5292 val 1.5595 lr 2.86e-04 661s
+[pretrain] step  18000 train 2.5127 val 1.6079 lr 2.82e-04 700s
+[pretrain] step  19000 train 2.4480 val 1.5641 lr 2.77e-04 739s
+[pretrain] step  20000 train 2.4938 val 1.5881 lr 2.72e-04 778s
+[pretrain] step  21000 train 2.5392 val 1.6074 lr 2.66e-04 817s
+[pretrain] step  22000 train 2.4763 val 1.6184 lr 2.60e-04 856s
+[pretrain] step  23000 train 2.4803 val 1.5923 lr 2.53e-04 894s
+[pretrain] step  24000 train 2.5199 val 1.5760 lr 2.46e-04 933s
+[pretrain] step  25000 train 2.4491 val 1.5804 lr 2.39e-04 972s
+[pretrain] step  26000 train 2.4562 val 1.5751 lr 2.31e-04 1011s
+[pretrain] step  27000 train 2.5097 val 1.6136 lr 2.23e-04 1050s
+[pretrain] step  28000 train 2.4920 val 1.6240 lr 2.15e-04 1088s
+[pretrain] step  29000 train 2.5276 val 1.5836 lr 2.06e-04 1127s
+[pretrain] step  30000 train 2.4510 val 1.5778 lr 1.97e-04 1166s
+[pretrain] step  31000 train 2.3936 val 1.5773 lr 1.88e-04 1204s
+[pretrain] step  32000 train 2.4514 val 1.5808 lr 1.79e-04 1243s
+[pretrain] step  33000 train 2.4055 val 1.5721 lr 1.70e-04 1282s
+[pretrain] step  34000 train 2.3913 val 1.5655 lr 1.61e-04 1320s
+[pretrain] step  35000 train 2.4165 val 1.5726 lr 1.51e-04 1359s
+[pretrain] step  36000 train 2.4608 val 1.6458 lr 1.42e-04 1399s
+[pretrain] step  37000 train 2.4723 val 1.6337 lr 1.33e-04 1437s
+[pretrain] step  38000 train 2.4476 val 1.5636 lr 1.24e-04 1476s
+[pretrain] step  39000 train 2.4080 val 1.5579 lr 1.15e-04 1515s
+[pretrain] step  40000 train 2.4112 val 1.5636 lr 1.06e-04 1554s
+[pretrain] step  41000 train 2.4280 val 1.5728 lr 9.68e-05 1594s
+[pretrain] saved /tmp/ezero/data/models/ezero_noDTP.pt best_val=1.5515 @ 16000 (1593.5s, stopped=early_stopping)
+[pretrain] variant=noRAE params=0.735M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+[pretrain] step   1000 train 3.4365 val 1.9583 lr 3.00e-05 41s
+[pretrain] step   2000 train 3.1705 val 1.7933 lr 6.00e-05 81s
+[pretrain] step   3000 train 2.9889 val 1.7473 lr 9.00e-05 122s
+[pretrain] step   4000 train 2.9218 val 1.7379 lr 1.20e-04 163s
+[pretrain] step   5000 train 2.9272 val 1.7261 lr 1.50e-04 204s
+[pretrain] step   6000 train 2.8914 val 1.6963 lr 1.80e-04 245s
+[pretrain] step   7000 train 2.9318 val 1.7122 lr 2.10e-04 286s
+[pretrain] step   8000 train 2.7813 val 1.6856 lr 2.40e-04 327s
+[pretrain] step   9000 train 2.7433 val 1.6812 lr 2.70e-04 367s
+[pretrain] step  10000 train 2.7899 val 1.6962 lr 3.00e-04 408s
+[pretrain] step  11000 train 2.6976 val 1.6596 lr 3.00e-04 448s
+[pretrain] step  12000 train 2.8138 val 1.6716 lr 2.99e-04 489s
+[pretrain] step  13000 train 2.7571 val 1.6761 lr 2.97e-04 529s
+[pretrain] step  14000 train 2.6777 val 1.6755 lr 2.95e-04 570s
+[pretrain] step  15000 train 2.6184 val 1.6829 lr 2.93e-04 611s
+[pretrain] step  16000 train 2.7376 val 1.6462 lr 2.90e-04 651s
+[pretrain] step  17000 train 2.6847 val 1.6975 lr 2.86e-04 692s
+[pretrain] step  18000 train 2.6529 val 1.6812 lr 2.82e-04 732s
+[pretrain] step  19000 train 2.5919 val 1.6743 lr 2.77e-04 773s
+[pretrain] step  20000 train 2.6673 val 1.6765 lr 2.72e-04 814s
+[pretrain] step  21000 train 2.6968 val 1.7303 lr 2.66e-04 854s
+[pretrain] step  22000 train 2.6291 val 1.6967 lr 2.60e-04 895s
+[pretrain] step  23000 train 2.6602 val 1.6856 lr 2.53e-04 935s
+[pretrain] step  24000 train 2.6996 val 1.6748 lr 2.46e-04 976s
+[pretrain] step  25000 train 2.5983 val 1.6723 lr 2.39e-04 1017s
+[pretrain] step  26000 train 2.6016 val 1.6666 lr 2.31e-04 1057s
+[pretrain] step  27000 train 2.6562 val 1.6765 lr 2.23e-04 1098s
+[pretrain] step  28000 train 2.6535 val 1.7148 lr 2.15e-04 1139s
+[pretrain] step  29000 train 2.6766 val 1.6545 lr 2.06e-04 1179s
+[pretrain] step  30000 train 2.6253 val 1.6574 lr 1.97e-04 1220s
+[pretrain] step  31000 train 2.5414 val 1.6783 lr 1.88e-04 1260s
+[pretrain] step  32000 train 2.5899 val 1.6833 lr 1.79e-04 1301s
+[pretrain] step  33000 train 2.5582 val 1.6458 lr 1.70e-04 1341s
+[pretrain] step  34000 train 2.5102 val 1.6563 lr 1.61e-04 1382s
+[pretrain] step  35000 train 2.5396 val 1.6511 lr 1.51e-04 1422s
+[pretrain] step  36000 train 2.6178 val 1.6921 lr 1.42e-04 1462s
+[pretrain] step  37000 train 2.6367 val 1.7109 lr 1.33e-04 1503s
+[pretrain] step  38000 train 2.5904 val 1.6540 lr 1.24e-04 1543s
+[pretrain] step  39000 train 2.5374 val 1.6513 lr 1.15e-04 1583s
+[pretrain] step  40000 train 2.5879 val 1.6574 lr 1.06e-04 1623s
+[pretrain] step  41000 train 2.5688 val 1.6594 lr 9.68e-05 1664s
+[pretrain] step  42000 train 2.5353 val 1.6570 lr 8.83e-05 1704s
+[pretrain] step  43000 train 2.5870 val 1.6580 lr 8.00e-05 1745s
+[pretrain] step  44000 train 2.5674 val 1.6472 lr 7.19e-05 1785s
+[pretrain] step  45000 train 2.5992 val 1.6537 lr 6.42e-05 1825s
+[pretrain] step  46000 train 2.4925 val 1.6532 lr 5.68e-05 1865s
+[pretrain] step  47000 train 2.5487 val 1.6690 lr 4.98e-05 1906s
+[pretrain] step  48000 train 2.5215 val 1.6526 lr 4.32e-05 1946s
+[pretrain] step  49000 train 2.5411 val 1.6571 lr 3.71e-05 1987s
+[pretrain] step  50000 train 2.5947 val 1.6707 lr 3.14e-05 2027s
+[pretrain] step  51000 train 2.5738 val 1.6675 lr 2.61e-05 2067s
+[pretrain] step  52000 train 2.4918 val 1.6612 lr 2.14e-05 2108s
+[pretrain] step  53000 train 2.4821 val 1.6539 lr 1.71e-05 2148s
+[pretrain] saved /tmp/ezero/data/models/ezero_noRAE.pt best_val=1.6458 @ 33000 (2148.1s, stopped=early_stopping)
+[pretrain] variant=noCRRB params=0.408M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+[pretrain] step   1000 train 3.4224 val 1.9667 lr 3.00e-05 36s
+[pretrain] step   2000 train 3.0697 val 1.7436 lr 6.00e-05 71s
+[pretrain] step   3000 train 2.8502 val 1.7241 lr 9.00e-05 107s
+[pretrain] step   4000 train 2.8417 val 1.6861 lr 1.20e-04 143s
+[pretrain] step   5000 train 2.8338 val 1.6599 lr 1.50e-04 178s
+[pretrain] step   6000 train 2.8124 val 1.6616 lr 1.80e-04 214s
+[pretrain] step   7000 train 2.8417 val 1.6488 lr 2.10e-04 250s
+[pretrain] step   8000 train 2.7249 val 1.6177 lr 2.40e-04 285s
+[pretrain] step   9000 train 2.6977 val 1.6083 lr 2.70e-04 321s
+[pretrain] step  10000 train 2.7102 val 1.6014 lr 3.00e-04 357s
+[pretrain] step  11000 train 2.6285 val 1.5835 lr 3.00e-04 392s
+[pretrain] step  12000 train 2.7186 val 1.5727 lr 2.99e-04 428s
+[pretrain] step  13000 train 2.6639 val 1.6139 lr 2.97e-04 463s
+[pretrain] step  14000 train 2.6113 val 1.5850 lr 2.95e-04 499s
+[pretrain] step  15000 train 2.5663 val 1.5824 lr 2.93e-04 534s
+[pretrain] step  16000 train 2.6338 val 1.5748 lr 2.90e-04 570s
+[pretrain] step  17000 train 2.6115 val 1.5679 lr 2.86e-04 606s
+[pretrain] step  18000 train 2.6002 val 1.6174 lr 2.82e-04 641s
+[pretrain] step  19000 train 2.5227 val 1.5725 lr 2.77e-04 677s
+[pretrain] step  20000 train 2.5728 val 1.5985 lr 2.72e-04 713s
+[pretrain] step  21000 train 2.6225 val 1.6214 lr 2.66e-04 748s
+[pretrain] step  22000 train 2.5581 val 1.6230 lr 2.60e-04 784s
+[pretrain] step  23000 train 2.5682 val 1.6083 lr 2.53e-04 820s
+[pretrain] step  24000 train 2.6002 val 1.5785 lr 2.46e-04 855s
+[pretrain] step  25000 train 2.5255 val 1.5847 lr 2.39e-04 891s
+[pretrain] step  26000 train 2.5329 val 1.5835 lr 2.31e-04 926s
+[pretrain] step  27000 train 2.5958 val 1.5890 lr 2.23e-04 962s
+[pretrain] step  28000 train 2.5799 val 1.5915 lr 2.15e-04 998s
+[pretrain] step  29000 train 2.6071 val 1.5856 lr 2.06e-04 1033s
+[pretrain] step  30000 train 2.5382 val 1.5803 lr 1.97e-04 1069s
+[pretrain] step  31000 train 2.4727 val 1.5987 lr 1.88e-04 1105s
+[pretrain] step  32000 train 2.5255 val 1.5916 lr 1.79e-04 1140s
+[pretrain] step  33000 train 2.4761 val 1.5858 lr 1.70e-04 1176s
+[pretrain] step  34000 train 2.4701 val 1.5842 lr 1.61e-04 1211s
+[pretrain] step  35000 train 2.5009 val 1.5843 lr 1.51e-04 1247s
+[pretrain] step  36000 train 2.5487 val 1.6267 lr 1.42e-04 1282s
+[pretrain] step  37000 train 2.5628 val 1.6170 lr 1.33e-04 1318s
+[pretrain] step  38000 train 2.5265 val 1.5705 lr 1.24e-04 1354s
+[pretrain] step  39000 train 2.4860 val 1.5625 lr 1.15e-04 1390s
+[pretrain] step  40000 train 2.5112 val 1.5720 lr 1.06e-04 1425s
+[pretrain] step  41000 train 2.5138 val 1.5723 lr 9.68e-05 1461s
+[pretrain] step  42000 train 2.4909 val 1.5629 lr 8.83e-05 1497s
+[pretrain] step  43000 train 2.5279 val 1.5750 lr 8.00e-05 1532s
+[pretrain] step  44000 train 2.5030 val 1.5652 lr 7.19e-05 1568s
+[pretrain] step  45000 train 2.5265 val 1.5744 lr 6.42e-05 1603s
+[pretrain] step  46000 train 2.4255 val 1.5638 lr 5.68e-05 1639s
+[pretrain] step  47000 train 2.4820 val 1.5827 lr 4.98e-05 1674s
+[pretrain] step  48000 train 2.4683 val 1.5723 lr 4.32e-05 1710s
+[pretrain] step  49000 train 2.4693 val 1.5725 lr 3.71e-05 1745s
+[pretrain] step  50000 train 2.5191 val 1.5810 lr 3.14e-05 1780s
+[pretrain] step  51000 train 2.5027 val 1.5795 lr 2.61e-05 1816s
+[pretrain] step  52000 train 2.4272 val 1.5797 lr 2.14e-05 1851s
+[pretrain] step  53000 train 2.4360 val 1.5705 lr 1.71e-05 1887s
+[pretrain] step  54000 train 2.4437 val 1.5676 lr 1.34e-05 1922s
+[pretrain] step  55000 train 2.5852 val 1.5718 lr 1.03e-05 1958s
+[pretrain] step  56000 train 2.4131 val 1.5751 lr 7.67e-06 1993s
+[pretrain] step  57000 train 2.4557 val 1.5784 lr 5.63e-06 2029s
+[pretrain] step  58000 train 2.4172 val 1.5769 lr 4.17e-06 2064s
+[pretrain] step  59000 train 2.5134 val 1.5767 lr 3.29e-06 2100s
+[pretrain] saved /tmp/ezero/data/models/ezero_noCRRB.pt best_val=1.5625 @ 39000 (2099.7s, stopped=early_stopping)
+[pretrain] variant=noExog params=0.737M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+[pretrain] step   1000 train 3.4321 val 1.9488 lr 3.00e-05 37s
+[pretrain] step   2000 train 3.0456 val 1.7142 lr 6.00e-05 74s
+[pretrain] step   3000 train 2.8086 val 1.6678 lr 9.00e-05 110s
+[pretrain] step   4000 train 2.7738 val 1.6331 lr 1.20e-04 147s
+[pretrain] step   5000 train 2.7655 val 1.6346 lr 1.50e-04 184s
+[pretrain] step   6000 train 2.7575 val 1.6210 lr 1.80e-04 221s
+[pretrain] step   7000 train 2.7898 val 1.6182 lr 2.10e-04 258s
+[pretrain] step   8000 train 2.6590 val 1.5843 lr 2.40e-04 294s
+[pretrain] step   9000 train 2.6352 val 1.5849 lr 2.70e-04 331s
+[pretrain] step  10000 train 2.6394 val 1.5918 lr 3.00e-04 368s
+[pretrain] step  11000 train 2.5633 val 1.5788 lr 3.00e-04 405s
+[pretrain] step  12000 train 2.6499 val 1.5801 lr 2.99e-04 441s
+[pretrain] step  13000 train 2.5988 val 1.6084 lr 2.97e-04 478s
+[pretrain] step  14000 train 2.5415 val 1.5785 lr 2.95e-04 515s
+[pretrain] step  15000 train 2.4979 val 1.5801 lr 2.93e-04 551s
+[pretrain] step  16000 train 2.5601 val 1.5644 lr 2.90e-04 588s
+[pretrain] step  17000 train 2.5349 val 1.5710 lr 2.86e-04 625s
+[pretrain] step  18000 train 2.5235 val 1.6230 lr 2.82e-04 661s
+[pretrain] step  19000 train 2.4556 val 1.5746 lr 2.77e-04 698s
+[pretrain] step  20000 train 2.5037 val 1.6008 lr 2.72e-04 735s
+[pretrain] step  21000 train 2.5491 val 1.6318 lr 2.66e-04 771s
+[pretrain] step  22000 train 2.4884 val 1.6419 lr 2.60e-04 808s
+[pretrain] step  23000 train 2.4861 val 1.6079 lr 2.53e-04 844s
+[pretrain] step  24000 train 2.5325 val 1.5764 lr 2.46e-04 881s
+[pretrain] step  25000 train 2.4599 val 1.5725 lr 2.39e-04 917s
+[pretrain] step  26000 train 2.4590 val 1.5854 lr 2.31e-04 954s
+[pretrain] step  27000 train 2.5160 val 1.6152 lr 2.23e-04 990s
+[pretrain] step  28000 train 2.5040 val 1.6348 lr 2.15e-04 1027s
+[pretrain] step  29000 train 2.5328 val 1.5812 lr 2.06e-04 1063s
+[pretrain] step  30000 train 2.4604 val 1.5918 lr 1.97e-04 1100s
+[pretrain] step  31000 train 2.3959 val 1.5954 lr 1.88e-04 1136s
+[pretrain] step  32000 train 2.4617 val 1.5848 lr 1.79e-04 1173s
+[pretrain] step  33000 train 2.4090 val 1.5770 lr 1.70e-04 1209s
+[pretrain] step  34000 train 2.3996 val 1.5831 lr 1.61e-04 1246s
+[pretrain] step  35000 train 2.4230 val 1.5866 lr 1.51e-04 1282s
+[pretrain] step  36000 train 2.4711 val 1.6616 lr 1.42e-04 1319s
+[pretrain] step  37000 train 2.4783 val 1.6445 lr 1.33e-04 1356s
+[pretrain] step  38000 train 2.4430 val 1.5725 lr 1.24e-04 1392s
+[pretrain] step  39000 train 2.4075 val 1.5579 lr 1.15e-04 1429s
+[pretrain] step  40000 train 2.4192 val 1.5638 lr 1.06e-04 1465s
+[pretrain] step  41000 train 2.4319 val 1.5744 lr 9.68e-05 1502s
+[pretrain] step  42000 train 2.3976 val 1.5780 lr 8.83e-05 1539s
+[pretrain] step  43000 train 2.4375 val 1.5781 lr 8.00e-05 1575s
+[pretrain] step  44000 train 2.4164 val 1.5746 lr 7.19e-05 1612s
+[pretrain] step  45000 train 2.4442 val 1.5830 lr 6.42e-05 1649s
+[pretrain] step  46000 train 2.3349 val 1.5697 lr 5.68e-05 1685s
+[pretrain] step  47000 train 2.3975 val 1.5831 lr 4.98e-05 1722s
+[pretrain] step  48000 train 2.3820 val 1.5749 lr 4.32e-05 1758s
+[pretrain] step  49000 train 2.3738 val 1.5712 lr 3.71e-05 1795s
+[pretrain] step  50000 train 2.4268 val 1.5869 lr 3.14e-05 1832s
+[pretrain] step  51000 train 2.4152 val 1.5858 lr 2.61e-05 1868s
+[pretrain] step  52000 train 2.3536 val 1.5840 lr 2.14e-05 1905s
+[pretrain] step  53000 train 2.3522 val 1.5695 lr 1.71e-05 1942s
+[pretrain] step  54000 train 2.3502 val 1.5714 lr 1.34e-05 1979s
+[pretrain] step  55000 train 2.4899 val 1.5793 lr 1.03e-05 2015s
+[pretrain] step  56000 train 2.3280 val 1.5794 lr 7.67e-06 2052s
+[pretrain] step  57000 train 2.3690 val 1.5863 lr 5.63e-06 2089s
+[pretrain] step  58000 train 2.3374 val 1.5833 lr 4.17e-06 2126s
+[pretrain] step  59000 train 2.4271 val 1.5849 lr 3.29e-06 2163s
+[pretrain] saved /tmp/ezero/data/models/ezero_noExog.pt best_val=1.5579 @ 39000 (2162.9s, stopped=early_stopping)
+[pretrain] variant=noTCN params=0.713M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+[pretrain] step   1000 train 3.4347 val 1.9602 lr 3.00e-05 26s
+[pretrain] step   2000 train 3.1746 val 1.7803 lr 6.00e-05 52s
+[pretrain] step   3000 train 2.9386 val 1.7375 lr 9.00e-05 78s
+[pretrain] step   4000 train 2.8319 val 1.6670 lr 1.20e-04 105s
+[pretrain] step   5000 train 2.7586 val 1.6162 lr 1.50e-04 131s
+[pretrain] step   6000 train 2.7133 val 1.6363 lr 1.80e-04 157s
+[pretrain] step   7000 train 2.7411 val 1.6493 lr 2.10e-04 183s
+[pretrain] step   8000 train 2.6204 val 1.5967 lr 2.40e-04 210s
+[pretrain] step   9000 train 2.5998 val 1.6094 lr 2.70e-04 236s
+[pretrain] step  10000 train 2.6012 val 1.5963 lr 3.00e-04 263s
+[pretrain] step  11000 train 2.5423 val 1.5725 lr 3.00e-04 289s
+[pretrain] step  12000 train 2.6236 val 1.5854 lr 2.99e-04 315s
+[pretrain] step  13000 train 2.5830 val 1.6084 lr 2.97e-04 341s
+[pretrain] step  14000 train 2.5257 val 1.5799 lr 2.95e-04 368s
+[pretrain] step  15000 train 2.4820 val 1.5562 lr 2.93e-04 394s
+[pretrain] step  16000 train 2.5293 val 1.5600 lr 2.90e-04 421s
+[pretrain] step  17000 train 2.5165 val 1.5816 lr 2.86e-04 447s
+[pretrain] step  18000 train 2.5120 val 1.6185 lr 2.82e-04 474s
+[pretrain] step  19000 train 2.4365 val 1.5669 lr 2.77e-04 500s
+[pretrain] step  20000 train 2.4891 val 1.5818 lr 2.72e-04 527s
+[pretrain] step  21000 train 2.5299 val 1.6274 lr 2.66e-04 553s
+[pretrain] step  22000 train 2.4791 val 1.6078 lr 2.60e-04 580s
+[pretrain] step  23000 train 2.4720 val 1.6018 lr 2.53e-04 607s
+[pretrain] step  24000 train 2.5043 val 1.5719 lr 2.46e-04 633s
+[pretrain] step  25000 train 2.4454 val 1.5764 lr 2.39e-04 659s
+[pretrain] step  26000 train 2.4484 val 1.5587 lr 2.31e-04 685s
+[pretrain] step  27000 train 2.4976 val 1.6095 lr 2.23e-04 712s
+[pretrain] step  28000 train 2.4860 val 1.6188 lr 2.15e-04 738s
+[pretrain] step  29000 train 2.5235 val 1.5693 lr 2.06e-04 765s
+[pretrain] step  30000 train 2.4420 val 1.5889 lr 1.97e-04 791s
+[pretrain] step  31000 train 2.3811 val 1.5875 lr 1.88e-04 817s
+[pretrain] step  32000 train 2.4423 val 1.5792 lr 1.79e-04 844s
+[pretrain] step  33000 train 2.3943 val 1.5663 lr 1.70e-04 870s
+[pretrain] step  34000 train 2.3723 val 1.5628 lr 1.61e-04 896s
+[pretrain] step  35000 train 2.4047 val 1.5747 lr 1.51e-04 922s
+[pretrain] step  36000 train 2.4506 val 1.6333 lr 1.42e-04 948s
+[pretrain] step  37000 train 2.4630 val 1.6173 lr 1.33e-04 974s
+[pretrain] step  38000 train 2.4179 val 1.5611 lr 1.24e-04 1001s
+[pretrain] step  39000 train 2.3912 val 1.5634 lr 1.15e-04 1027s
+[pretrain] step  40000 train 2.3988 val 1.5578 lr 1.06e-04 1053s
+[pretrain] step  41000 train 2.4173 val 1.5737 lr 9.68e-05 1080s
+[pretrain] saved /tmp/ezero/data/models/ezero_noTCN.pt best_val=1.5562 @ 15000 (1079.7s, stopped=early_stopping)
+[pretrain] variant=noNBEATS params=0.405M device=cuda steps=60000
+[pretrain] dataset mix: {'BEIJING_SUBWAY_30MIN': 0.0589, 'LOS_LOOP': 0.1684, 'M_DENSE': 0.0458, 'PEMS04': 0.2501, 'alibaba_cluster_trace_2018': 0.2284, 'australian_electricity_demand': 0.0447, 'beijing_air_quality': 0.136, 'bitcoin_with_missing': 0.0181, 'cdc_fluview_ilinet': 0.0357, 'uber_tlc_daily': 0.0137}
+[pretrain] step   1000 train 3.4994 val 1.8709 lr 3.00e-05 33s
+[pretrain] step   2000 train 3.0288 val 1.6821 lr 6.00e-05 67s
+[pretrain] step   3000 train 2.8039 val 1.6514 lr 9.00e-05 100s
+[pretrain] step   4000 train 2.7815 val 1.6129 lr 1.20e-04 133s
+[pretrain] step   5000 train 2.7529 val 1.5974 lr 1.50e-04 167s
+[pretrain] step   6000 train 2.7474 val 1.5745 lr 1.80e-04 200s
+[pretrain] step   7000 train 2.7709 val 1.5815 lr 2.10e-04 233s
+[pretrain] step   8000 train 2.6686 val 1.5622 lr 2.40e-04 266s
+[pretrain] step   9000 train 2.6539 val 1.5729 lr 2.70e-04 299s
+[pretrain] step  10000 train 2.6770 val 1.5558 lr 3.00e-04 332s
+[pretrain] step  11000 train 2.6107 val 1.5571 lr 3.00e-04 365s
+[pretrain] step  12000 train 2.7070 val 1.5629 lr 2.99e-04 398s
+[pretrain] step  13000 train 2.6599 val 1.6108 lr 2.97e-04 431s
+[pretrain] step  14000 train 2.6175 val 1.5595 lr 2.95e-04 464s
+[pretrain] step  15000 train 2.5660 val 1.5633 lr 2.93e-04 497s
+[pretrain] step  16000 train 2.6412 val 1.5620 lr 2.90e-04 530s
+[pretrain] step  17000 train 2.6224 val 1.5460 lr 2.86e-04 563s
+[pretrain] step  18000 train 2.6273 val 1.5809 lr 2.82e-04 596s
+[pretrain] step  19000 train 2.5369 val 1.5590 lr 2.77e-04 629s
+[pretrain] step  20000 train 2.5996 val 1.5674 lr 2.72e-04 662s
+[pretrain] step  21000 train 2.6449 val 1.6059 lr 2.66e-04 695s
+[pretrain] step  22000 train 2.5801 val 1.6098 lr 2.60e-04 728s
+[pretrain] step  23000 train 2.6035 val 1.5811 lr 2.53e-04 761s
+[pretrain] step  24000 train 2.6199 val 1.5573 lr 2.46e-04 794s
+[pretrain] step  25000 train 2.5530 val 1.5611 lr 2.39e-04 827s
+[pretrain] step  26000 train 2.5564 val 1.5912 lr 2.31e-04 860s
+[pretrain] step  27000 train 2.6206 val 1.5617 lr 2.23e-04 893s
+[pretrain] step  28000 train 2.5942 val 1.5611 lr 2.15e-04 926s
+[pretrain] step  29000 train 2.6311 val 1.5504 lr 2.06e-04 959s
+[pretrain] step  30000 train 2.5483 val 1.5575 lr 1.97e-04 992s
+[pretrain] step  31000 train 2.4861 val 1.5590 lr 1.88e-04 1026s
+[pretrain] step  32000 train 2.5537 val 1.5633 lr 1.79e-04 1059s
+[pretrain] step  33000 train 2.4935 val 1.5693 lr 1.70e-04 1091s
+[pretrain] step  34000 train 2.4635 val 1.5546 lr 1.61e-04 1124s
+[pretrain] step  35000 train 2.4958 val 1.5609 lr 1.51e-04 1157s
+[pretrain] step  36000 train 2.5537 val 1.5862 lr 1.42e-04 1190s
+[pretrain] step  37000 train 2.5664 val 1.5774 lr 1.33e-04 1223s
+[pretrain] step  38000 train 2.5355 val 1.5521 lr 1.24e-04 1256s
+[pretrain] step  39000 train 2.4905 val 1.5440 lr 1.15e-04 1289s
+[pretrain] step  40000 train 2.5028 val 1.5518 lr 1.06e-04 1322s
+[pretrain] step  41000 train 2.5180 val 1.5470 lr 9.68e-05 1355s
+[pretrain] step  42000 train 2.4831 val 1.5373 lr 8.83e-05 1388s
+[pretrain] step  43000 train 2.5236 val 1.5511 lr 8.00e-05 1421s
+[pretrain] step  44000 train 2.4962 val 1.5378 lr 7.19e-05 1454s
+[pretrain] step  45000 train 2.5415 val 1.5381 lr 6.42e-05 1487s
+[pretrain] step  46000 train 2.4253 val 1.5363 lr 5.68e-05 1519s
+[pretrain] step  47000 train 2.4835 val 1.5474 lr 4.98e-05 1552s
+[pretrain] step  48000 train 2.4757 val 1.5466 lr 4.32e-05 1585s
+[pretrain] step  49000 train 2.4657 val 1.5438 lr 3.71e-05 1618s
+[pretrain] step  50000 train 2.5153 val 1.5455 lr 3.14e-05 1651s
+[pretrain] step  51000 train 2.5024 val 1.5443 lr 2.61e-05 1684s
+[pretrain] step  52000 train 2.4232 val 1.5466 lr 2.14e-05 1717s
+[pretrain] step  53000 train 2.4232 val 1.5386 lr 1.71e-05 1750s
+[pretrain] step  54000 train 2.4348 val 1.5422 lr 1.34e-05 1783s
+[pretrain] step  55000 train 2.5689 val 1.5439 lr 1.03e-05 1816s
+[pretrain] step  56000 train 2.3952 val 1.5491 lr 7.67e-06 1849s
+[pretrain] step  57000 train 2.4384 val 1.5479 lr 5.63e-06 1882s
+[pretrain] step  58000 train 2.4103 val 1.5449 lr 4.17e-06 1915s
+[pretrain] step  59000 train 2.4982 val 1.5442 lr 3.29e-06 1948s
+[pretrain] step  60000 train 2.3988 val 1.5463 lr 3.00e-06 1981s
+[pretrain] saved /tmp/ezero/data/models/ezero_noNBEATS.pt best_val=1.5363 @ 46000 (1981.4s, stopped=max_steps)
+[exit 0 after 13457s]
+
+$ /usr/bin/python3 benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol full --no-merge --skip-unavailable
+[E-ZERO-noMRC] ETTh1        protocol=full avg MSE=0.4382 (3.6s)
+[E-ZERO-noMRC] ETTh2        protocol=full avg MSE=0.3520 (2.9s)
+[E-ZERO-noMRC] ETTm1        protocol=full avg MSE=0.5726 (12.1s)
+[E-ZERO-noMRC] ETTm2        protocol=full avg MSE=0.2897 (12.3s)
+[E-ZERO-noMRC] Weather      protocol=full avg MSE=0.2674 (33.1s)
+[E-ZERO-noMRC] Electricity  protocol=full avg MSE=0.2716 (248.5s)
+[E-ZERO-noMRC] Traffic      protocol=full avg MSE=0.7117 (433.4s)
+[E-ZERO-noDTP] ETTh1        protocol=full avg MSE=0.4493 (2.8s)
+[E-ZERO-noDTP] ETTh2        protocol=full avg MSE=0.3504 (2.8s)
+[E-ZERO-noDTP] ETTm1        protocol=full avg MSE=0.5696 (11.5s)
+[E-ZERO-noDTP] ETTm2        protocol=full avg MSE=0.2904 (11.4s)
+[E-ZERO-noDTP] Weather      protocol=full avg MSE=0.2733 (30.5s)
+[E-ZERO-noDTP] Electricity  protocol=full avg MSE=0.2843 (234.1s)
+[E-ZERO-noDTP] Traffic      protocol=full avg MSE=0.7544 (411.7s)
+[E-ZERO-noRAE] ETTh1        protocol=full avg MSE=0.4561 (3.0s)
+[E-ZERO-noRAE] ETTh2        protocol=full avg MSE=0.3668 (3.0s)
+[E-ZERO-noRAE] ETTm1        protocol=full avg MSE=0.5603 (12.2s)
+[E-ZERO-noRAE] ETTm2        protocol=full avg MSE=0.2925 (12.2s)
+[E-ZERO-noRAE] Weather      protocol=full avg MSE=0.2813 (32.7s)
+[E-ZERO-noRAE] Electricity  protocol=full avg MSE=0.2799 (249.4s)
+[E-ZERO-noRAE] Traffic      protocol=full avg MSE=0.7347 (443.3s)
+[E-ZERO-noCRRB] ETTh1        protocol=full avg MSE=0.4536 (3.0s)
+[E-ZERO-noCRRB] ETTh2        protocol=full avg MSE=0.3538 (3.0s)
+[E-ZERO-noCRRB] ETTm1        protocol=full avg MSE=0.6270 (12.3s)
+[E-ZERO-noCRRB] ETTm2        protocol=full avg MSE=0.2866 (12.3s)
+[E-ZERO-noCRRB] Weather      protocol=full avg MSE=0.2707 (32.9s)
+[E-ZERO-noCRRB] Electricity  protocol=full avg MSE=0.3039 (249.5s)
+[E-ZERO-noCRRB] Traffic      protocol=full avg MSE=0.7989 (441.7s)
+[E-ZERO-noExog] ETTh1        protocol=full avg MSE=0.4286 (2.8s)
+[E-ZERO-noExog] ETTh2        protocol=full avg MSE=0.3493 (2.9s)
+[E-ZERO-noExog] ETTm1        protocol=full avg MSE=0.5570 (11.7s)
+[E-ZERO-noExog] ETTm2        protocol=full avg MSE=0.2888 (11.7s)
+[E-ZERO-noExog] Weather      protocol=full avg MSE=0.2780 (31.4s)
+[E-ZERO-noExog] Electricity  protocol=full avg MSE=0.2631 (239.0s)
+[E-ZERO-noExog] Traffic      protocol=full avg MSE=0.7130 (423.3s)
+[E-ZERO-noTCN] ETTh1        protocol=full avg MSE=0.4564 (0.7s)
+[E-ZERO-noTCN] ETTh2        protocol=full avg MSE=0.3563 (0.7s)
+[E-ZERO-noTCN] ETTm1        protocol=full avg MSE=0.5729 (3.0s)
+[E-ZERO-noTCN] ETTm2        protocol=full avg MSE=0.2835 (2.9s)
+[E-ZERO-noTCN] Weather      protocol=full avg MSE=0.3109 (7.5s)
+[E-ZERO-noTCN] Electricity  protocol=full avg MSE=0.2958 (57.5s)
+[E-ZERO-noTCN] Traffic      protocol=full avg MSE=0.7826 (100.5s)
+[E-ZERO-noNBEATS] ETTh1        protocol=full avg MSE=0.4288 (3.0s)
+[E-ZERO-noNBEATS] ETTh2        protocol=full avg MSE=0.3484 (3.0s)
+[E-ZERO-noNBEATS] ETTm1        protocol=full avg MSE=0.5779 (12.3s)
+[E-ZERO-noNBEATS] ETTm2        protocol=full avg MSE=0.3035 (12.2s)
+[E-ZERO-noNBEATS] Weather      protocol=full avg MSE=0.3012 (32.9s)
+[E-ZERO-noNBEATS] Electricity  protocol=full avg MSE=0.2464 (248.1s)
+[E-ZERO-noNBEATS] Traffic      protocol=full avg MSE=0.5720 (440.4s)
+[exit 0 after 4638s]
+
+$ /usr/bin/python3 benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol sub16 --no-merge --skip-unavailable
+[E-ZERO-noMRC] ETTh1        protocol=sub16 avg MSE=0.4176 (0.7s)
+[E-ZERO-noMRC] ETTh2        protocol=sub16 avg MSE=0.3144 (0.0s)
+[E-ZERO-noMRC] ETTm1        protocol=sub16 avg MSE=0.5475 (0.0s)
+[E-ZERO-noMRC] ETTm2        protocol=sub16 avg MSE=0.3043 (0.0s)
+[E-ZERO-noMRC] Weather      protocol=sub16 avg MSE=0.2869 (0.1s)
+[E-ZERO-noMRC] Electricity  protocol=sub16 avg MSE=0.2634 (0.9s)
+[E-ZERO-noMRC] Traffic      protocol=sub16 avg MSE=0.6996 (2.2s)
+[E-ZERO-noDTP] ETTh1        protocol=sub16 avg MSE=0.4527 (0.0s)
+[E-ZERO-noDTP] ETTh2        protocol=sub16 avg MSE=0.3138 (0.0s)
+[E-ZERO-noDTP] ETTm1        protocol=sub16 avg MSE=0.5332 (0.0s)
+[E-ZERO-noDTP] ETTm2        protocol=sub16 avg MSE=0.3083 (0.0s)
+[E-ZERO-noDTP] Weather      protocol=sub16 avg MSE=0.2892 (0.1s)
+[E-ZERO-noDTP] Electricity  protocol=sub16 avg MSE=0.2728 (0.8s)
+[E-ZERO-noDTP] Traffic      protocol=sub16 avg MSE=0.7471 (2.1s)
+[E-ZERO-noRAE] ETTh1        protocol=sub16 avg MSE=0.4455 (0.0s)
+[E-ZERO-noRAE] ETTh2        protocol=sub16 avg MSE=0.3294 (0.0s)
+[E-ZERO-noRAE] ETTm1        protocol=sub16 avg MSE=0.5214 (0.0s)
+[E-ZERO-noRAE] ETTm2        protocol=sub16 avg MSE=0.3235 (0.0s)
+[E-ZERO-noRAE] Weather      protocol=sub16 avg MSE=0.2973 (0.1s)
+[E-ZERO-noRAE] Electricity  protocol=sub16 avg MSE=0.2721 (0.9s)
+[E-ZERO-noRAE] Traffic      protocol=sub16 avg MSE=0.7299 (2.2s)
+[E-ZERO-noCRRB] ETTh1        protocol=sub16 avg MSE=0.4404 (0.0s)
+[E-ZERO-noCRRB] ETTh2        protocol=sub16 avg MSE=0.3148 (0.0s)
+[E-ZERO-noCRRB] ETTm1        protocol=sub16 avg MSE=0.5951 (0.0s)
+[E-ZERO-noCRRB] ETTm2        protocol=sub16 avg MSE=0.3029 (0.0s)
+[E-ZERO-noCRRB] Weather      protocol=sub16 avg MSE=0.2926 (0.1s)
+[E-ZERO-noCRRB] Electricity  protocol=sub16 avg MSE=0.2926 (0.9s)
+[E-ZERO-noCRRB] Traffic      protocol=sub16 avg MSE=0.7926 (2.2s)
+[E-ZERO-noExog] ETTh1        protocol=sub16 avg MSE=0.4150 (0.0s)
+[E-ZERO-noExog] ETTh2        protocol=sub16 avg MSE=0.3109 (0.0s)
+[E-ZERO-noExog] ETTm1        protocol=sub16 avg MSE=0.5054 (0.0s)
+[E-ZERO-noExog] ETTm2        protocol=sub16 avg MSE=0.2929 (0.0s)
+[E-ZERO-noExog] Weather      protocol=sub16 avg MSE=0.3053 (0.1s)
+[E-ZERO-noExog] Electricity  protocol=sub16 avg MSE=0.2542 (0.9s)
+[E-ZERO-noExog] Traffic      protocol=sub16 avg MSE=0.7045 (2.1s)
+[E-ZERO-noTCN] ETTh1        protocol=sub16 avg MSE=0.4446 (0.0s)
+[E-ZERO-noTCN] ETTh2        protocol=sub16 avg MSE=0.3249 (0.0s)
+[E-ZERO-noTCN] ETTm1        protocol=sub16 avg MSE=0.5532 (0.0s)
+[E-ZERO-noTCN] ETTm2        protocol=sub16 avg MSE=0.3016 (0.0s)
+[E-ZERO-noTCN] Weather      protocol=sub16 avg MSE=0.3426 (0.0s)
+[E-ZERO-noTCN] Electricity  protocol=sub16 avg MSE=0.2857 (0.3s)
+[E-ZERO-noTCN] Traffic      protocol=sub16 avg MSE=0.7784 (0.7s)
+[E-ZERO-noNBEATS] ETTh1        protocol=sub16 avg MSE=0.4003 (0.0s)
+[E-ZERO-noNBEATS] ETTh2        protocol=sub16 avg MSE=0.3119 (0.0s)
+[E-ZERO-noNBEATS] ETTm1        protocol=sub16 avg MSE=0.5547 (0.0s)
+[E-ZERO-noNBEATS] ETTm2        protocol=sub16 avg MSE=0.3023 (0.0s)
+[E-ZERO-noNBEATS] Weather      protocol=sub16 avg MSE=0.3228 (0.1s)
+[E-ZERO-noNBEATS] Electricity  protocol=sub16 avg MSE=0.2373 (0.9s)
+[E-ZERO-noNBEATS] Traffic      protocol=sub16 avg MSE=0.5570 (2.2s)
+[exit 0 after 51s]
+
+$ /usr/bin/python3 benchmarks/run_efficiency.py --model group:ezero-ablation --no-cpu --skip-unavailable
+{'model': 'E-ZERO-noMRC', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.740134, 'gpu_time_ms': 11.031, 'gpu_mem_gb': 0.0525, 'device': 'Tesla T4'}
+{'model': 'E-ZERO-noDTP', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.739078, 'gpu_time_ms': 9.903, 'gpu_mem_gb': 0.0414, 'device': 'Tesla T4'}
+{'model': 'E-ZERO-noRAE', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.734662, 'gpu_time_ms': 9.876, 'gpu_mem_gb': 0.0507, 'device': 'Tesla T4'}
+{'model': 'E-ZERO-noCRRB', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.40789, 'gpu_time_ms': 7.344, 'gpu_mem_gb': 0.0514, 'device': 'Tesla T4'}
+{'model': 'E-ZERO-noExog', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.737349, 'gpu_time_ms': 8.519, 'gpu_mem_gb': 0.0529, 'device': 'Tesla T4'}
+{'model': 'E-ZERO-noTCN', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.712837, 'gpu_time_ms': 6.029, 'gpu_mem_gb': 0.0201, 'device': 'Tesla T4'}
+{'model': 'E-ZERO-noNBEATS', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.405298, 'gpu_time_ms': 6.323, 'gpu_mem_gb': 0.0509, 'device': 'Tesla T4'}
+          model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score
+            TTM          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0703
+   E-ZERO-noTCN          32             512       96  0.712837        6.029      0.0201         NaN Tesla T4            0.1109
+E-ZERO-noNBEATS          32             512       96  0.405298        6.323      0.0509         NaN Tesla T4            0.1988
+   E-ZERO-noDTP          32             512       96  0.739078        9.903      0.0414         NaN Tesla T4            0.2053
+  E-ZERO-noCRRB          32             512       96  0.407890        7.344      0.0514         NaN Tesla T4            0.2095
+  E-ZERO-noExog          32             512       96  0.737349        8.519      0.0529         NaN Tesla T4            0.2244
+   E-ZERO-noRAE          32             512       96  0.734662        9.876      0.0507         NaN Tesla T4            0.2308
+   E-ZERO-noMRC          32             512       96  0.740134       11.031      0.0525         NaN Tesla T4            0.2463
+ Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            1.0000
+[exit 0 after 5s]

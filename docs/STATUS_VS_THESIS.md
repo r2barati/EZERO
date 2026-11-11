@@ -1,4 +1,4 @@
-# E-ZERO: thesis claims vs current evidence (status 2026-11-10, 22:00 UTC)
+# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 00:40 UTC)
 
 All "ours" numbers use the leakage-free protocol: scaler fitted on the train split, context 512, and the
 mean of horizons 96/192/336/720. `full` scores every test window; `sub16` scores 16 identical windows
@@ -84,9 +84,31 @@ Comparison with the values each model's own paper reports (different lookbacks, 
 
 ## 5. Ablations (thesis Table 5)
 
-**Status: pending.**
-- The thesis's ablation values could not have come from the original code, which did not implement the components.
-- All 7 ablation variants are being pre-trained and evaluated now, with the same budget and initialisation as the base model.
+All 7 variants were pre-trained with the base model's budget and initialisation. Each reached at least
+41k steps, with no non-finite steps and none stopped by the time limit. Average MSE over the 7 datasets
+(full protocol); "change" is relative to the full model (0.424):
+
+| Removed | Avg MSE | Change | Dev score (flip / no flip) | Thesis Table 5 |
+|---|---|---|---|---|
+| (none, base) | 0.424 | - | 0.802 / 1.252 | ETTh1 0.212 |
+| CRRB | 0.442 | **+4.2%** | 0.808 / 1.087 | helps |
+| TCN | 0.437 | **+3.0%** (Weather +14.5%) | 0.849 / 1.139 | helps a lot |
+| DTP | 0.425 | +0.1% | 0.808 / 1.249 | helps |
+| RAE | 0.425 | +0.1% | **0.770 / 0.773** | helps |
+| MRC | 0.415 | -2.2% | 0.795 / 1.110 | helps |
+| Exog mixer | 0.411 | -3.1% | 0.807 / 1.052 | helps |
+| N-BEATS (replaced by one linear layer) | **0.397** | **-6.4%** (Traffic -25%, Electricity -14%; Weather +11%, ETTm2 +6%) | 0.777 / 1.041 | helps most (ETTh1 0.212 -> 0.380) |
+
+The dev score is on the held-out development benchmark; lower is better and below 1 beats seasonal naive.
+
+**Status: not reproduced.**
+- **TCN** is the only component that helps both on the evaluation data and on the held-out development data.
+- **CRRB** helps on the evaluation data (+4.2%) but is neutral on the development data.
+- **DTP and RAE** are neutral on the evaluation data. Removing RAE gives the best development score and removes most of the sign asymmetry: 0.773 without flip averaging, against 1.25 for the base model.
+- **MRC, the Exog mixer and the N-BEATS stack** are, on average, better removed on the evaluation data. This is driven by the many-channel datasets (Electricity, Traffic). On the development data the differences are small.
+- **The thesis's main ablation claim**, that N-BEATS matters most, is contradicted.
+- **Caveat:** each variant is a single training run, so differences of a few percent may be noise. The large effects (N-BEATS on Traffic/Electricity, TCN on Weather, CRRB on ETTm1) are not.
+- **No architecture change has been made from these evaluation-set numbers.** Any change has to be justified on the development benchmark (see `results/dev/dev_results.csv`, label `ablations-dev`).
 
 ## 6. Path forward (legitimate options only)
 
@@ -105,7 +127,7 @@ Comparison with the values each model's own paper reports (different lookbacks, 
 
 **Claims that depend on pending runs:**
 - That it beats the thesis-era foundation models (Chronos-T5 looks likely; Moirai, TimesFM and Lag-Llama are open).
-- That each multi-resolution component contributes (the ablations).
+- (Answered: the ablations do not support "each component contributes"; see section 5.)
 
 **Claims that should be withdrawn:**
 - The Table 2 absolute values.

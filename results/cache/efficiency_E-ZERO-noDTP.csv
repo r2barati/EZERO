@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,device
+E-ZERO-noDTP,32,512,96,0.739078,9.903,0.0414,Tesla T4

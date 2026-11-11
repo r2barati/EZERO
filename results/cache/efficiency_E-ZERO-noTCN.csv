@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,device
+E-ZERO-noTCN,32,512,96,0.712837,6.029,0.0201,Tesla T4

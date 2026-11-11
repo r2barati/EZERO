@@ -1,0 +1,11 @@
+{
+  "stage": "ablations",
+  "commit": "fcc6702f649b051557b3206b03374853de1e34cc",
+  "status": {
+    "/usr/bin/python3 benchmarks/pretrain.py --variant noMRC,noDTP,noRAE,noCRRB,noExog,noTCN,noNBEATS --time-budget-min 75": 0,
+    "/usr/bin/python3 benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol full --no-merge --skip-unavailable": 0,
+    "/usr/bin/python3 benchmarks/run_benchmarks.py --model group:ezero-ablation --protocol sub16 --no-merge --skip-unavailable": 0,
+    "/usr/bin/python3 benchmarks/run_efficiency.py --model group:ezero-ablation --no-cpu --skip-unavailable": 0
+  },
+  "minutes": 302.8
+}
