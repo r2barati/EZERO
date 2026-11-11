@@ -35,6 +35,7 @@ STAGES = {
     "tsfmval": "Foundation models under their papers' protocols (reproduction check)",
     "fullval": "Full-shot baselines with their official settings (reproduction check)",
     "tweaks": "E-ZERO v3 candidates, dev-benchmark selection, single final evaluation",
+    "faithful": "Thesis Sec. 3.3.3-3.3.5 components implemented, plus their ablation",
     "smoke": "Short end-to-end environment check",
 }
 

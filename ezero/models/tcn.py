@@ -33,9 +33,18 @@ class CausalConv1d(nn.Module):
 
 
 class TemporalBlock(nn.Module):
-    """Two dilated causal convolutions with ReLU/dropout and a residual connection (Eq. 8)."""
+    """Two dilated causal convolutions with ReLU/dropout and a residual connection (Eq. 8).
 
-    def __init__(self, in_ch: int, out_ch: int, kernel_size: int, dilation: int, dropout: float = 0.2):
+    With ``cond_dim > 0`` the block implements the conditional convolutions of thesis Sec. 3.3.4
+    ("the filters adjust based on the covariates"): a per-output-channel scale and shift are
+    generated from the conditioning vector. Scaling output channel c by g_c is the same as
+    scaling filter c of the convolution by g_c, so this adjusts the filters per input series
+    without materialising a separate kernel for every sample. It starts as the identity
+    (g = 1, b = 0), so adding it does not change an already trained block.
+    """
+
+    def __init__(self, in_ch: int, out_ch: int, kernel_size: int, dilation: int, dropout: float = 0.2,
+                 cond_dim: int = 0):
         super().__init__()
         self.net = nn.Sequential(
             CausalConv1d(in_ch, out_ch, kernel_size, dilation),
@@ -49,17 +58,27 @@ class TemporalBlock(nn.Module):
         if self.downsample is not None:
             nn.init.normal_(self.downsample.weight, 0.0, 0.01)
         self.relu = nn.ReLU()
+        self.film = nn.Linear(cond_dim, 2 * out_ch) if cond_dim else None
+        if self.film is not None:
+            nn.init.zeros_(self.film.weight)
+            nn.init.zeros_(self.film.bias)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, cond: torch.Tensor | None = None) -> torch.Tensor:
         res = x if self.downsample is None else self.downsample(x)
-        return self.relu(self.net(x) + res)
+        h = self.net(x)
+        if self.film is not None:
+            if cond is None:
+                raise ValueError("conditional convolutions are enabled but no conditioning vector was given")
+            gain, bias = self.film(cond).chunk(2, dim=-1)                 # (N, C) each
+            h = h * (1.0 + gain).unsqueeze(-1) + bias.unsqueeze(-1)
+        return self.relu(h + res)
 
 
 class TemporalConvNet(nn.Module):
     """Stack of TemporalBlocks with (by default exponentially increasing) dilations."""
 
     def __init__(self, in_ch: int, channels: list[int], kernel_size: int = 3,
-                 dilations: list[int] | None = None, dropout: float = 0.2):
+                 dilations: list[int] | None = None, dropout: float = 0.2, cond_dim: int = 0):
         super().__init__()
         if dilations is None:
             dilations = [2 ** i for i in range(len(channels))]
@@ -68,11 +87,15 @@ class TemporalConvNet(nn.Module):
         layers = []
         prev = in_ch
         for ch, d in zip(channels, dilations):
-            layers.append(TemporalBlock(prev, ch, kernel_size, d, dropout))
+            layers.append(TemporalBlock(prev, ch, kernel_size, d, dropout, cond_dim))
             prev = ch
-        self.network = nn.Sequential(*layers)
+        # ModuleList, not Sequential: the blocks take the conditioning vector as a second argument.
+        # The parameter names are the same either way ("network.0.net.0...."), so checkpoints load.
+        self.network = nn.ModuleList(layers)
         self.out_channels = prev
         self.receptive_field = 1 + 2 * (kernel_size - 1) * sum(dilations)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return self.network(x)
+    def forward(self, x: torch.Tensor, cond: torch.Tensor | None = None) -> torch.Tensor:
+        for block in self.network:
+            x = block(x, cond)
+        return x

@@ -287,3 +287,48 @@ short single-seed runs; the full-budget run below decides.
 - **Full-budget test (queued, `tweaks` stage):** `E-ZERO-skip` is pre-trained with the same corpus, budget and seed as the ablation variants, so it can be compared directly with N-BEATS + TCN and linear + TCN (`paper/tables/table5b_nbeats_design`).
 - **Selection for E-ZERO v3:** on the development benchmark only. All candidates keep N-BEATS; the linear + TCN variant is scored as a reference and reported whatever the outcome.
 - **Caveat:** the idea was prompted by the evaluation-set ablation. That is why the decision rests on the development benchmark, and why the study is reported as a post-hoc design study rather than as part of the original thesis design.
+
+## 11. Components described in the thesis but missing from the 2024 code
+
+Section 2 lists three components that the thesis text describes and the original repository never
+contained. Deleting them from the thesis is one way to make the text match the artifact; building
+them is the other. They are now implemented, so Sec. 3.3.3-3.3.5 can stand as written.
+
+**They are implemented in 2026, not recovered from 2024.** No 2024 code, weights or logs for them
+exist. Any revision of the thesis has to say so plainly: these are implementations of the described
+design, evaluated under the corrected protocol, not a reconstruction of what produced the 2024
+tables.
+
+| Thesis text | Implementation | Where |
+|---|---|---|
+| Sec. 3.3.3: "an attention mechanism to dynamically weigh the importance of different features" | `FeatureAttention`: each channel of a group is scored from a summary of its own context, the scores are softmaxed over the group, and the group's forecasts are averaged with those weights. The result is an extra input channel of the Exogenous Mixer, next to the unweighted mean and standard deviation | `ezero/models/components.py` |
+| Sec. 3.3.4: "conditional convolutions, where the filters adjust based on the covariates" | A per-output-channel gain and shift generated from the conditioning vector, applied to each `TemporalBlock`. Scaling output channel c by g is the same as scaling filter c, so the filters do adapt per series, without building a separate kernel for every sample | `ezero/models/tcn.py` |
+| Sec. 3.3.5: "a similarity matching layer that identifies the closest pre-trained embeddings", with "adaptive inference" | `SimilarityMatching`: a bank of 32 prototype embeddings learned during pre-training. The context is encoded, matched to the prototypes by cosine similarity, and the weighted prototype joins the RAE in the conditioning vector | `ezero/models/components.py` |
+
+Sec. 3.3.5 also describes freezing the lower layers and fine-tuning the higher ones. That applies to
+fine-tuning, which the zero-shot protocol never performs, so there is nothing to implement; the
+thesis should say so in a clause rather than list it as part of the zero-shot path.
+
+**Properties that the zero-shot claim requires, all covered by tests:**
+
+- **Permutation invariance.** Feature attention scores channels independently and normalises over
+  the group, so the forecast does not depend on channel order, and the same block serves the 7
+  channels of ETT and the 862 of Traffic.
+- **Causality.** Channels are scored from the *context*, never from the forecast, so a short horizon
+  is still exactly the prefix of a long one (`test_truncated_horizon_is_exact`).
+- **No test-time training.** The matched embedding is a function of the context window alone. There
+  is no gradient step and no use of the horizon, so "adaptive inference" does not break zero-shot.
+- **Numerical safety.** Gradients stay finite when every channel of a group forecasts identical
+  values, the case that produced non-finite gradients on the GPU (section 2).
+- **Backward compatibility.** All three default to off, old configs load unchanged, and the
+  conditional convolutions start as the identity, so existing checkpoints are unaffected.
+
+**Cost.** 0.762M parameters against 0.740M for the thesis configuration, still below the "about 1M"
+of Table 3.
+
+**How they are judged.** The `faithful` Kaggle stage pre-trains the model with the same corpus,
+optimiser, budget and seed as the ablation variants, then ablates each of the three components.
+The development benchmark (section 9) decides whether the faithful model is reported as the main
+model; the evaluation datasets are scored once, afterwards, whatever the outcome. If the components
+do not help, that is reported too, and it becomes an argument for cutting them from the thesis text
+rather than keeping them.

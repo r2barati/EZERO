@@ -139,3 +139,88 @@ def test_linear_skip_variant():
     assert torch.allclose(skip(x, 6, horizon=10), skip(x, 6)[:, :10], atol=1e-5)
     old_cfg = {k: v for k, v in small().to_dict().items() if k != "use_linear_skip"}
     assert EZeroConfig.from_dict(old_cfg).use_linear_skip is False
+
+
+# ---------------------------------------------------------------------------
+# Thesis Sec. 3.3.3-3.3.5: components described in the text but absent from the
+# 2024 code (docs/THESIS_REPRODUCTION_NOTES.md, section 11).
+
+def test_faithful_variant_adds_the_three_blocks():
+    base, faith = EZeroModel(small()), EZeroModel(small(**ABLATION_VARIANTS["faithful"]))
+    assert base.simmatch is None and base.feat_enc is None
+    assert faith.simmatch is not None and faith.feat_enc is not None and faith.mixer.attn is not None
+    assert faith.tcn.network[0].film is not None and base.tcn.network[0].film is None
+    assert faith.num_parameters() > base.num_parameters()
+    assert EZeroModel(variant_config("faithful")).num_parameters() < 1.5e6   # thesis Table 3: ~1M
+
+
+def test_feature_attention_is_permutation_invariant():
+    """Zero-shot use needs the channel mixing to be independent of channel order and count."""
+    m = EZeroModel(small(**ABLATION_VARIANTS["faithful"])).eval()
+    with torch.no_grad():
+        # the scorer starts at the unweighted mean and the mixer head at zero
+        for p in m.mixer.parameters():
+            p.add_(0.3 * torch.randn_like(p))
+        x = torch.randn(4, 64).cumsum(-1)
+        g = torch.tensor([0, 0, 0, 1])
+        perm = torch.tensor([2, 0, 1, 3])
+        a = m(x, freq_bucket=6, group=g)
+        b = m(x[perm], freq_bucket=6, group=g[perm])
+        singletons = m(x, freq_bucket=6, group=torch.tensor([0, 1, 2, 3]))
+    assert torch.allclose(a[perm], b, atol=1e-5)
+    assert not torch.allclose(a, singletons, atol=1e-4)   # the grouping really matters
+
+
+def test_feature_attention_weights_sum_to_one_per_group():
+    from ezero.models.components import grouped_softmax
+    score = torch.randn(7)
+    group = torch.tensor([0, 0, 2, 2, 2, 3, 3])
+    alpha = grouped_softmax(score, group, 4)
+    total = torch.zeros(4).index_add_(0, group, alpha)
+    assert torch.allclose(total[[0, 2, 3]], torch.ones(3), atol=1e-6)
+    assert (alpha > 0).all()
+
+
+def test_similarity_matching_uses_only_the_context():
+    """Adaptive inference must not see the horizon: the embedding is a function of the context."""
+    m = EZeroModel(small(**ABLATION_VARIANTS["faithful"])).eval()
+    x = torch.randn(3, 64).cumsum(-1)
+    obs = torch.ones_like(x, dtype=torch.bool)
+    with torch.no_grad():
+        e1 = m.simmatch(*m.normalize(x, obs)[:1], obs)
+        e2 = m.simmatch(*m.normalize(x, obs)[:1], obs)
+    assert e1.shape == (3, m.config.sim_dim) and torch.allclose(e1, e2)
+    assert torch.allclose(m(x, 6, horizon=10), m(x, 6)[:, :10], atol=1e-5)
+
+
+def test_conditional_convolution_starts_as_identity():
+    """FiLM is zero-initialised, so adding it does not change an already trained block."""
+    torch.manual_seed(0)
+    plain = TemporalConvNet(3, [8, 8], 3, [1, 2], dropout=0.0).eval()
+    torch.manual_seed(0)
+    cond = TemporalConvNet(3, [8, 8], 3, [1, 2], dropout=0.0, cond_dim=5).eval()
+    cond.load_state_dict(plain.state_dict(), strict=False)
+    x, c = torch.randn(4, 3, 20), torch.randn(4, 5)
+    with torch.no_grad():
+        assert torch.allclose(plain(x), cond(x, c), atol=1e-6)
+        for p in cond.network[0].film.parameters():
+            p.add_(0.5 * torch.randn_like(p))
+        assert not torch.allclose(plain(x), cond(x, c), atol=1e-4)
+        # the filters really depend on the conditioning vector
+        assert not torch.allclose(cond(x, c), cond(x, torch.randn(4, 5)), atol=1e-4)
+
+
+def test_old_configs_default_the_new_flags_off():
+    old = {k: v for k, v in small().to_dict().items()
+           if k not in ("use_feat_attn", "use_condconv", "use_simmatch", "feat_dim", "sim_dim", "n_prototypes")}
+    cfg = EZeroConfig.from_dict(old)
+    assert not (cfg.use_feat_attn or cfg.use_condconv or cfg.use_simmatch)
+
+
+def test_faithful_variant_gradients_finite_for_identical_channels():
+    m = EZeroModel(small(**ABLATION_VARIANTS["faithful"]))
+    x = torch.zeros(4, 64)
+    x[2:] = torch.randn(2, 64).cumsum(-1)
+    m(x, freq_bucket=6, group=torch.zeros(4, dtype=torch.long)).pow(2).mean().backward()
+    for n, p in m.named_parameters():
+        assert p.grad is None or torch.isfinite(p.grad).all(), n

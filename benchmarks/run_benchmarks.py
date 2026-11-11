@@ -75,6 +75,15 @@ MODEL_REGISTRY["E-ZERO-skip"] = dict(group="ezero", checkpoint="ezero_skip_base.
                                      description="E-ZERO + linear shortcut (N-BEATS + linear + TCN), thesis recipe")
 MODEL_REGISTRY["E-ZERO-v3"] = dict(group="ezero", checkpoint="ezero_v3.pt", tta="selection",
                                    description="E-ZERO v3: candidate selected on the dev benchmark")
+# Thesis Sec. 3.3.3-3.3.5 implemented (feature attention, conditional convolutions, similarity
+# matching + adaptive inference); thesis recipe otherwise, so it is comparable with E-ZERO.
+MODEL_REGISTRY["E-ZERO-faithful"] = dict(group="ezero", checkpoint="ezero_faithful_base.pt",
+                                         description="E-ZERO with the Sec. 3.3.3-3.3.5 components implemented")
+for _mid, _ck in (("E-ZERO-faithNoAttn", "ezero_faithful_faithNoAttn.pt"),
+                  ("E-ZERO-faithNoCond", "ezero_faithful_faithNoCond.pt"),
+                  ("E-ZERO-faithNoSim", "ezero_faithful_faithNoSim.pt")):
+    MODEL_REGISTRY[_mid] = dict(group="ezero-ablation", checkpoint=_ck,
+                                description=f"E-ZERO-faithful ablation ({_mid.split('faithNo')[1]} removed)")
 MODEL_REGISTRY.update({
     "Naive": dict(group="naive", description="last value"),
     "SeasonalNaive": dict(group="naive", description="repeat last season"),

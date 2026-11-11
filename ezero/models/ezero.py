@@ -27,7 +27,7 @@ import torch
 import torch.nn as nn
 
 from ezero.models.components import (DynamicTemporalPooling, ExogenousMixer, MultiResolutionConv,
-                                     ResolutionEmbedding)
+                                     ResolutionEmbedding, SimilarityMatching)
 from ezero.models.nbeats import CrossResolutionBlock, NBeatsBlock
 from ezero.models.tcn import CausalConv1d, TemporalConvNet
 
@@ -62,6 +62,15 @@ class EZeroConfig:
     use_exog: bool = True
     use_tcn: bool = True
     use_nbeats: bool = True
+    # Components described in the thesis text (Sec. 3.3.3-3.3.5) but absent from the 2024 code.
+    # Off by default so that the thesis-configuration checkpoints stay reproducible; the
+    # "faithful" variant turns them on (docs/THESIS_REPRODUCTION_NOTES.md, section 11).
+    use_feat_attn: bool = False    # Sec. 3.3.3: weigh the importance of the features of a group
+    use_condconv: bool = False     # Sec. 3.3.4: TCN filters adjust to the conditioning vector
+    use_simmatch: bool = False     # Sec. 3.3.5: similarity matching + adaptive inference
+    feat_dim: int = 16             # width of the per-channel context summary
+    sim_dim: int = 16              # width of a prototype embedding
+    n_prototypes: int = 32         # size of the learned embedding bank
     # Design option studied after the ablation (docs/THESIS_REPRODUCTION_NOTES.md, section 10): a linear
     # shortcut from the context to the horizon, added to the N-BEATS forecast, as the global linear
     # residual of TiDE (Das et al., 2023). The 64-unit N-BEATS blocks then model the nonlinear residual
@@ -96,6 +105,11 @@ ABLATION_VARIANTS = {
     "noExog": {"use_exog": False},
     "noTCN": {"use_tcn": False},
     "noNBEATS": {"use_nbeats": False},
+    # Sec. 3.3.3-3.3.5 components, and the ablation of each (section 11 of the notes)
+    "faithful": {"use_feat_attn": True, "use_condconv": True, "use_simmatch": True},
+    "faithNoAttn": {"use_feat_attn": False, "use_condconv": True, "use_simmatch": True},
+    "faithNoCond": {"use_feat_attn": True, "use_condconv": False, "use_simmatch": True},
+    "faithNoSim": {"use_feat_attn": True, "use_condconv": True, "use_simmatch": False},
 }
 
 
@@ -113,8 +127,12 @@ class EZeroModel(nn.Module):
             raise ValueError("at least one of use_nbeats / use_tcn must be enabled")
         self.config = cfg
         L, H = cfg.context_length, cfg.horizon
-        cond_dim = cfg.rae_dim if cfg.use_rae else 0
         self.rae = ResolutionEmbedding(cfg.rae_dim) if cfg.use_rae else None
+        # Sec. 3.3.5: the matched prototype embedding joins the RAE in the conditioning vector
+        self.simmatch = SimilarityMatching(cfg.sim_dim, cfg.n_prototypes) if cfg.use_simmatch else None
+        cond_dim = (cfg.rae_dim if cfg.use_rae else 0) + (cfg.sim_dim if cfg.use_simmatch else 0)
+        # Sec. 3.3.3: per-channel summary of the context, used to score the channels of a group
+        self.feat_enc = nn.Linear(2 * cfg.feat_dim, cfg.feat_dim) if cfg.use_feat_attn else None
 
         if cfg.use_nbeats:
             if cfg.use_crrb:
@@ -138,7 +156,8 @@ class EZeroModel(nn.Module):
             else:
                 self.tcn_in = nn.Sequential(CausalConv1d(in_ch, cfg.tcn_channels, cfg.tcn_kernel_size), nn.ReLU())
             self.tcn = TemporalConvNet(cfg.tcn_channels, [cfg.tcn_channels] * len(cfg.tcn_dilations),
-                                       cfg.tcn_kernel_size, list(cfg.tcn_dilations), cfg.dropout)
+                                       cfg.tcn_kernel_size, list(cfg.tcn_dilations), cfg.dropout,
+                                       cond_dim=cond_dim if cfg.use_condconv else 0)
             self.dtp = DynamicTemporalPooling(cfg.tcn_channels) if cfg.use_dtp else None
             self.tcn_head = nn.Conv1d(cfg.tcn_channels, 1, 1)
             nn.init.zeros_(self.tcn_head.weight)
@@ -146,7 +165,8 @@ class EZeroModel(nn.Module):
         else:
             self.tcn_in = self.tcn = self.dtp = self.tcn_head = None
 
-        self.mixer = ExogenousMixer(cfg.mixer_channels, cfg.mixer_layers) if cfg.use_exog else None
+        self.mixer = ExogenousMixer(cfg.mixer_channels, cfg.mixer_layers,
+                                    feat_dim=cfg.feat_dim if cfg.use_feat_attn else 0) if cfg.use_exog else None
 
     # ------------------------------------------------------------------
     def num_parameters(self) -> int:
@@ -172,7 +192,18 @@ class EZeroModel(nn.Module):
         cfg = self.config
         N, L = x.shape
         H = cfg.horizon
-        cond = self.rae(freq_bucket) if self.rae is not None else None
+        parts = []
+        if self.rae is not None:
+            parts.append(self.rae(freq_bucket))
+        if self.simmatch is not None:
+            parts.append(self.simmatch(x, observed))          # context only: still zero-shot
+        cond = torch.cat(parts, dim=-1) if parts else None
+        feat = None
+        if self.feat_enc is not None:
+            d = cfg.feat_dim
+            v = torch.nn.functional.adaptive_avg_pool1d(x.unsqueeze(1), d).squeeze(1)
+            o = torch.nn.functional.adaptive_avg_pool1d(observed.to(x.dtype).unsqueeze(1), d).squeeze(1)
+            feat = self.feat_enc(torch.cat([v, o], dim=-1))   # (N, feat_dim)
 
         if self.blocks is not None:
             residual = x
@@ -201,13 +232,13 @@ class EZeroModel(nn.Module):
             seq = torch.stack(chans, dim=1)                                            # (N, 3, L+H)
             if cond is not None:
                 seq = torch.cat([seq, cond.unsqueeze(-1).expand(-1, -1, L + H)], dim=1)
-            h = self.tcn(self.tcn_in(seq))
+            h = self.tcn(self.tcn_in(seq), cond if cfg.use_condconv else None)
             if self.dtp is not None:
                 h = self.dtp(h, freq_bucket)
             forecast = forecast + self.tcn_head(h[..., L:]).squeeze(1)
 
         if self.mixer is not None and group is not None:
-            forecast = self.mixer(forecast, group, exog_mask, exog_future)
+            forecast = self.mixer(forecast, group, exog_mask, exog_future, feat)
         return forecast
 
     def forward(self, context: torch.Tensor, freq_bucket: torch.Tensor | int | None = None,

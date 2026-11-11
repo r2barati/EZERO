@@ -98,6 +98,24 @@ TWEAKS = [
     "--skip-unavailable",
     f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-skip,E-ZERO-v3,E-ZERO-flip --skip-unavailable",
 ]
+# faithful: the components described in thesis Sec. 3.3.3-3.3.5 but missing from the 2024 code
+# (feature attention, conditional convolutions, similarity matching + adaptive inference). Same
+# corpus, optimiser, budget and seed as the ablation variants, so E-ZERO-faithful is directly
+# comparable with E-ZERO. Each component is then ablated. The development benchmark decides
+# whether the faithful model replaces the thesis configuration; the LSF data is scored once.
+FAITHFUL = [
+    f"{PY} benchmarks/pretrain.py --variant base,faithNoAttn,faithNoCond,faithNoSim "
+    "--config configs/ezero_faithful.yaml --name ezero_faithful --time-budget-min 75",
+    f"{PY} benchmarks/dev_eval.py --checkpoint data/models/ezero_faithful_base.pt "
+    "data/models/ezero_faithful_faithNoAttn.pt data/models/ezero_faithful_faithNoCond.pt "
+    "data/models/ezero_faithful_faithNoSim.pt data/models/ezero_base.pt "
+    "--tta none flip --label faithful --baselines",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-faithful,E-ZERO-faithNoAttn,E-ZERO-faithNoCond,"
+    "E-ZERO-faithNoSim --protocol full --no-merge --skip-unavailable",
+    f"{PY} benchmarks/run_benchmarks.py --model E-ZERO-faithful,E-ZERO-faithNoAttn,E-ZERO-faithNoCond,"
+    "E-ZERO-faithNoSim --protocol sub16 --no-merge --skip-unavailable",
+    f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-faithful --skip-unavailable",
+]
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 1e-4 --out results/training_logs/nan_probe_eps1e-4.json",
@@ -311,7 +329,8 @@ def main():
         status = run_tsfm(env)
     else:
         cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "fullshot2": FULLSHOT2,
-                "fullshot3": FULLSHOT3, "fullval": FULLVAL, "tweaks": TWEAKS, "smoke": SMOKE}[STAGE]
+                "fullshot3": FULLSHOT3, "fullval": FULLVAL, "tweaks": TWEAKS,
+                "faithful": FAITHFUL, "smoke": SMOKE}[STAGE]
         for c in cmds:
             status[c] = sh(c, cwd=SRC, env=env, log_name=f"{STAGE}.log")
             collect()
