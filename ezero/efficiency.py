@@ -51,6 +51,8 @@ def measure(forecaster, batch_size: int = 32, context_length: int = 512, horizon
     ctx = ctx.astype(np.float32)
     out = dict(model=forecaster.name, batch_size=batch_size, context_length=context_length, horizon=horizon,
                params_m=count_params(forecaster))
+    # A full-shot model builds its network on the first predict() call (no training is needed to
+    # time inference), so its parameters can only be counted after the timing runs below.
     for dev in devices:
         if dev == "cuda":
             try:
@@ -75,6 +77,8 @@ def measure(forecaster, batch_size: int = 32, context_length: int = 512, horizon
                 continue
             sec = _time(lambda: forecaster.predict(ctx, freq, horizon), cpu_reps)
             out["cpu_time_s"] = round(sec, 4)
+    if out.get("params_m") is None:
+        out["params_m"] = count_params(forecaster)
     return out
 
 

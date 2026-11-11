@@ -1,0 +1,83 @@
+
+$ /usr/bin/python3 benchmarks/run_benchmarks.py --model DLinear,iTransformer,PatchTST --protocol full --no-merge --skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10
+[DLinear] ETTh1        protocol=full avg MSE=0.4538 (18.4s)
+[DLinear] ETTh2        protocol=full avg MSE=0.4850 (11.8s)
+[DLinear] ETTm1        protocol=full avg MSE=0.4150 (15.5s)
+[DLinear] ETTm2        protocol=full avg MSE=0.3765 (14.7s)
+[DLinear] Weather      protocol=full avg MSE=0.2696 (17.9s)
+[DLinear] Electricity  protocol=full avg MSE=0.1714 (94.0s)
+[DLinear] Traffic      protocol=full avg MSE=0.5280 (125.5s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] ETTh1        protocol=full avg MSE=0.4577 (25.0s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] ETTh2        protocol=full avg MSE=0.3979 (23.8s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] ETTm1        protocol=full avg MSE=0.3849 (49.2s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] ETTm2        protocol=full avg MSE=0.2888 (49.0s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] Weather      protocol=full avg MSE=0.2421 (51.4s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] Electricity  protocol=full avg MSE=0.1628 (514.7s)
+/tmp/ezero/baselines/fullshot.py:81: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[iTransformer] Traffic      protocol=full avg MSE=0.4067 (1938.5s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] ETTh1        protocol=full avg MSE=0.4371 (47.0s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] ETTh2        protocol=full avg MSE=0.3634 (63.2s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] ETTm1        protocol=full avg MSE=0.3712 (356.0s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] ETTm2        protocol=full avg MSE=0.2984 (357.8s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] Weather      protocol=full avg MSE=0.2284 (1036.9s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] Electricity  protocol=full avg MSE=0.1669 (6323.6s)
+/tmp/ezero/baselines/fullshot.py:60: UserWarning: enable_nested_tensor is True, but self.use_nested_tensor is False because encoder_layer.norm_first was True
+  self.encoder = nn.TransformerEncoder(enc, layers)
+[PatchTST] Traffic      protocol=full avg MSE=0.4265 (5959.0s)
+[exit 0 after 17110s]
+
+$ /usr/bin/python3 benchmarks/run_efficiency.py --model DLinear,iTransformer,PatchTST --skip-unavailable
+Traceback (most recent call last):
+  File "/tmp/ezero/benchmarks/run_efficiency.py", line 70, in main
+    fc = make_forecaster(mid, args)
+  File "/tmp/ezero/benchmarks/run_benchmarks.py", line 172, in make_forecaster
+    return FullShotForecaster(model_id, context_length=args.context_length, max_steps=args.fullshot_max_steps,
+                                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'context_length'
+Traceback (most recent call last):
+  File "/tmp/ezero/benchmarks/run_efficiency.py", line 70, in main
+    fc = make_forecaster(mid, args)
+  File "/tmp/ezero/benchmarks/run_benchmarks.py", line 172, in make_forecaster
+    return FullShotForecaster(model_id, context_length=args.context_length, max_steps=args.fullshot_max_steps,
+                                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'context_length'
+Traceback (most recent call last):
+  File "/tmp/ezero/benchmarks/run_efficiency.py", line 70, in main
+    fc = make_forecaster(mid, args)
+  File "/tmp/ezero/benchmarks/run_benchmarks.py", line 172, in make_forecaster
+    return FullShotForecaster(model_id, context_length=args.context_length, max_steps=args.fullshot_max_steps,
+                                                       ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Namespace' object has no attribute 'context_length'
+         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score
+         Naive          32             512       96       NaN        0.012      0.0096      0.0000 Tesla T4            0.0178
+          Mean          32             512       96       NaN        0.035      0.0096      0.0000 Tesla T4            0.0179
+ SeasonalNaive          32             512       96       NaN        0.024      0.0096      0.0000 Tesla T4            0.0179
+        TTM-R2          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0703
+        E-ZERO          32             512       96  0.740134       11.907      0.0525      0.1183 Tesla T4            0.2096
+Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            1.0000
+[exit 1 after 2s]

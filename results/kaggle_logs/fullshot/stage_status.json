@@ -1,0 +1,9 @@
+{
+  "stage": "fullshot",
+  "commit": "0f214e16847ea0953a6535f75f1b31d1b84068f0",
+  "status": {
+    "/usr/bin/python3 benchmarks/run_benchmarks.py --model DLinear,iTransformer,PatchTST --protocol full --no-merge --skip-unavailable --fullshot-max-steps 2000 --fullshot-max-epochs 10": 0,
+    "/usr/bin/python3 benchmarks/run_efficiency.py --model DLinear,iTransformer,PatchTST --skip-unavailable": 1
+  },
+  "minutes": 285.5
+}

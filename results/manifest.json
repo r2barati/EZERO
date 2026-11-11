@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-11-11T00:21:32Z",
-  "git_commit": "0a25ed10223e46049fc4a86ee6193387815f9432",
-  "model_roster_count": 31,
+  "generated_at": "2026-11-11T05:19:03Z",
+  "git_commit": "d65c4bdd73dacbefa61f1d02a9355d3429ffc608",
+  "model_roster_count": 36,
   "models": [
     "E-ZERO",
     "E-ZERO-noMRC",
@@ -12,7 +12,12 @@
     "E-ZERO-noTCN",
     "E-ZERO-noNBEATS",
     "E-ZERO-flip",
+    "E-ZERO-skip",
     "E-ZERO-v3",
+    "E-ZERO-faithful",
+    "E-ZERO-faithNoAttn",
+    "E-ZERO-faithNoCond",
+    "E-ZERO-faithNoSim",
     "Naive",
     "SeasonalNaive",
     "Mean",
@@ -43,7 +48,9 @@
     "ezero": [
       "E-ZERO",
       "E-ZERO-flip",
-      "E-ZERO-v3"
+      "E-ZERO-skip",
+      "E-ZERO-v3",
+      "E-ZERO-faithful"
     ],
     "ezero-ablation": [
       "E-ZERO-noMRC",
@@ -52,7 +59,10 @@
       "E-ZERO-noCRRB",
       "E-ZERO-noExog",
       "E-ZERO-noTCN",
-      "E-ZERO-noNBEATS"
+      "E-ZERO-noNBEATS",
+      "E-ZERO-faithNoAttn",
+      "E-ZERO-faithNoCond",
+      "E-ZERO-faithNoSim"
     ],
     "fullshot": [
       "DLinear",
@@ -147,6 +157,15 @@
       ]
     },
     "full/train/L512": {
+      "DLinear": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "E-ZERO": [
         "ETTh1",
         "ETTh2",
@@ -237,7 +256,25 @@
         "Traffic",
         "Weather"
       ],
+      "PatchTST": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "SeasonalNaive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "iTransformer": [
         "ETTh1",
         "ETTh2",
         "ETTm1",

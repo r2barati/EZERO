@@ -1,4 +1,4 @@
-# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 00:40 UTC)
+# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 05:30 UTC)
 
 All "ours" numbers use the leakage-free protocol: scaler fitted on the train split, context 512, and the
 mean of horizons 96/192/336/720. `full` scores every test window; `sub16` scores 16 identical windows
@@ -48,8 +48,38 @@ Same 16 windows for every model (sub16), averaged over the 4 horizons:
 
 ## 3. Against models trained on each dataset (thesis Table 3: "outperforms other architectures except on Electricity")
 
-Comparison with the values each model's own paper reports (different lookbacks, as in the thesis's own comparison):
+**Our own re-run, every model on the same test windows** (full protocol, stride 1, train-split
+scaling, lookback 512, mean of horizons 96/192/336/720). E-ZERO is zero-shot; the other three were
+trained on each dataset:
 
+| MSE | E-ZERO | PatchTST | iTransformer | DLinear | SeasonalNaive |
+|---|---|---|---|---|---|
+| ETTh1 | 0.450 | **0.437** | 0.458 | 0.454 | 0.600 |
+| ETTh2 | **0.352** | 0.363 | 0.398 | 0.485 | 0.483 |
+| ETTm1 | 0.564 | **0.371** | 0.385 | 0.415 | 0.489 |
+| ETTm2 | **0.287** | 0.298 | 0.289 | 0.377 | 0.358 |
+| Weather | 0.271 | **0.228** | 0.242 | 0.270 | 0.371 |
+| Electricity | 0.286 | 0.167 | **0.163** | 0.171 | 0.330 |
+| Traffic | 0.759 | 0.426 | **0.407** | 0.528 | 1.161 |
+| Average | 0.424 | **0.327** | 0.334 | 0.386 | 0.542 |
+
+**Are the baselines trained well enough for this to be fair?** At lookback 512 our runs land near the
+published numbers: iTransformer is 4.6% *better* than its paper's values (89% of cells within 10%),
+PatchTST 5.4% worse (75% within 10%). DLinear is 14.2% worse at 512, but its paper uses lookback 336
+and at 336 our run reproduces it within 1.4% at every ETTh1 horizon. `fullval` repeats all of them
+with the official per-dataset settings. Full detail: `paper/tables/tableV_reproduction.md`.
+
+**Status: not supported as stated, but stronger than the published-number comparison suggested.**
+- **E-ZERO wins outright on 2 of 7 datasets** (ETTh2, ETTm2) against models that were trained on
+  that dataset, and is within 3% of the best on ETTh1 and level with DLinear on Weather.
+- It loses clearly on ETTm1, Electricity and Traffic: the many-channel datasets and the one where
+  the thesis itself expected to lose.
+- On average it trails PatchTST by 30% and iTransformer by 27%.
+- The thesis claim "outperforms other architectures except on Electricity" does not hold. "Matches
+  or beats models trained on the target data on 4 of 7 benchmarks, without ever seeing them" does.
+
+Comparison with the values each model's own paper reports (different lookbacks, as in the thesis's
+own comparison):
 | E-ZERO zero-shot is better on ... | of |
 |---|---|
 | iTransformer (L=96) | 3 / 7 (ETTh1, ETTh2, ETTm2) |

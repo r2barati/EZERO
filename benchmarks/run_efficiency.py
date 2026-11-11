@@ -54,12 +54,15 @@ def main(argv=None):
     p.add_argument("--cpu-reps", type=int, default=3)
     p.add_argument("--no-cpu", action="store_true")
     p.add_argument("--models-dir", default=MODELS_DIR)
+    p.add_argument("--context-length", type=int, default=512, help="lookback the models are timed at")
     p.add_argument("--skip-unavailable", action="store_true")
     p.add_argument("--merge-only", action="store_true")
     args = p.parse_args(argv)
     if args.merge_only:
         merge()
         return 0
+    # make_forecaster() reads these; full-shot models build their network on the first predict()
+    # call, so no training budget is needed to time inference.
     args.batch_series = 4096
     args.fullshot_max_steps = 0
     args.fullshot_max_epochs = 0
@@ -69,7 +72,8 @@ def main(argv=None):
         try:
             fc = make_forecaster(mid, args)
             devices = ("cuda",) if args.no_cpu else ("cuda", "cpu")
-            row = measure(fc, args.batch_size, 512, args.horizon, args.reps, args.cpu_reps, devices=devices)
+            row = measure(fc, args.batch_size, args.context_length, args.horizon, args.reps, args.cpu_reps,
+                          devices=devices)
             row["device"] = device_name()
             pd.DataFrame([row]).to_csv(os.path.join(CACHE_DIR, f"efficiency_{mid}.csv"), index=False)
             print(row, flush=True)
