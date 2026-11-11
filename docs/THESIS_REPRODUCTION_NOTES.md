@@ -224,7 +224,7 @@ Each candidate is scored on the development benchmark with and without flip aver
 
 **What the tweaks cannot do.** No legitimate change brings ETTh1 to the thesis value of 0.212. Under the standard protocol the strongest published models report about 0.36-0.40 on ETTh1, and our TTM and Chronos-Bolt re-runs are in that range. The realistic goal is to narrow the gap to the strongest zero-shot baselines at E-ZERO's size and cost.
 
-## 10. Where N-BEATS helps, and a design in which it should (study in progress)
+## 10. Where N-BEATS helps, and a design in which it does (full-budget run pending)
 
 **What the ablation actually compared.** "Without N-BEATS" replaces the N-BEATS stack (3 cross-resolution
 blocks, 64 hidden units) by one full-rank linear layer from the 512-step context to the 720-step
@@ -265,6 +265,22 @@ average of their two forecasts **0.760**, better than either. N-BEATS is better 
 carries the periodic copy; the N-BEATS blocks only have to model the nonlinear remainder, which is what
 they are good at in the table above. It keeps the thesis's N-BEATS + TCN structure and its
 hyperparameters, and has 1.115M parameters (the thesis reports 1M).
+
+**Preliminary paired test (short CPU runs).** The three first-stage designs were trained with the same
+corpus, seed and budget (2,500 steps, thesis recipe, one run each) and scored on the development
+benchmark:
+
+| First stage | LOTSA val. loss | Dev score (flip) | Dev score (no flip) | river flow | sunspots | pedestrians | elec. demand |
+|---|---|---|---|---|---|---|---|
+| N-BEATS + TCN (thesis) | 1.5965 | 0.845 | 1.246 | **0.617** | **0.497** | 0.841 | 0.922 |
+| Linear + TCN | 1.5904 | 0.850 | 1.392 | 0.822 | 0.563 | **0.793** | 0.671 |
+| Linear + N-BEATS + TCN | **1.5898** | **0.811** | 1.248 | 0.694 | 0.516 | 0.797 | **0.665** |
+
+The dataset columns are MSE relative to seasonal naive, with flip averaging. The combined model matches
+the linear stage on the periodic datasets and recovers most of N-BEATS's advantage on the aperiodic ones,
+so it is the best of the three overall (4% better than either with flip averaging). In this design
+N-BEATS is beneficial: adding it to the linear stage improves the score from 0.850 to 0.811. These are
+short single-seed runs; the full-budget run below decides.
 
 **How it is judged**
 
