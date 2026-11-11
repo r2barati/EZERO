@@ -223,3 +223,51 @@ None is in any pre-training corpus here; `load_corpus` refuses them. The score i
 Each candidate is scored on the development benchmark with and without flip averaging, together with the thesis-configuration checkpoint. The lowest score wins (ties go to the simpler option) and becomes `E-ZERO-v3`. `E-ZERO-flip` (the thesis checkpoint with flip averaging) is reported as well. All candidates and their scores are published, including any that do not help.
 
 **What the tweaks cannot do.** No legitimate change brings ETTh1 to the thesis value of 0.212. Under the standard protocol the strongest published models report about 0.36-0.40 on ETTh1, and our TTM and Chronos-Bolt re-runs are in that range. The realistic goal is to narrow the gap to the strongest zero-shot baselines at E-ZERO's size and cost.
+
+## 10. Where N-BEATS helps, and a design in which it should (study in progress)
+
+**What the ablation actually compared.** "Without N-BEATS" replaces the N-BEATS stack (3 cross-resolution
+blocks, 64 hidden units) by one full-rank linear layer from the 512-step context to the 720-step
+horizon, followed by the same TCN. So the result is "a linear first stage beats a 64-unit N-BEATS first
+stage on average", not "N-BEATS is useless".
+
+**Where N-BEATS wins in our own results** (MSE change when N-BEATS is replaced by the linear layer, full
+test set; positive = N-BEATS was helping):
+
+| Dataset (sampling, channels) | H=96 | H=192 | H=336 | H=720 |
+|---|---|---|---|---|
+| Weather (10 min, 21) | +4.8% | +10.1% | +12.7% | +13.4% |
+| ETTm2 (15 min, 7) | +0.7% | +5.8% | +7.0% | +7.6% |
+| ETTm1 (15 min, 7) | +2.3% | +1.6% | +2.0% | +4.1% |
+| ETTh2 (hourly, 7) | -5.2% | -1.1% | +2.3% | -1.0% |
+| ETTh1 (hourly, 7) | -3.0% | -3.3% | -4.5% | -7.6% |
+| Electricity (hourly, 321) | -13.0% | -14.5% | -15.2% | -13.0% |
+| Traffic (hourly, 862) | -23.4% | -24.9% | -25.7% | -24.6% |
+
+- **N-BEATS helps on the minute-level datasets, and more the longer the horizon.** There the 512-step context covers only 3.5-5 days and the forecast must extrapolate.
+- **The linear layer wins on hourly, strongly periodic data.** There 512 steps span three weekly cycles and the forecast is close to copying earlier cycles. A 64-unit bottleneck cannot represent that copy; a full-rank linear map can.
+
+**The two first stages are complementary on held-out data.** On the development benchmark (flip
+averaging, existing checkpoints, no training): N-BEATS + TCN 0.802, linear + TCN 0.777, and the plain
+average of their two forecasts **0.760**, better than either. N-BEATS is better on the aperiodic sets
+(river flow 0.60 vs 0.77, sunspots 0.54 vs 0.67); the linear stage is better on the periodic ones
+(pedestrians, electricity demand, births).
+
+**What other research says**
+
+- **Linear maps on these benchmarks.** Zeng et al. (2023, DLinear/NLinear) showed that a single linear layer from lookback to horizon is a strong long-horizon forecaster on exactly these datasets.
+- **A linear shortcut in an MLP forecaster.** TiDE (Das et al., 2023) adds "a global residual connection that linearly maps the look-back ... to a vector the size of the horizon", so that a purely linear model "is always a subclass" of the MLP model.
+- **N-BEATS at long horizons.** N-HiTS (Challu et al., 2023) extends N-BEATS with multi-rate input pooling and hierarchical interpolation for long horizons and reports almost 20% better accuracy than Transformer models. E-ZERO's CRRB blocks follow the same idea, and CRRB is one of the two components that helps in our ablation (+4.2% when removed).
+- **N-BEATS for zero-shot transfer.** Oreshkin et al. (2021) showed N-BEATS transfers zero-shot across datasets and attribute this to its residual stacking. The original N-BEATS (Oreshkin et al., 2020) is a very deep, wide stack; the thesis configuration (3 blocks x 64 units) is far smaller.
+
+**Design under test: linear shortcut + N-BEATS residual + TCN** (`use_linear_skip`, registry id
+`E-ZERO-skip`). The forecast is `linear(context) + N-BEATS(context)`, refined by the TCN. The linear path
+carries the periodic copy; the N-BEATS blocks only have to model the nonlinear remainder, which is what
+they are good at in the table above. It keeps the thesis's N-BEATS + TCN structure and its
+hyperparameters, and has 1.115M parameters (the thesis reports 1M).
+
+**How it is judged**
+
+- **Full-budget test (queued, `tweaks` stage):** `E-ZERO-skip` is pre-trained with the same corpus, budget and seed as the ablation variants, so it can be compared directly with N-BEATS + TCN and linear + TCN (`paper/tables/table5b_nbeats_design`).
+- **Selection for E-ZERO v3:** on the development benchmark only. All candidates keep N-BEATS; the linear + TCN variant is scored as a reference and reported whatever the outcome.
+- **Caveat:** the idea was prompted by the evaluation-set ablation. That is why the decision rests on the development benchmark, and why the study is reported as a post-hoc design study rather than as part of the original thesis design.
