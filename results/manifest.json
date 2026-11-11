@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-11T10:33:58Z",
-  "git_commit": "f2dd0b1eb49ed1e6ccb404c7f49881ecbef83dba",
+  "generated_at": "2026-11-11T11:39:57Z",
+  "git_commit": "ab7cf283bc142be570da1120c0dde65377030d72",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -175,6 +175,42 @@
         "Traffic",
         "Weather"
       ],
+      "E-ZERO-faithNoAttn": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithNoCond": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithNoSim": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithful": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "E-ZERO-flip": [
         "ETTh1",
         "ETTh2",
@@ -331,6 +367,42 @@
         "Weather"
       ],
       "E-ZERO": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithNoAttn": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithNoCond": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithNoSim": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "E-ZERO-faithful": [
         "ETTh1",
         "ETTh2",
         "ETTm1",

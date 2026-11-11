@@ -1,4 +1,4 @@
-# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 10:45 UTC)
+# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 11:50 UTC)
 
 All "ours" numbers use the leakage-free protocol: scaler fitted on the train split, context 512, and the
 mean of horizons 96/192/336/720. `full` scores every test window; `sub16` scores 16 identical windows
@@ -157,6 +157,26 @@ The dev score is on the held-out development benchmark; lower is better and belo
 - **The thesis's main ablation claim**, that N-BEATS matters most, is contradicted.
 - **Caveat:** each variant is a single training run, so differences of a few percent may be noise. The large effects (N-BEATS on Traffic/Electricity, TCN on Weather, CRRB on ETTm1) are not.
 - **No architecture change has been made from these evaluation-set numbers.** Any change has to be justified on the development benchmark (see `results/dev/dev_results.csv`, label `ablations-dev`).
+
+## 6. The Sec. 3.3.3-3.3.5 components: built, measured, neutral
+
+The three components the thesis describes but the 2024 code never contained (feature attention,
+conditional convolutions, similarity matching with adaptive inference) are now implemented and
+trained on the thesis recipe. They make no reliable difference:
+
+| | Dev score (decides) | Test MSE |
+|---|---|---|
+| E-ZERO (thesis configuration) | **0.802** | 0.424 |
+| E-ZERO-faithful (all three) | 0.819 | **0.417** |
+
+The two benchmarks disagree and both gaps are about 2%, which one training run can produce alone.
+The development benchmark is the one that decides, so the thesis configuration stays the headline
+model.
+
+**This fixes the serious problem, not the accuracy.** The thesis text no longer describes components
+that are absent from the artifact. It still cannot claim they improve anything, and the results
+tables change exactly as much as before. Any revision must say they were implemented in 2026 and
+measured as neutral. Details and the per-component ablation: notes section 11.
 
 ## 6. The N-BEATS design question, answered
 

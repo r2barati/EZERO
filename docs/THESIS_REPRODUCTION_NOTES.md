@@ -297,12 +297,40 @@ thesis should say so in a clause rather than list it as part of the zero-shot pa
 **Cost.** 0.762M parameters against 0.740M for the thesis configuration, still below the "about 1M"
 of Table 3.
 
-**How they are judged.** The `faithful` Kaggle stage pre-trains the model with the same corpus,
-optimiser, budget and seed as the ablation variants, then ablates each of the three components.
-The development benchmark (section 9) decides whether the faithful model is reported as the main
-model; the evaluation datasets are scored once, afterwards, whatever the outcome. If the components
-do not help, that is reported too, and it becomes an argument for cutting them from the thesis text
-rather than keeping them.
+**How they were judged.** The `faithful` Kaggle stage pre-trained the model with the same corpus,
+optimiser, budget and seed as the ablation variants, then ablated each component. The development
+benchmark (section 9) decided whether the faithful model replaces the thesis configuration as the
+headline; the evaluation datasets were scored once, afterwards.
+
+**Result: no reliable difference.** The two benchmarks disagree, and both differences are about 2%,
+which a single training run can produce by itself.
+
+| Model | Dev score (flip) | Test MSE (full) |
+|---|---|---|
+| E-ZERO (thesis configuration) | **0.802** | 0.424 |
+| E-ZERO-faithful (all three) | 0.819 | **0.417** |
+| w/o feature attention | 0.884 | 0.418 |
+| w/o conditional convolutions | 0.815 | 0.421 |
+| w/o similarity matching | 0.810 | 0.424 |
+
+The development benchmark is the one that decides, and it says the faithful model is 2.1% worse, so
+**the thesis configuration stays the headline model** and the components are not adopted. Feature
+attention is the only one that looks useful, and only on the development data (removing it costs
+7.9% there, nothing on the test data), so even that is not solid on one run each.
+
+**What this does and does not settle.**
+
+- **Settled:** Sec. 3.3.3-3.3.5 describe things that can be built as written, and they now exist,
+  are tested and are measured. The thesis text no longer describes components that are absent from
+  the artifact, which was the serious problem.
+- **Not settled, and not claimable:** that the components improve accuracy. They do not, within
+  noise. Any revision must say they were implemented in 2026 and measured as neutral, never imply
+  that the 2024 results came from them.
+- **Does not reduce the corrections.** The results tables still change exactly as much as before.
+
+Three single runs cannot separate 2% effects. Settling it would need several seeds per variant,
+about 15 GPU-hours, which is not worth spending for a component set that shows no signal.
+
 
 ## 12. Moirai-S: mean vs median of the sampled paths
 
