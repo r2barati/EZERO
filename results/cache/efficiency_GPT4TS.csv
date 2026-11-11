@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,cpu_time_s,device
+GPT4TS,32,512,96,86.64432,69.221,0.5649,1.4073,Tesla T4

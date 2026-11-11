@@ -1,0 +1,2 @@
+model,batch_size,context_length,horizon,params_m,gpu_time_ms,gpu_mem_gb,cpu_time_s,device
+Moirai-S,32,512,96,13.827528,41.254,0.1197,0.5716,Tesla T4

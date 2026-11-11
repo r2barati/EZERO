@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-11T05:19:03Z",
-  "git_commit": "d65c4bdd73dacbefa61f1d02a9355d3429ffc608",
+  "generated_at": "2026-11-11T08:26:32Z",
+  "git_commit": "b37375dcbecb176f50efe80e2db7dece7d6e7bdf",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -294,6 +294,15 @@
         "Traffic",
         "Weather"
       ],
+      "Chronos-T": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "E-ZERO": [
         "ETTh1",
         "ETTh2",
@@ -393,7 +402,34 @@
         "Traffic",
         "Weather"
       ],
+      "TTM-R1": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "TTM-R2": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TimesFM-1.0": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TimesFM-2.5": [
         "ETTh1",
         "ETTh2",
         "ETTm1",

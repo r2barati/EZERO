@@ -1,0 +1,553 @@
+[{"stream_name":"stdout","time":1.554977247,"data":"\n"}
+,{"stream_name":"stdout","time":1.5550143269999999,"data":"$ git clone --quiet https://github.com/r2barati/EZERO.git /tmp/ezero\n"}
+,{"stream_name":"stdout","time":3.375396923,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":3.376802298,"data":"\n"}
+,{"stream_name":"stdout","time":3.376818504,"data":"$ git -C /tmp/ezero fetch --quiet origin 0fc201b0a5871c1bbf69c72bb8f322985819b2dc || true\n"}
+,{"stream_name":"stdout","time":3.6123797189999998,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":3.612651068,"data":"\n"}
+,{"stream_name":"stdout","time":3.6126712579999998,"data":"$ git -C /tmp/ezero checkout --quiet 0fc201b0a5871c1bbf69c72bb8f322985819b2dc\n"}
+,{"stream_name":"stdout","time":3.628157894,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":3.628175533,"data":"\n"}
+,{"stream_name":"stdout","time":3.628181794,"data":"$ /usr/bin/python3 -m pip install --quiet --no-input -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":13.896527623,"data":"[exit 0 after 10s]\n"}
+,{"stream_name":"stdout","time":13.896785465,"data":"\n"}
+,{"stream_name":"stdout","time":13.896806853,"data":"$ nvidia-smi || true\n"}
+,{"stream_name":"stdout","time":13.929066426,"data":"Tue Nov 10 20:15:50 2026       \n"}
+,{"stream_name":"stdout","time":13.929096071,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":13.929100072,"data":"| NVIDIA-SMI 580.178.04             Driver Version: 580.178.04     CUDA Version: 13.0     |\n"}
+,{"stream_name":"stdout","time":13.929102692,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":13.929105648,"data":"| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n"}
+,{"stream_name":"stdout","time":13.929108163,"data":"| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n"}
+,{"stream_name":"stdout","time":13.929110606,"data":"|                                         |                        |               MIG M. |\n"}
+,{"stream_name":"stdout","time":13.929113227,"data":"|=========================================+========================+======================|\n"}
+,{"stream_name":"stdout","time":13.960231143,"data":"|   0  Tesla T4                       Off |   00000000:00:04.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":13.960261994,"data":"| N/A   40C    P8             12W /   70W |       0MiB /  15360MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":13.960267739,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":13.960272396,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":13.960276649,"data":"|   1  Tesla T4                       Off |   00000000:00:05.0 Off |                    0 |\n"}
+,{"stream_name":"stdout","time":13.960280791,"data":"| N/A   51C    P8             12W /   70W |       0MiB /  15360MiB |      0%      Default |\n"}
+,{"stream_name":"stdout","time":13.960284966,"data":"|                                         |                        |                  N/A |\n"}
+,{"stream_name":"stdout","time":13.96028919,"data":"+-----------------------------------------+------------------------+----------------------+\n"}
+,{"stream_name":"stdout","time":13.960819352,"data":"\n"}
+,{"stream_name":"stdout","time":13.960831860999999,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":13.960849954,"data":"| Processes:                                                                              |\n"}
+,{"stream_name":"stdout","time":13.96085376,"data":"|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n"}
+,{"stream_name":"stdout","time":13.9608575,"data":"|        ID   ID                                                               Usage      |\n"}
+,{"stream_name":"stdout","time":13.960861036,"data":"|=========================================================================================|\n"}
+,{"stream_name":"stdout","time":13.962516942,"data":"|  No running processes found                                                             |\n"}
+,{"stream_name":"stdout","time":13.96255273,"data":"+-----------------------------------------------------------------------------------------+\n"}
+,{"stream_name":"stdout","time":14.285127425,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":14.285169404,"data":"\n"}
+,{"stream_name":"stdout","time":14.285174695,"data":"$ /usr/bin/python3 -c \"import torch;print(torch.__version__, torch.cuda.is_available())\"\n"}
+,{"stream_name":"stdout","time":28.256646942,"data":"2.11.0+cu130 True\n"}
+,{"stream_name":"stdout","time":34.15953775,"data":"[exit 0 after 20s]\n"}
+,{"stream_name":"stdout","time":34.159616065,"data":"\n"}
+,{"stream_name":"stdout","time":34.159654274,"data":"$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_chronos-t\n"}
+,{"stream_name":"stdout","time":34.267068289,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":34.267546068,"data":"\n"}
+,{"stream_name":"stdout","time":34.267562634,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_chronos-t/bin/python --version\n"}
+,{"stream_name":"stdout","time":34.683123643,"data":"pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)\n"}
+,{"stream_name":"stdout","time":34.743465525,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":34.743633014,"data":"\n"}
+,{"stream_name":"stdout","time":34.743647448,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_chronos-t/bin/python install --quiet --no-input 'chronos-forecasting\u003e=1.5'\n"}
+,{"stream_name":"stdout","time":37.096028136,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":37.096073636,"data":"\n"}
+,{"stream_name":"stdout","time":37.096079498,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_chronos-t/bin/python install --quiet --no-input --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":41.434198308,"data":"[exit 0 after 4s]\n"}
+,{"stream_name":"stdout","time":41.434241118,"data":"\n"}
+,{"stream_name":"stdout","time":41.434252298,"data":"$ /tmp/venv_chronos-t/bin/python benchmarks/run_benchmarks.py --model Chronos-T --protocol sub16 --no-merge --skip-unavailable\n"}
+,{"stream_name":"stdout","time":81.08429934,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":84.568117423,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":143.241327036,"data":"[Chronos-T] ETTh1        protocol=sub16 avg MSE=0.6101 (58.7s)\n"}
+,{"stream_name":"stdout","time":143.84792477,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":203.328668784,"data":"[Chronos-T] ETTh2        protocol=sub16 avg MSE=0.4593 (59.5s)\n"}
+,{"stream_name":"stdout","time":203.6096329,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":266.984196377,"data":"[Chronos-T] ETTm1        protocol=sub16 avg MSE=0.7205 (63.4s)\n"}
+,{"stream_name":"stdout","time":271.842996102,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":337.174126198,"data":"[Chronos-T] ETTm2        protocol=sub16 avg MSE=0.3617 (65.3s)\n"}
+,{"stream_name":"stdout","time":337.490245097,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":411.458726891,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":485.142486687,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":532.193939308,"data":"[Chronos-T] Weather      protocol=sub16 avg MSE=0.3553 (194.7s)\n"}
+,{"stream_name":"stdout","time":534.220877206,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":608.528079291,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":682.743821922,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":756.82094721,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":830.87156727,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":904.857261032,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":978.870571583,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1052.798048635,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1126.73218681,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1200.604664623,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1274.48953816,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1348.405197193,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1422.408929766,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1496.546331321,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1570.682086224,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1644.682530734,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1718.733298779,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1792.72183902,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1866.624947473,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":1940.611533088,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2014.59910556,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2088.566583782,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2162.559300605,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2236.543045672,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2310.505929997,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2384.460884748,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2458.466776582,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2532.508411601,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2606.640562202,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2680.708391111,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2754.848355407,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2762.841638257,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2836.955642993,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2910.971415344,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":2984.971811073,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3058.98213333,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3132.891611444,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3206.863697436,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3280.936398185,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3355.081456698,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3429.21187262,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3503.287646355,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3508.873176399,"data":"[Chronos-T] Electricity  protocol=sub16 avg MSE=0.3459 (2974.7s)\n"}
+,{"stream_name":"stdout","time":3511.622776122,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3585.4258453,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3659.423562169,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3733.493433505,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3807.748710662,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3881.901827998,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":3955.700045504,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4029.65468399,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4103.691584188,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4177.723158511,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4251.684364486,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4325.649861694,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4399.642092102,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4473.564078302,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4547.476091793,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4621.490666019,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4695.519758646,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4769.56177518,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4843.459479001,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4917.342127626,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":4991.232884703,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5065.19366696,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5139.102881534,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5213.039011871,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5286.903374411,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5360.758931699,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5434.610391901,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5503.942643916,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5577.910658203,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5651.910812479,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5725.830804234,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5799.820921368,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5873.766624215,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":5947.69739537,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6021.561395228,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6095.42920034,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6169.343235327,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6243.309986542,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6317.273807752,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6391.288827389,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6465.327163846,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6539.441272658,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6613.522831725,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6687.645009826,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6761.719160449,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6835.800755867,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6909.902754752,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":6983.969258171,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7058.032647859,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7132.021615401,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7205.998802722,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7279.97994815,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7353.795379242,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7427.561335323,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7496.801123306,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7570.512056972,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7644.20569615,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7717.939189861,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7791.720700195,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7865.540360276,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":7939.29084533,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8013.046164538,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8086.805400618,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8160.494663149,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8234.19673538,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8307.871796631,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8381.683539995,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8455.546537566,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8529.34136085,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8603.061069066,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8676.78645657,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8750.683455528,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8824.595416449,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8898.425617749,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":8972.377367343,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9046.41179762,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9120.423164023,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9194.506482737,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9268.422559598,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9342.311715526,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9416.167299471,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9485.458385484,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9559.348450002,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9633.208247533,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9707.042214498,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9780.788997616,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9854.635967341,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":9928.432199918,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10002.249639108,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10076.135573924,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10150.031734093,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10223.969641418,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10297.842460249,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10371.733073331,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10445.593310318,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10519.414340014,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10593.359534907,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10667.252859126,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10741.251838967,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10815.253999328,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10889.177706563,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":10963.150988241,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11037.068063293,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11110.976430284,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11184.837869614,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11258.797952847,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11332.783039553,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11406.688894528,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11476.083523698,"data":"[Chronos-T] Traffic      protocol=sub16 avg MSE=1.0477 (7964.5s)\n"}
+,{"stream_name":"stdout","time":11477.773139272,"data":"[exit 0 after 11436s]\n"}
+,{"stream_name":"stdout","time":11477.773421782,"data":"\n"}
+,{"stream_name":"stdout","time":11477.773434838,"data":"$ /tmp/venv_chronos-t/bin/python benchmarks/run_efficiency.py --model Chronos-T --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":11486.434254347,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11489.469674092,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11492.003259682,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11494.557960752,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11497.111880844,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11499.706227409,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11502.376412141,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11526.710111798,"data":"We recommend keeping prediction length \u003c= 64. The quality of longer predictions may degrade since the model is not optimized for it. \n"}
+,{"stream_name":"stdout","time":11550.258944272,"data":"{'model': 'Chronos-T', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 8.394496, 'gpu_time_ms': 2554.662, 'gpu_mem_gb': 1.896, 'cpu_time_s': 23.5446, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":11550.304587843,"data":"         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":11550.304613365,"data":"        TTM-R2          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0037\n"}
+,{"stream_name":"stdout","time":11550.304619316,"data":"Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            0.0528\n"}
+,{"stream_name":"stdout","time":11550.304636182,"data":"     Chronos-T          32             512       96  8.394496     2554.662      1.8960     23.5446 Tesla T4            1.0000\n"}
+,{"stream_name":"stdout","time":11551.611969005,"data":"[exit 0 after 74s]\n"}
+,{"stream_name":"stdout","time":11551.612409592,"data":"\n"}
+,{"stream_name":"stdout","time":11551.61242566,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_chronos-t/bin/python \u003e /kaggle/working/logs/pip_freeze_Chronos-T.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_chronos-t/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_Chronos-T.txt\n"}
+,{"stream_name":"stdout","time":11553.00240223,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":11553.00406396,"data":"\n"}
+,{"stream_name":"stdout","time":11553.004084348,"data":"$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_ttm-r1\n"}
+,{"stream_name":"stdout","time":11553.092566758,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":11553.092677617,"data":"\n"}
+,{"stream_name":"stdout","time":11553.092692587,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_ttm-r1/bin/python --version\n"}
+,{"stream_name":"stdout","time":11553.485439442,"data":"pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)\n"}
+,{"stream_name":"stdout","time":11553.542489362,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":11553.542547939,"data":"\n"}
+,{"stream_name":"stdout","time":11553.542555073,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_ttm-r1/bin/python install --quiet --no-input granite-tsfm\n"}
+,{"stream_name":"stdout","time":11556.460157407,"data":"[exit 0 after 3s]\n"}
+,{"stream_name":"stdout","time":11556.460520226,"data":"\n"}
+,{"stream_name":"stdout","time":11556.460534213,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_ttm-r1/bin/python install --quiet --no-input --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":11560.700980379,"data":"[exit 0 after 4s]\n"}
+,{"stream_name":"stdout","time":11560.701029307,"data":"\n"}
+,{"stream_name":"stdout","time":11560.701039428,"data":"$ /tmp/venv_ttm-r1/bin/python benchmarks/run_benchmarks.py --model TTM-R1 --protocol sub16 --no-merge --skip-unavailable\n"}
+,{"stream_name":"stdout","time":11573.188494248,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r1/revision/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stdout","time":11573.251072846,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r1/resolve/f04bebdd4c13475b006ce72672e74c9dc28871dc/adapter_config.json \"HTTP/1.1 404 Not Found\"\n"}
+,{"stream_name":"stdout","time":11573.251376641,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":11573.251387786,"data":"WARNING:p-306:t-132757462881024:_http.py:_warn_on_warning_headers:Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":11573.31129213,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r1/resolve/f04bebdd4c13475b006ce72672e74c9dc28871dc/config.json \"HTTP/1.1 307 Temporary Redirect\"\n"}
+,{"stream_name":"stdout","time":11573.408730818,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r1/f04bebdd4c13475b006ce72672e74c9dc28871dc/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r1%2Fresolve%2Ff04bebdd4c13475b006ce72672e74c9dc28871dc%2Fconfig.json=\u0026etag=%22eee0e527833507fcd808099570256478c0178ba2%22 \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stdout","time":11573.508224159,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/resolve-cache/models/ibm-granite/granite-timeseries-ttm-r1/f04bebdd4c13475b006ce72672e74c9dc28871dc/config.json?%2Fibm-granite%2Fgranite-timeseries-ttm-r1%2Fresolve%2Ff04bebdd4c13475b006ce72672e74c9dc28871dc%2Fconfig.json=\u0026etag=%22eee0e527833507fcd808099570256478c0178ba2%22 \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stdout","time":11573.578263233,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: HEAD https://huggingface.co/ibm-granite/granite-timeseries-ttm-r1/resolve/f04bebdd4c13475b006ce72672e74c9dc28871dc/model.safetensors \"HTTP/1.1 302 Found\"\n"}
+,{"stream_name":"stdout","time":11573.645229587,"data":"INFO:p-306:t-132757462881024:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r1/xet-read-token/f04bebdd4c13475b006ce72672e74c9dc28871dc \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stdout","time":11576.463280603,"data":"[TTM-R1] ETTh1        protocol=sub16 avg MSE=0.3826 (0.4s)\n"}
+,{"stream_name":"stdout","time":11576.565490171,"data":"[TTM-R1] ETTh2        protocol=sub16 avg MSE=0.3162 (0.1s)\n"}
+,{"stream_name":"stdout","time":11576.795662344,"data":"[TTM-R1] ETTm1        protocol=sub16 avg MSE=0.5375 (0.1s)\n"}
+,{"stream_name":"stdout","time":11577.007356929,"data":"[TTM-R1] ETTm2        protocol=sub16 avg MSE=0.3720 (0.1s)\n"}
+,{"stream_name":"stdout","time":11577.284891123,"data":"[TTM-R1] Weather      protocol=sub16 avg MSE=0.2359 (0.1s)\n"}
+,{"stream_name":"stdout","time":11579.782258366,"data":"[TTM-R1] Electricity  protocol=sub16 avg MSE=0.1903 (1.0s)\n"}
+,{"stream_name":"stdout","time":11584.660891576,"data":"[TTM-R1] Traffic      protocol=sub16 avg MSE=0.5279 (2.6s)\n"}
+,{"stream_name":"stdout","time":11586.049463374,"data":"[exit 0 after 25s]\n"}
+,{"stream_name":"stdout","time":11586.049591288,"data":"\n"}
+,{"stream_name":"stdout","time":11586.053842837,"data":"$ /tmp/venv_ttm-r1/bin/python benchmarks/run_efficiency.py --model TTM-R1 --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":11595.286532974,"data":"INFO:p-367:t-136081029600000:_client.py:_send_single_request:HTTP Request: GET https://huggingface.co/api/models/ibm-granite/granite-timeseries-ttm-r1/revision/main \"HTTP/1.1 200 OK\"\n"}
+,{"stream_name":"stdout","time":11596.153129804,"data":"{'model': 'TTM-R1', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 0.80528, 'gpu_time_ms': 5.975, 'gpu_mem_gb': 0.0154, 'cpu_time_s': 0.0168, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":11596.170979321,"data":"         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":11596.171012276,"data":"        TTM-R2          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0037\n"}
+,{"stream_name":"stdout","time":11596.171034887,"data":"        TTM-R1          32             512       96  0.805280        5.975      0.0154      0.0168 Tesla T4            0.0037\n"}
+,{"stream_name":"stdout","time":11596.17104186,"data":"Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            0.0528\n"}
+,{"stream_name":"stdout","time":11596.171048459,"data":"     Chronos-T          32             512       96  8.394496     2554.662      1.8960     23.5446 Tesla T4            1.0000\n"}
+,{"stream_name":"stdout","time":11597.573255628,"data":"[exit 0 after 12s]\n"}
+,{"stream_name":"stdout","time":11597.573633402,"data":"\n"}
+,{"stream_name":"stdout","time":11597.573654669,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_ttm-r1/bin/python \u003e /kaggle/working/logs/pip_freeze_TTM-R1.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_ttm-r1/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_TTM-R1.txt\n"}
+,{"stream_name":"stdout","time":11598.797037806,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":11598.798776977,"data":"\n"}
+,{"stream_name":"stdout","time":11598.798795453,"data":"$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_moirai-s\n"}
+,{"stream_name":"stdout","time":11598.888539663,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":11598.888614665,"data":"\n"}
+,{"stream_name":"stdout","time":11598.888631229,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_moirai-s/bin/python --version\n"}
+,{"stream_name":"stdout","time":11599.278896472,"data":"pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)\n"}
+,{"stream_name":"stdout","time":11599.336928485,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":11599.336967733,"data":"\n"}
+,{"stream_name":"stdout","time":11599.336973102,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_moirai-s/bin/python install --quiet --no-input --no-deps 'uni2ts\u003e=2'\n"}
+,{"stream_name":"stdout","time":11600.658136155,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":11600.658554845,"data":"\n"}
+,{"stream_name":"stdout","time":11600.658569376,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_moirai-s/bin/python install --quiet --no-input einops jaxtyping jax gluonts lightning hydra-core python-dotenv safetensors\n"}
+,{"stream_name":"stdout","time":11608.721478004,"data":"ERROR: pip's dependency resolver does not currently take into account all the packages that are installed. This behaviour is the source of the following dependency conflicts.\n"}
+,{"stream_name":"stdout","time":11608.72151968,"data":"uni2ts 2.0.0 requires datasets~=2.17.1, but you have datasets 4.8.5 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721528485,"data":"uni2ts 2.0.0 requires einops==0.7.*, but you have einops 0.8.2 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721532932,"data":"uni2ts 2.0.0 requires gluonts~=0.14.3, but you have gluonts 0.17.0 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721537202,"data":"uni2ts 2.0.0 requires hydra-core==1.3, but you have hydra-core 1.3.8 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721541309,"data":"uni2ts 2.0.0 requires jaxtyping~=0.2.24, but you have jaxtyping 0.3.11 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721545415,"data":"uni2ts 2.0.0 requires numpy~=1.26.0, but you have numpy 2.1.3 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721549499,"data":"uni2ts 2.0.0 requires python-dotenv==1.0.0, but you have python-dotenv 1.2.4 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721553775,"data":"uni2ts 2.0.0 requires scipy~=1.11.3, but you have scipy 1.16.3 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.721557937,"data":"uni2ts 2.0.0 requires torch\u003c2.5,\u003e=2.1, but you have torch 2.11.0+cu130 which is incompatible.\n"}
+,{"stream_name":"stdout","time":11608.930773758,"data":"[exit 0 after 8s]\n"}
+,{"stream_name":"stdout","time":11608.930822816,"data":"\n"}
+,{"stream_name":"stdout","time":11608.930831686,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_moirai-s/bin/python install --quiet --no-input --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":11613.30836544,"data":"[exit 0 after 4s]\n"}
+,{"stream_name":"stdout","time":11613.308395657,"data":"\n"}
+,{"stream_name":"stdout","time":11613.308402282,"data":"$ /tmp/venv_moirai-s/bin/python benchmarks/run_benchmarks.py --model Moirai-S --protocol sub16 --no-merge --skip-unavailable\n"}
+,{"stream_name":"stdout","time":11629.933833655,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":11633.094941737,"data":"[Moirai-S] ETTh1        protocol=sub16 avg MSE=2.2474 (1.2s)\n"}
+,{"stream_name":"stdout","time":11633.298706237,"data":"[Moirai-S] ETTh2        protocol=sub16 avg MSE=145514987.4732 (0.2s)\n"}
+,{"stream_name":"stdout","time":11633.597943279,"data":"[Moirai-S] ETTm1        protocol=sub16 avg MSE=229.3010 (0.1s)\n"}
+,{"stream_name":"stdout","time":11633.868667218,"data":"[Moirai-S] ETTm2        protocol=sub16 avg MSE=13535141.9831 (0.1s)\n"}
+,{"stream_name":"stdout","time":11634.405948125,"data":"[Moirai-S] Weather      protocol=sub16 avg MSE=9453660.6275 (0.4s)\n"}
+,{"stream_name":"stdout","time":11641.555876963,"data":"[Moirai-S] Electricity  protocol=sub16 avg MSE=252753247.7813 (5.6s)\n"}
+,{"stream_name":"stdout","time":11658.991075152,"data":"[Moirai-S] Traffic      protocol=sub16 avg MSE=290426.1359 (15.1s)\n"}
+,{"stream_name":"stdout","time":11660.609304959,"data":"[exit 0 after 47s]\n"}
+,{"stream_name":"stdout","time":11660.609345918,"data":"\n"}
+,{"stream_name":"stdout","time":11660.609352756,"data":"$ /tmp/venv_moirai-s/bin/python benchmarks/run_efficiency.py --model Moirai-S --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":11670.626643219,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":11673.292091125,"data":"{'model': 'Moirai-S', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 13.827528, 'gpu_time_ms': 41.254, 'gpu_mem_gb': 0.1197, 'cpu_time_s': 0.5716, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":11673.309030112,"data":"         model  batch_size  context_length  horizon  params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":11673.309071969,"data":"        TTM-R1          32             512       96  0.805280        5.975      0.0154      0.0168 Tesla T4            0.0037\n"}
+,{"stream_name":"stdout","time":11673.309080037,"data":"        TTM-R2          32             512       96  0.805280        6.093      0.0154      0.0137 Tesla T4            0.0037\n"}
+,{"stream_name":"stdout","time":11673.309086417,"data":"      Moirai-S          32             512       96 13.827528       41.254      0.1197      0.5716 Tesla T4            0.0345\n"}
+,{"stream_name":"stdout","time":11673.30909263,"data":"Chronos-Bolt-T          32             512       96  8.652672       54.568      0.1807      0.9856 Tesla T4            0.0528\n"}
+,{"stream_name":"stdout","time":11673.30909869,"data":"     Chronos-T          32             512       96  8.394496     2554.662      1.8960     23.5446 Tesla T4            1.0000\n"}
+,{"stream_name":"stdout","time":11674.930799899,"data":"[exit 0 after 14s]\n"}
+,{"stream_name":"stdout","time":11674.931051122,"data":"\n"}
+,{"stream_name":"stdout","time":11674.931076359,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_moirai-s/bin/python \u003e /kaggle/working/logs/pip_freeze_Moirai-S.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_moirai-s/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_Moirai-S.txt\n"}
+,{"stream_name":"stdout","time":11676.17899027,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":11676.181520289,"data":"\n"}
+,{"stream_name":"stdout","time":11676.18154039,"data":"$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_timesfm-25\n"}
+,{"stream_name":"stdout","time":11676.268969821,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":11676.268992905,"data":"\n"}
+,{"stream_name":"stdout","time":11676.268998423,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_timesfm-25/bin/python --version\n"}
+,{"stream_name":"stdout","time":11676.655590378,"data":"pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)\n"}
+,{"stream_name":"stdout","time":11676.713927347,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":11676.713954896,"data":"\n"}
+,{"stream_name":"stdout","time":11676.713960513,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_timesfm-25/bin/python install --quiet --no-input 'timesfm[torch]\u003e=2'\n"}
+,{"stream_name":"stdout","time":11679.052180505,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":11679.052252661,"data":"\n"}
+,{"stream_name":"stdout","time":11679.052258747,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_timesfm-25/bin/python install --quiet --no-input --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":11683.403776961,"data":"[exit 0 after 4s]\n"}
+,{"stream_name":"stdout","time":11683.403805641,"data":"\n"}
+,{"stream_name":"stdout","time":11683.403811316,"data":"$ /tmp/venv_timesfm-25/bin/python benchmarks/run_benchmarks.py --model TimesFM-2.5 --protocol sub16 --no-merge --skip-unavailable\n"}
+,{"stream_name":"stdout","time":11686.130299458,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":11700.817719241,"data":"[TimesFM-2.5] ETTh1        protocol=sub16 avg MSE=0.4193 (3.4s)\n"}
+,{"stream_name":"stdout","time":11704.004243845,"data":"[TimesFM-2.5] ETTh2        protocol=sub16 avg MSE=0.3436 (3.1s)\n"}
+,{"stream_name":"stdout","time":11707.293370501,"data":"[TimesFM-2.5] ETTm1        protocol=sub16 avg MSE=0.4009 (3.2s)\n"}
+,{"stream_name":"stdout","time":11710.602993972,"data":"[TimesFM-2.5] ETTm2        protocol=sub16 avg MSE=0.3196 (3.2s)\n"}
+,{"stream_name":"stdout","time":11720.360917611,"data":"[TimesFM-2.5] Weather      protocol=sub16 avg MSE=0.2754 (9.6s)\n"}
+,{"stream_name":"stdout","time":11872.477486234,"data":"[TimesFM-2.5] Electricity  protocol=sub16 avg MSE=0.1572 (150.8s)\n"}
+,{"stream_name":"stdout","time":12269.163963737,"data":"[TimesFM-2.5] Traffic      protocol=sub16 avg MSE=0.3512 (394.9s)\n"}
+,{"stream_name":"stdout","time":12269.951100703,"data":"[exit 0 after 587s]\n"}
+,{"stream_name":"stdout","time":12269.951324849,"data":"\n"}
+,{"stream_name":"stdout","time":12269.951338553,"data":"$ /tmp/venv_timesfm-25/bin/python benchmarks/run_efficiency.py --model TimesFM-2.5 --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":12272.697239534,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":12303.385743015,"data":"{'model': 'TimesFM-2.5', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 231.28928, 'gpu_time_ms': 3460.276, 'gpu_mem_gb': 3.637, 'cpu_time_s': 3.5835, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":12303.404600354,"data":"         model  batch_size  context_length  horizon   params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":12303.404623331,"data":"        TTM-R1          32             512       96   0.805280        5.975      0.0154      0.0168 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":12303.404631207,"data":"        TTM-R2          32             512       96   0.805280        6.093      0.0154      0.0137 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":12303.404636534,"data":"      Moirai-S          32             512       96  13.827528       41.254      0.1197      0.5716 Tesla T4            0.0230\n"}
+,{"stream_name":"stdout","time":12303.404642417,"data":"Chronos-Bolt-T          32             512       96   8.652672       54.568      0.1807      0.9856 Tesla T4            0.0358\n"}
+,{"stream_name":"stdout","time":12303.404647991,"data":"   TimesFM-2.5          32             512       96 231.289280     3460.276      3.6370      3.5835 Tesla T4            0.7174\n"}
+,{"stream_name":"stdout","time":12303.404653759,"data":"     Chronos-T          32             512       96   8.394496     2554.662      1.8960     23.5446 Tesla T4            0.7532\n"}
+,{"stream_name":"stdout","time":12304.124366595,"data":"[exit 0 after 34s]\n"}
+,{"stream_name":"stdout","time":12304.12445659,"data":"\n"}
+,{"stream_name":"stdout","time":12304.124482006,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_timesfm-25/bin/python \u003e /kaggle/working/logs/pip_freeze_TimesFM-2.5.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_timesfm-25/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_TimesFM-2.5.txt\n"}
+,{"stream_name":"stdout","time":12305.369882745,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":12305.372252857,"data":"\n"}
+,{"stream_name":"stdout","time":12305.372268376,"data":"$ /usr/bin/python3 -m pip install --quiet uv\n"}
+,{"stream_name":"stdout","time":12309.101809156,"data":"[exit 0 after 4s]\n"}
+,{"stream_name":"stdout","time":12309.101895516,"data":"\n"}
+,{"stream_name":"stdout","time":12309.10192103,"data":"$ /usr/bin/python3 -m uv python install 3.11\n"}
+,{"stream_name":"stdout","time":12309.415984209,"data":"Downloading cpython-3.11.18-linux-x86_64-gnu (download) (29.2MiB)\n"}
+,{"stream_name":"stdout","time":12310.601164942,"data":" Downloaded cpython-3.11.18-linux-x86_64-gnu (download)\n"}
+,{"stream_name":"stdout","time":12310.625014561,"data":"Installed Python 3.11.18 in 1.43s\n"}
+,{"stream_name":"stdout","time":12310.625041991,"data":" + cpython-3.11.18-linux-x86_64-gnu (python3.11)\n"}
+,{"stream_name":"stdout","time":12310.625443632,"data":"warning: `/root/.local/bin` is not on your PATH. To use installed Python executables, run `export PATH=\"/root/.local/bin:$PATH\"` or `uv python update-shell`.\n"}
+,{"stream_name":"stdout","time":12310.629863492,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":12310.629985609,"data":"\n"}
+,{"stream_name":"stdout","time":12310.629997197,"data":"$ /usr/bin/python3 -m uv venv --python 3.11 /tmp/venv_timesfm-10\n"}
+,{"stream_name":"stdout","time":12310.704644465,"data":"warning: The `--system` flag has no effect, `uv venv` always ignores virtual environments when finding a Python interpreter; did you mean `--no-managed-python`?\n"}
+,{"stream_name":"stdout","time":12310.999348828,"data":"Using CPython 3.11.18\n"}
+,{"stream_name":"stdout","time":12310.999381913,"data":"Creating virtual environment at: /tmp/venv_timesfm-10\n"}
+,{"stream_name":"stdout","time":12311.000622443,"data":"Activate with: source /tmp/venv_timesfm-10/bin/activate\n"}
+,{"stream_name":"stdout","time":12311.002034315,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":12311.002160119,"data":"\n"}
+,{"stream_name":"stdout","time":12311.002180496,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_timesfm-10/bin/python torch==2.4.1\n"}
+,{"stream_name":"stdout","time":13379.182312032,"data":"[exit 0 after 1068s]\n"}
+,{"stream_name":"stdout","time":13379.182564312,"data":"\n"}
+,{"stream_name":"stdout","time":13379.182580449,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_timesfm-10/bin/python --no-deps timesfm==1.2.6\n"}
+,{"stream_name":"stdout","time":13379.433603952,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13379.433655378,"data":"\n"}
+,{"stream_name":"stdout","time":13379.433662906,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_timesfm-10/bin/python absl-py einshape huggingface_hub utilsforecast 'numpy\u003c2' pandas scikit-learn pyyaml 'jax\u003c0.5' 'jaxlib\u003c0.5'\n"}
+,{"stream_name":"stdout","time":13385.453212137,"data":"[exit 0 after 6s]\n"}
+,{"stream_name":"stdout","time":13385.453238813,"data":"\n"}
+,{"stream_name":"stdout","time":13385.453245222,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_timesfm-10/bin/python --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":13387.252018145,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":13387.252110006,"data":"\n"}
+,{"stream_name":"stdout","time":13387.252145498,"data":"$ /tmp/venv_timesfm-10/bin/python benchmarks/run_benchmarks.py --model TimesFM-1.0 --protocol sub16 --no-merge --skip-unavailable\n"}
+,{"stream_name":"stdout","time":13391.717424463,"data":"TimesFM v1.2.0. See https://github.com/google-research/timesfm/blob/master/README.md for updated APIs.\n"}
+,{"stream_name":"stdout","time":13395.718226046,"data":"Loaded Jax TimesFM.\n"}
+,{"stream_name":"stdout","time":13396.211115293,"data":"Loaded PyTorch TimesFM.\n"}
+,{"stream_name":"stdout","time":13396.774696942,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":13407.354690392,"data":"[TimesFM-1.0] ETTh1        protocol=sub16 avg MSE=0.4588 (1.7s)\n"}
+,{"stream_name":"stdout","time":13408.799497855,"data":"[TimesFM-1.0] ETTh2        protocol=sub16 avg MSE=0.3519 (1.4s)\n"}
+,{"stream_name":"stdout","time":13410.343669754,"data":"[TimesFM-1.0] ETTm1        protocol=sub16 avg MSE=0.4380 (1.4s)\n"}
+,{"stream_name":"stdout","time":13411.87333776,"data":"[TimesFM-1.0] ETTm2        protocol=sub16 avg MSE=0.3301 (1.4s)\n"}
+,{"stream_name":"stdout","time":13415.843492824,"data":"[TimesFM-1.0] Weather      protocol=sub16 avg MSE=0.2671 (3.9s)\n"}
+,{"stream_name":"stdout","time":13477.016883452,"data":"[TimesFM-1.0] Electricity  protocol=sub16 avg MSE=0.1487 (59.9s)\n"}
+,{"stream_name":"stdout","time":13672.401350912,"data":"[TimesFM-1.0] Traffic      protocol=sub16 avg MSE=0.3419 (193.6s)\n"}
+,{"stream_name":"stdout","time":13673.293567007,"data":"[exit 0 after 286s]\n"}
+,{"stream_name":"stdout","time":13673.293779087,"data":"\n"}
+,{"stream_name":"stdout","time":13673.293789606,"data":"$ /tmp/venv_timesfm-10/bin/python benchmarks/run_efficiency.py --model TimesFM-1.0 --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":13675.141141923,"data":"TimesFM v1.2.0. See https://github.com/google-research/timesfm/blob/master/README.md for updated APIs.\n"}
+,{"stream_name":"stdout","time":13676.554999842,"data":"Loaded Jax TimesFM.\n"}
+,{"stream_name":"stdout","time":13676.69611025,"data":"Loaded PyTorch TimesFM.\n"}
+,{"stream_name":"stdout","time":13683.993996211,"data":"{'model': 'TimesFM-1.0', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 203.56896, 'gpu_time_ms': 443.725, 'gpu_mem_gb': 0.8635, 'cpu_time_s': 0.4468, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":13684.015716374,"data":"         model  batch_size  context_length  horizon   params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":13684.015737757,"data":"        TTM-R1          32             512       96   0.805280        5.975      0.0154      0.0168 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":13684.015743865,"data":"        TTM-R2          32             512       96   0.805280        6.093      0.0154      0.0137 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":13684.015749631,"data":"      Moirai-S          32             512       96  13.827528       41.254      0.1197      0.5716 Tesla T4            0.0230\n"}
+,{"stream_name":"stdout","time":13684.015754437,"data":"Chronos-Bolt-T          32             512       96   8.652672       54.568      0.1807      0.9856 Tesla T4            0.0358\n"}
+,{"stream_name":"stdout","time":13684.015759092,"data":"   TimesFM-1.0          32             512       96 203.568960      443.725      0.8635      0.4468 Tesla T4            0.1282\n"}
+,{"stream_name":"stdout","time":13684.015763628,"data":"   TimesFM-2.5          32             512       96 231.289280     3460.276      3.6370      3.5835 Tesla T4            0.7174\n"}
+,{"stream_name":"stdout","time":13684.01579855,"data":"     Chronos-T          32             512       96   8.394496     2554.662      1.8960     23.5446 Tesla T4            0.7532\n"}
+,{"stream_name":"stdout","time":13684.747996826,"data":"[exit 0 after 11s]\n"}
+,{"stream_name":"stdout","time":13684.748044347,"data":"\n"}
+,{"stream_name":"stdout","time":13684.748051118,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_timesfm-10/bin/python \u003e /kaggle/working/logs/pip_freeze_TimesFM-1.0.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_timesfm-10/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_TimesFM-1.0.txt\n"}
+,{"stream_name":"stdout","time":13684.825602277,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13684.829260724,"data":"\n"}
+,{"stream_name":"stdout","time":13684.829281446,"data":"$ /usr/bin/python3 -m venv --without-pip --system-site-packages /tmp/venv_gpt4ts\n"}
+,{"stream_name":"stdout","time":13684.914796346,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13684.91483736,"data":"\n"}
+,{"stream_name":"stdout","time":13684.914844512,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_gpt4ts/bin/python --version\n"}
+,{"stream_name":"stdout","time":13685.308606937,"data":"pip 26.2.2 from /usr/local/lib/python3.13/dist-packages/pip (python 3.13)\n"}
+,{"stream_name":"stdout","time":13685.364175252,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13685.364307782,"data":"\n"}
+,{"stream_name":"stdout","time":13685.364316515,"data":"$ /usr/bin/python3 -m pip --python /tmp/venv_gpt4ts/bin/python install --quiet --no-input --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":13689.788389113,"data":"[exit 0 after 4s]\n"}
+,{"stream_name":"stdout","time":13689.788898332,"data":"\n"}
+,{"stream_name":"stdout","time":13689.788916208,"data":"$ /tmp/venv_gpt4ts/bin/python benchmarks/run_efficiency.py --model GPT4TS --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":13698.079016725,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":13706.444156253,"data":"{'model': 'GPT4TS', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 86.64432, 'gpu_time_ms': 69.221, 'gpu_mem_gb': 0.5649, 'cpu_time_s': 1.4073, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":13706.466404688,"data":"         model  batch_size  context_length  horizon   params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":13706.466430854,"data":"        TTM-R2          32             512       96   0.805280        6.093      0.0154      0.0137 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":13706.466437069,"data":"        TTM-R1          32             512       96   0.805280        5.975      0.0154      0.0168 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":13706.466441884,"data":"      Moirai-S          32             512       96  13.827528       41.254      0.1197      0.5716 Tesla T4            0.0230\n"}
+,{"stream_name":"stdout","time":13706.466446565,"data":"Chronos-Bolt-T          32             512       96   8.652672       54.568      0.1807      0.9856 Tesla T4            0.0358\n"}
+,{"stream_name":"stdout","time":13706.466457211,"data":"        GPT4TS          32             512       96  86.644320       69.221      0.5649      1.4073 Tesla T4            0.0784\n"}
+,{"stream_name":"stdout","time":13706.466460657,"data":"   TimesFM-1.0          32             512       96 203.568960      443.725      0.8635      0.4468 Tesla T4            0.1282\n"}
+,{"stream_name":"stdout","time":13706.466464357,"data":"   TimesFM-2.5          32             512       96 231.289280     3460.276      3.6370      3.5835 Tesla T4            0.7174\n"}
+,{"stream_name":"stdout","time":13706.466477854,"data":"     Chronos-T          32             512       96   8.394496     2554.662      1.8960     23.5446 Tesla T4            0.7532\n"}
+,{"stream_name":"stdout","time":13707.722763169,"data":"[exit 0 after 18s]\n"}
+,{"stream_name":"stdout","time":13707.723008753,"data":"\n"}
+,{"stream_name":"stdout","time":13707.7253045,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_gpt4ts/bin/python \u003e /kaggle/working/logs/pip_freeze_GPT4TS.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_gpt4ts/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_GPT4TS.txt\n"}
+,{"stream_name":"stdout","time":13707.892305843,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13707.896060763,"data":"\n"}
+,{"stream_name":"stdout","time":13707.89607933,"data":"$ /usr/bin/python3 -m pip install --quiet uv\n"}
+,{"stream_name":"stdout","time":13709.514377355,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":13709.514628187,"data":"\n"}
+,{"stream_name":"stdout","time":13709.514647669,"data":"$ /usr/bin/python3 -m uv python install 3.11\n"}
+,{"stream_name":"stdout","time":13709.636268838,"data":"Python 3.11 is already installed\n"}
+,{"stream_name":"stdout","time":13709.639198143,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13709.639230159,"data":"\n"}
+,{"stream_name":"stdout","time":13709.639235508,"data":"$ /usr/bin/python3 -m uv venv --python 3.11 /tmp/venv_moment\n"}
+,{"stream_name":"stdout","time":13709.71360958,"data":"warning: The `--system` flag has no effect, `uv venv` always ignores virtual environments when finding a Python interpreter; did you mean `--no-managed-python`?\n"}
+,{"stream_name":"stdout","time":13709.716011549,"data":"Using CPython 3.11.18\n"}
+,{"stream_name":"stdout","time":13709.716028108,"data":"Creating virtual environment at: /tmp/venv_moment\n"}
+,{"stream_name":"stdout","time":13709.717068815,"data":"Activate with: source /tmp/venv_moment/bin/activate\n"}
+,{"stream_name":"stdout","time":13709.71820604,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13709.718314496,"data":"\n"}
+,{"stream_name":"stdout","time":13709.718329691,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_moment/bin/python torch==2.4.1\n"}
+,{"stream_name":"stdout","time":13710.380366511,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":13710.380428247,"data":"\n"}
+,{"stream_name":"stdout","time":13710.380450859,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_moment/bin/python momentfm pandas pyyaml\n"}
+,{"stream_name":"stdout","time":13712.146330838,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":13712.146360906,"data":"\n"}
+,{"stream_name":"stdout","time":13712.146366982,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_moment/bin/python --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":13713.127026236,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":13713.127070425,"data":"\n"}
+,{"stream_name":"stdout","time":13713.127079775,"data":"$ /tmp/venv_moment/bin/python benchmarks/run_efficiency.py --model MOMENT --skip-unavailable --cpu-reps 1 --reps 5\n"}
+,{"stream_name":"stdout","time":13718.236749449,"data":"The cache for model files in Transformers v4.22.0 has been updated. Migrating your old cache. This is a one-time only operation. You can interrupt this and resume the migration later on by calling `transformers.utils.move_cache()`.\n"}
+,{"stream_name":"stdout","time":13718.23795243,"data":"\n"}
+,{"stream_name":"stdout","time":13718.237967796,"data":"0it [00:00, ?it/s]\n"}
+,{"stream_name":"stdout","time":13718.237985575,"data":"0it [00:00, ?it/s]\n"}
+,{"stream_name":"stdout","time":13720.887856858,"data":"/tmp/venv_moment/lib/python3.11/site-packages/transformers/utils/generic.py:311: FutureWarning: `torch.utils._pytree._register_pytree_node` is deprecated. Please use `torch.utils._pytree.register_pytree_node` instead.\n"}
+,{"stream_name":"stdout","time":13720.887884355,"data":"  torch.utils._pytree._register_pytree_node(\n"}
+,{"stream_name":"stdout","time":13737.100321885,"data":"/tmp/venv_moment/lib/python3.11/site-packages/momentfm/models/moment.py:174: UserWarning: Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.\n"}
+,{"stream_name":"stdout","time":13737.10036067,"data":"  warnings.warn(\"Only reconstruction head is pre-trained. Classification and forecasting heads must be fine-tuned.\")\n"}
+,{"stream_name":"stdout","time":13758.413719218,"data":"{'model': 'MOMENT', 'batch_size': 32, 'context_length': 512, 'horizon': 96, 'params_m': 347.531872, 'gpu_time_ms': 481.727, 'gpu_mem_gb': 1.6301, 'cpu_time_s': 7.996, 'device': 'Tesla T4'}\n"}
+,{"stream_name":"stdout","time":13758.441825604,"data":"         model  batch_size  context_length  horizon   params_m  gpu_time_ms  gpu_mem_gb  cpu_time_s   device  efficiency_score\n"}
+,{"stream_name":"stdout","time":13758.441849332,"data":"        TTM-R2          32             512       96   0.805280        6.093      0.0154      0.0137 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":13758.441855675,"data":"        TTM-R1          32             512       96   0.805280        5.975      0.0154      0.0168 Tesla T4            0.0022\n"}
+,{"stream_name":"stdout","time":13758.441861506,"data":"      Moirai-S          32             512       96  13.827528       41.254      0.1197      0.5716 Tesla T4            0.0230\n"}
+,{"stream_name":"stdout","time":13758.441867158,"data":"Chronos-Bolt-T          32             512       96   8.652672       54.568      0.1807      0.9856 Tesla T4            0.0358\n"}
+,{"stream_name":"stdout","time":13758.44187303,"data":"        GPT4TS          32             512       96  86.644320       69.221      0.5649      1.4073 Tesla T4            0.0784\n"}
+,{"stream_name":"stdout","time":13758.441878477,"data":"   TimesFM-1.0          32             512       96 203.568960      443.725      0.8635      0.4468 Tesla T4            0.1282\n"}
+,{"stream_name":"stdout","time":13758.44188397,"data":"        MOMENT          32             512       96 347.531872      481.727      1.6301      7.9960 Tesla T4            0.3090\n"}
+,{"stream_name":"stdout","time":13758.441889426,"data":"   TimesFM-2.5          32             512       96 231.289280     3460.276      3.6370      3.5835 Tesla T4            0.7174\n"}
+,{"stream_name":"stdout","time":13758.441894885,"data":"     Chronos-T          32             512       96   8.394496     2554.662      1.8960     23.5446 Tesla T4            0.7532\n"}
+,{"stream_name":"stdout","time":13759.305744836,"data":"[exit 0 after 46s]\n"}
+,{"stream_name":"stdout","time":13759.30587067,"data":"\n"}
+,{"stream_name":"stdout","time":13759.305894495,"data":"$ /usr/bin/python3 -m uv pip freeze --python /tmp/venv_moment/bin/python \u003e /kaggle/working/logs/pip_freeze_MOMENT.txt 2\u003e/dev/null || /usr/bin/python3 -m pip --python /tmp/venv_moment/bin/python freeze \u003e /kaggle/working/logs/pip_freeze_MOMENT.txt\n"}
+,{"stream_name":"stdout","time":13759.383117164,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13759.385914383,"data":"\n"}
+,{"stream_name":"stdout","time":13759.385930911,"data":"$ /usr/bin/python3 -m pip install --quiet uv\n"}
+,{"stream_name":"stdout","time":13761.027268605,"data":"[exit 0 after 2s]\n"}
+,{"stream_name":"stdout","time":13761.027398008,"data":"\n"}
+,{"stream_name":"stdout","time":13761.027432377,"data":"$ /usr/bin/python3 -m uv python install 3.11\n"}
+,{"stream_name":"stdout","time":13761.188197953,"data":"Python 3.11 is already installed\n"}
+,{"stream_name":"stdout","time":13761.190962485,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13761.191066144,"data":"\n"}
+,{"stream_name":"stdout","time":13761.191110368,"data":"$ /usr/bin/python3 -m uv venv --python 3.11 /tmp/venv_lag-llama\n"}
+,{"stream_name":"stdout","time":13761.270010773,"data":"warning: The `--system` flag has no effect, `uv venv` always ignores virtual environments when finding a Python interpreter; did you mean `--no-managed-python`?\n"}
+,{"stream_name":"stdout","time":13761.27258745,"data":"Using CPython 3.11.18\n"}
+,{"stream_name":"stdout","time":13761.272608425,"data":"Creating virtual environment at: /tmp/venv_lag-llama\n"}
+,{"stream_name":"stdout","time":13761.273570337,"data":"Activate with: source /tmp/venv_lag-llama/bin/activate\n"}
+,{"stream_name":"stdout","time":13761.274774554,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13761.274830821,"data":"\n"}
+,{"stream_name":"stdout","time":13761.274837538,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_lag-llama/bin/python torch==2.4.1\n"}
+,{"stream_name":"stdout","time":13761.646543898,"data":"[exit 0 after 0s]\n"}
+,{"stream_name":"stdout","time":13761.646645193,"data":"\n"}
+,{"stream_name":"stdout","time":13761.646658962,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_lag-llama/bin/python 'gluonts[torch]==0.14.4' 'numpy\u003c2' 'pandas\u003c2.2' 'lightning\u003c2.5' 'setuptools\u003c75' huggingface_hub scipy pyyaml\n"}
+,{"stream_name":"stdout","time":13762.981547491,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":13762.981635796,"data":"\n"}
+,{"stream_name":"stdout","time":13762.981646278,"data":"$ /usr/bin/python3 -m uv pip install --quiet --python /tmp/venv_lag-llama/bin/python --no-deps -e /tmp/ezero\n"}
+,{"stream_name":"stdout","time":13763.891193896,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":13763.891318001,"data":"\n"}
+,{"stream_name":"stdout","time":13763.891341521,"data":"$ git clone --quiet https://github.com/time-series-foundation-models/lag-llama.git /tmp/lag-llama_src \u0026\u0026 git -C /tmp/lag-llama_src checkout --quiet df7531a83a19b3c6a0222d703ca9bf59ef7a6ab9\n"}
+,{"stream_name":"stdout","time":13764.410405761,"data":"[exit 0 after 1s]\n"}
+,{"stream_name":"stdout","time":13764.410431705,"data":"\n"}
+,{"stream_name":"stdout","time":13764.410435878,"data":"$ /tmp/venv_lag-llama/bin/python benchmarks/run_benchmarks.py --model Lag-Llama --protocol sub16 --no-merge --skip-unavailable\n"}
+,{"stream_name":"stdout","time":13769.35513742,"data":"Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\n"}
+,{"stream_name":"stdout","time":13777.711421686,"data":"/tmp/venv_lag-llama/lib/python3.11/site-packages/gluonts/json.py:101: UserWarning: Using `json`-module for json-handling. Consider installing one of `orjson`, `ujson` to speed up serialization and deserialization.\n"}
+,{"stream_name":"stdout","time":13777.711455412,"data":"  warnings.warn(\n"}
+,{"stream_name":"stdout","time":13778.622491415,"data":"/tmp/venv_lag-llama/lib/python3.11/site-packages/lightning/fabric/utilities/cloud_io.py:56: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.\n"}
+,{"stream_name":"stdout","time":17037.888015701,"data":"[Lag-Llama] ETTh1        protocol=sub16 avg MSE=0.4414 (3259.8s)\n"}
+,{"stream_name":"stdout","time":20264.76668751,"data":"[Lag-Llama] ETTh2        protocol=sub16 avg MSE=0.4104 (3226.8s)\n"}
+,{"stream_name":"stdout","time":23497.799574851,"data":"[Lag-Llama] ETTm1        protocol=sub16 avg MSE=1.6709 (3232.9s)\n"}
+,{"stream_name":"stdout","time":26722.02268189,"data":"[Lag-Llama] ETTm2        protocol=sub16 avg MSE=0.3680 (3224.1s)\n"}
+,{"stream_name":"stdout","time":36379.75031017,"data":"[Lag-Llama] Weather      protocol=sub16 avg MSE=0.5580 (9657.6s)\n"}
+]

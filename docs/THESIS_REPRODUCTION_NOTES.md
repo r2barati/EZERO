@@ -332,3 +332,34 @@ The development benchmark (section 9) decides whether the faithful model is repo
 model; the evaluation datasets are scored once, afterwards, whatever the outcome. If the components
 do not help, that is reported too, and it becomes an argument for cutting them from the thesis text
 rather than keeping them.
+
+## 12. Moirai-S: mean vs median of the sampled paths
+
+The first Moirai-S run produced MSE up to 5.8e8 while MAE stayed between 0.4 and 115. A squared
+error that large next to a moderate absolute error means a handful of predictions are enormous and
+the rest are fine. ETTh1 shows the pattern cleanly: 0.478 / 0.492 / 0.546 at horizons 96 / 192 / 336,
+then 7.47 at 720.
+
+**Cause.** Moirai is probabilistic: it outputs sampled paths from a heavy-tailed (mixture) predictive
+distribution, and its authors evaluate the **median** of those samples. Our wrapper averaged them.
+With 20 samples from a heavy-tailed distribution, one extreme draw moves the mean a long way, and
+squaring it dominates the dataset's MSE. The median is unaffected.
+
+`MoiraiForecaster(aggregate=...)` now defaults to `"median"`; `"mean"` reproduces the fault. The
+first run's numbers are kept in `results/failures/bench_Moirai-S_mean-aggregation.csv` and are not
+used in any table.
+
+**This is a protocol correction, not tuning.** The median is what the model's own evaluation uses,
+the choice was made from the error signature and the model's documentation, and it was fixed before
+looking at whether the corrected numbers help or hurt E-ZERO's ranking.
+
+## 13. Lag-Llama: what it costs to evaluate
+
+On a Kaggle T4, Lag-Llama needs about 54 minutes per ETT dataset (7 channels x 16 windows) and
+2.7 hours on Weather (21 channels). Cost scales with the number of series, so Electricity (321
+channels) and Traffic (862) are estimated at 40+ hours each: more than Kaggle's 12-hour session
+limit, in a single kernel or split. The first run was cut off by that limit after five datasets.
+
+Lag-Llama is therefore reported on ETTh1, ETTh2, ETTm1, ETTm2 and Weather, with Electricity and
+Traffic recorded as not attempted and the reason given, rather than left silently blank. The thesis
+compares against Lag-Llama on all seven; that comparison cannot be reproduced at this budget.

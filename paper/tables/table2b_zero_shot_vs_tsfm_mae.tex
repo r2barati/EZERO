@@ -3,18 +3,18 @@
 \caption{Zero-shot MAE vs TS pre-trained models (protocol sub16)}
 \label{tab:table2b_zero_shot_vs_tsfm_mae}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lccc}
+\begin{tabular}{lcccccc}
 \toprule
-Dataset & E-ZERO & SeasonalNaive & Naive \\
+Dataset & E-ZERO & TTM-R1 & Chronos-T & TimesFM-1.0 & SeasonalNaive & Naive \\
 \midrule
-ETTh1 & \textbf{0.461} & \underline{0.467} & 0.596 \\
-ETTh2 & \textbf{0.375} & \underline{0.412} & 0.451 \\
-ETTm1 & \underline{0.472} & \textbf{0.433} & 0.707 \\
-ETTm2 & \textbf{0.347} & \underline{0.369} & 0.389 \\
-Weather & \underline{0.321} & 0.327 & \textbf{0.314} \\
-Electricity & \underline{0.369} & \textbf{0.326} & 0.937 \\
-Traffic & \textbf{0.472} & \underline{0.481} & 1.159 \\
-Average & \underline{0.403} & \textbf{0.402} & 0.650 \\
+ETTh1 & 0.461 & \textbf{0.410} & 0.476 & \underline{0.436} & 0.467 & 0.596 \\
+ETTh2 & \underline{0.375} & \textbf{0.375} & 0.442 & 0.386 & 0.412 & 0.451 \\
+ETTm1 & 0.472 & 0.476 & 0.536 & \textbf{0.414} & \underline{0.433} & 0.707 \\
+ETTm2 & \textbf{0.347} & 0.372 & 0.380 & \underline{0.348} & 0.369 & 0.389 \\
+Weather & 0.321 & \textbf{0.264} & 0.323 & \underline{0.270} & 0.327 & 0.314 \\
+Electricity & 0.369 & \underline{0.285} & 0.382 & \textbf{0.240} & 0.326 & 0.937 \\
+Traffic & 0.472 & \underline{0.353} & 0.498 & \textbf{0.233} & 0.481 & 1.159 \\
+Average & 0.403 & \underline{0.362} & 0.434 & \textbf{0.332} & 0.402 & 0.650 \\
 \bottomrule
 \end{tabular}}
 \end{table}

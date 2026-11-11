@@ -1,4 +1,4 @@
-# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 05:30 UTC)
+# E-ZERO: thesis claims vs current evidence (status 2026-11-11, 08:40 UTC)
 
 All "ours" numbers use the leakage-free protocol: scaler fitted on the train split, context 512, and the
 mean of horizons 96/192/336/720. `full` scores every test window; `sub16` scores 16 identical windows
@@ -32,19 +32,37 @@ Same 16 windows for every model (sub16), averaged over the 4 horizons:
 
 | sub16 MSE | ETTh1 | ETTh2 | ETTm1 | ETTm2 | Weather | Electricity | Traffic | Avg |
 |---|---|---|---|---|---|---|---|---|
-| E-ZERO | 0.451 | **0.315** | 0.517 | 0.296 | 0.286 | 0.276 | 0.753 | 0.414 |
-| Chronos-T (thesis era), preliminary* | 0.587 | 0.467 | 0.709 | 0.359 | pending | pending | pending | - |
-| TTM-R1, Moirai-S, TimesFM-1.0, Lag-Llama (thesis era) | pending | | | | | | | |
-| TTM-R2 (released after the thesis) | 0.394 | 0.324 | 0.411 | 0.312 | 0.232 | 0.200 | 0.543 | 0.345 |
-| Chronos-Bolt-T (released after the thesis) | 0.436 | 0.345 | 0.385 | 0.295 | 0.284 | 0.167 | 0.406 | 0.331 |
+| E-ZERO | 0.451 | **0.315** | 0.517 | **0.296** | 0.286 | 0.276 | 0.753 | 0.414 |
+| TTM-R1 (thesis era) | **0.383** | 0.316 | 0.538 | 0.372 | **0.236** | 0.190 | 0.528 | 0.366 |
+| Chronos-T (thesis era) | 0.610 | 0.459 | 0.721 | 0.362 | 0.355 | 0.346 | 1.048 | 0.557 |
+| TimesFM-1.0 (thesis era) | 0.459 | 0.352 | **0.438** | 0.330 | 0.267 | **0.149** | **0.342** | **0.334** |
+| Lag-Llama (thesis era) | pending | | | | | | | |
+| Moirai-S (thesis era) | re-running | | | | | | | |
+| TTM-R2 (post-thesis) | 0.394 | 0.324 | 0.411 | 0.312 | 0.232 | 0.200 | 0.543 | 0.345 |
+| Chronos-Bolt-T (post-thesis) | 0.436 | 0.345 | 0.385 | 0.295 | 0.284 | 0.167 | 0.406 | 0.331 |
+| TimesFM-2.5 (post-thesis) | 0.419 | 0.344 | 0.401 | 0.320 | 0.275 | 0.157 | 0.351 | 0.324 |
 
-\*First Kaggle run, 20 samples, stopped after the ETT datasets (out of GPU memory). The final run
-(10 samples, all datasets) is in progress.
+**Status: not supported as stated.** The thesis claims E-ZERO "outperforms TimesFM, Moirai, Chronos
+and Lag-Llama" and is "second only to TTM".
 
-**Status: partly supported.**
-- **Against Chronos-T5-tiny:** E-ZERO is better on all four ETT datasets in the preliminary run, consistent with the thesis's ranking.
-- **Against the other thesis-era models:** pending.
-- **Against later releases:** E-ZERO trails TTM-R2 and Chronos-Bolt on average (0.414 vs 0.345 and 0.331) and is best only on ETTh2.
+- **Chronos-T5-tiny: confirmed.** E-ZERO wins on all 7 datasets (0.414 vs 0.557).
+- **TimesFM-1.0: contradicted.** It is the strongest thesis-era model here (0.334) and beats E-ZERO
+  on 5 of 7 datasets, by a wide margin on Electricity (0.149 vs 0.276) and Traffic (0.342 vs 0.753).
+- **TTM-R1: E-ZERO is behind on average** (0.414 vs 0.366) but ahead on ETTh2 and ETTm2, and level
+  on ETTh1 within noise. "Second only to TTM" would hold if TimesFM did not exist.
+- **E-ZERO is the best thesis-era model on ETTh2 and ETTm2.** That is the defensible claim.
+- **Moirai-S and Lag-Llama are still open** (see below), so the final wording waits for them.
+
+**Moirai-S was mis-evaluated here, not weak.** Our first run gave MSE up to 1e8 while MAE stayed
+moderate, the signature of a few extreme predictions. The cause: Moirai is probabilistic with a
+heavy-tailed predictive distribution, its authors evaluate the **median** of the sampled paths, and
+our wrapper took the **mean**, which a single extreme draw dominates. The numbers are quarantined in
+`results/failures/` and the model is re-running with median aggregation (`tsfmfix` stage).
+
+**Lag-Llama is partly infeasible.** It costs about 54 min per ETT dataset and 2.7 h on Weather
+(21 channels) on a T4. Electricity (321 channels) and Traffic (862) would need an estimated 40+ h
+each, so they are not attempted; the other five datasets are re-running. Its coverage will be
+reported as 5 of 7 with the reason, rather than left blank.
 
 ## 3. Against models trained on each dataset (thesis Table 3: "outperforms other architectures except on Electricity")
 

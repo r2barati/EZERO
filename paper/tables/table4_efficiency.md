@@ -2,16 +2,23 @@
 
 | Model | Efficiency score |
 |---|---|
-| Naive | 0.0178 |
-| Mean | 0.0179 |
-| SeasonalNaive | 0.0179 |
-| TTM-R2 | 0.0703 |
-| E-ZERO-noTCN | 0.1109 |
-| E-ZERO-noNBEATS | 0.1988 |
-| E-ZERO-noDTP | 0.2053 |
-| E-ZERO-noCRRB | 0.2095 |
-| E-ZERO | 0.2096 |
-| E-ZERO-noExog | 0.2244 |
-| E-ZERO-noRAE | 0.2308 |
-| E-ZERO-noMRC | 0.2463 |
-| Chronos-Bolt-T | 1.0000 |
+| SeasonalNaive | 0.0009 |
+| Mean | 0.0009 |
+| Naive | 0.0009 |
+| TTM-R1 | 0.0022 |
+| TTM-R2 | 0.0022 |
+| E-ZERO-noTCN | 0.0036 |
+| E-ZERO-noDTP | 0.0071 |
+| E-ZERO | 0.0076 |
+| E-ZERO-noNBEATS | 0.0079 |
+| E-ZERO-noCRRB | 0.0081 |
+| E-ZERO-noRAE | 0.0084 |
+| E-ZERO-noExog | 0.0085 |
+| E-ZERO-noMRC | 0.0088 |
+| Moirai-S | 0.0230 |
+| Chronos-Bolt-T | 0.0358 |
+| GPT4TS | 0.0784 |
+| TimesFM-1.0 | 0.1282 |
+| MOMENT | 0.3090 |
+| TimesFM-2.5 | 0.7174 |
+| Chronos-T | 0.7532 |

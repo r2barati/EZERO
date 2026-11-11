@@ -116,6 +116,20 @@ FAITHFUL = [
     "E-ZERO-faithNoSim --protocol sub16 --no-merge --skip-unavailable",
     f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-faithful --skip-unavailable",
 ]
+# tsfmfix: the two foundation models the first tsfm run did not deliver.
+#  * Moirai-S: re-run after the sample-aggregation fix (median, as its authors evaluate; the mean
+#    of a heavy-tailed predictive distribution gave MSE up to 1e8 - notes section 12).
+#  * Lag-Llama: the first run was cut off by Kaggle's 12 h cap after 5 of 7 datasets. It costs
+#    ~54 min per ETT dataset and 2.7 h for Weather (21 channels); Electricity (321) and Traffic
+#    (862) would need an estimated 40+ h each, so they are left out and reported as not attempted.
+TSFM_FIX = [
+    dict(models=["Moirai-S"], steps=["--no-deps 'uni2ts>=2'",
+                                     "einops jaxtyping jax gluonts lightning hydra-core python-dotenv safetensors"]),
+    dict(models=["Lag-Llama"], python="3.11", clone=LAG_LLAMA_REPO, opt_in=True,
+         datasets="ETTh1 ETTh2 ETTm1 ETTm2 Weather",
+         steps=["torch==2.4.1", "'gluonts[torch]==0.14.4' 'numpy<2' 'pandas<2.2' 'lightning<2.5' 'setuptools<75' "
+                "huggingface_hub scipy pyyaml"]),
+]
 SMOKE = [
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 0 --out results/training_logs/nan_probe_eps0.json",
     f"{PY} scripts/debug/nan_probe.py --steps 400 --mixer-eps 1e-4 --out results/training_logs/nan_probe_eps1e-4.json",
@@ -272,7 +286,7 @@ def make_venv311(venv, log_name):
 def run_tsfm(env):
     status = {}
     wanted = None if TSFM_MODELS in ("ALL", "") else set(TSFM_MODELS.split(","))
-    for entry in TSFM:
+    for entry in (TSFM_FIX if STAGE == "tsfmfix" else TSFM):
         all_models, steps = entry["models"], entry["steps"]
         if entry.get("opt_in") and (wanted is None or not (set(all_models) & wanted)):
             continue
@@ -308,8 +322,9 @@ def run_tsfm(env):
                     collect()
         else:
             if not entry.get("efficiency_only"):
-                rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16 --no-merge --skip-unavailable",
-                        cwd=SRC, env=run_env, log_name=log_name)
+                dsets = f" --datasets {entry['datasets']}" if entry.get("datasets") else ""
+                rc = sh(f"{vpy} benchmarks/run_benchmarks.py --model {ids} --protocol sub16{dsets} "
+                        "--no-merge --skip-unavailable", cwd=SRC, env=run_env, log_name=log_name)
             rc2 = sh(f"{vpy} benchmarks/run_efficiency.py --model {ids} --skip-unavailable --cpu-reps 1 --reps 5",
                      cwd=SRC, env=run_env, log_name=log_name)
         sh(f"{PY} -m uv pip freeze --python {vpy} > {LOG}/pip_freeze_{name}.txt 2>/dev/null || "
@@ -325,7 +340,7 @@ def main():
     sh("nvidia-smi || true")
     sh(f"{PY} -c \"import torch;print(torch.__version__, torch.cuda.is_available())\"")
     status = {}
-    if STAGE in ("tsfm", "tsfmval"):
+    if STAGE in ("tsfm", "tsfmval", "tsfmfix"):
         status = run_tsfm(env)
     else:
         cmds = {"core": CORE, "ablations": ABLATIONS, "fullshot": FULLSHOT, "fullshot2": FULLSHOT2,

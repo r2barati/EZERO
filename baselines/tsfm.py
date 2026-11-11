@@ -130,13 +130,20 @@ class TTMForecaster(Forecaster):
 
 class MoiraiForecaster(_SeriesForecaster):
     def __init__(self, model_id="Salesforce/moirai-1.0-R-small", name="Moirai-S", context_length=512,
-                 patch_size=32, num_samples=20, device=None, batch=128):
+                 patch_size=32, num_samples=20, device=None, batch=128, aggregate="median"):
         from uni2ts.model.moirai import MoiraiModule
         self.name = name
         self.model_id = model_id
         self.L = context_length
         self.patch_size = patch_size
         self.num_samples = num_samples
+        # Moirai is probabilistic and its predictive distribution is heavy-tailed. The authors
+        # evaluate the median of the samples; the sample mean is dominated by the occasional
+        # extreme draw, which produced MSE up to 1e8 here while MAE stayed moderate (the
+        # signature of a few huge errors). See docs/THESIS_REPRODUCTION_NOTES.md, section 12.
+        if aggregate not in ("median", "mean"):
+            raise ValueError("aggregate must be 'median' or 'mean'")
+        self.aggregate = aggregate
         self.device = _device(device)
         self.batch = batch
         self.module = MoiraiModule.from_pretrained(model_id)
@@ -169,10 +176,11 @@ class MoiraiForecaster(_SeriesForecaster):
                          past_is_pad=torch.zeros(t.shape[:2], dtype=torch.bool, device=self.device))
         s = samples.float().cpu().numpy()
         s = s.reshape(s.shape[0], s.shape[1], -1)[:, :, :H] if s.ndim > 2 else s[:, None, :H]
-        return s.mean(axis=1)
+        return np.median(s, axis=1) if self.aggregate == "median" else s.mean(axis=1)
 
     def info(self):
-        return {"checkpoint": self.model_id, "patch_size": self.patch_size, "num_samples": self.num_samples}
+        return {"checkpoint": self.model_id, "patch_size": self.patch_size, "num_samples": self.num_samples,
+                "aggregate": self.aggregate}
 
 
 class TimesFMForecaster(_SeriesForecaster):
