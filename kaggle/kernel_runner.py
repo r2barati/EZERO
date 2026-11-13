@@ -26,8 +26,10 @@ REPO_URL = "__REPO_URL__"
 COMMIT = "__COMMIT__"
 STAGE = "__STAGE__"
 
-WORK = "/kaggle/working"
-SRC = "/tmp/ezero" if os.path.isdir("/kaggle") else os.path.abspath("ezero_src")
+# Kaggle writes into /kaggle/working. Elsewhere (Colab, a workstation) EZERO_WORK and
+# EZERO_SRC say where to put the outputs and where the checkout is; see colab/run_stage.py.
+WORK = os.environ.get("EZERO_WORK") or "/kaggle/working"
+SRC = os.environ.get("EZERO_SRC") or ("/tmp/ezero" if os.path.isdir("/kaggle") else os.path.abspath("ezero_src"))
 OUT = os.path.join(WORK, "outputs")
 LOG = os.path.join(WORK, "logs")
 
@@ -185,7 +187,7 @@ TSFM_VAL = {
 # Kaggle stops a session after 12 h and may discard its outputs. Every command therefore runs under a
 # shared deadline (10.5 h after start): when it is reached the command is killed, later commands are
 # skipped (exit code 124) and whatever was produced so far is still collected and saved.
-DEADLINE = time.time() + 10.5 * 3600
+DEADLINE = time.time() + float(os.environ.get("EZERO_DEADLINE_H") or 10.5) * 3600
 
 
 def sh(cmd, cwd=None, env=None, log_name="run.log", check=False, timeout=None):
