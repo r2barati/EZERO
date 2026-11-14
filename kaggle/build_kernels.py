@@ -45,6 +45,22 @@ def head_commit() -> str:
     return subprocess.check_output(["git", "-C", ROOT, "rev-parse", "HEAD"], text=True).strip()
 
 
+def check_loads(code: str, slug: str) -> None:
+    """Run the rendered script's module body before it is written.
+
+    Everything above ``main()`` is plain module-level code - the stage command lists, the
+    package specs, the deadline - and a mistake there (a name used before it is defined, a
+    typo in a literal) kills the kernel seconds after Kaggle schedules it, whatever stage it
+    was meant to run. That costs a queue wait to discover. The body has no side effects, so
+    it can simply be executed here. ``main()`` is not called: it is guarded by __main__.
+    """
+    try:
+        exec(compile(code, f"{slug}.py", "exec"), {"__name__": "kernel_runner_check"})
+    except Exception as exc:
+        raise SystemExit(f"[build_kernels] {slug}: the rendered script does not load: "
+                         f"{type(exc).__name__}: {exc}")
+
+
 def render(stage: str, user: str, commit: str, machine: str, tsfm_models: str = "ALL") -> str:
     slug = f"ezero-{stage}"
     d = os.path.join(HERE, "kernels", slug)
@@ -53,6 +69,7 @@ def render(stage: str, user: str, commit: str, machine: str, tsfm_models: str = 
         code = f.read()
     code = (code.replace("__REPO_URL__", REPO_URL).replace("__COMMIT__", commit).replace("__STAGE__", stage)
             .replace("__TSFM_MODELS__", tsfm_models))
+    check_loads(code, slug)
     with open(os.path.join(d, f"{slug}.py"), "w") as f:
         f.write(code)
     meta = {

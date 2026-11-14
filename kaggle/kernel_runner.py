@@ -118,6 +118,10 @@ FAITHFUL = [
     "E-ZERO-faithNoSim --protocol sub16 --no-merge --skip-unavailable",
     f"{PY} benchmarks/run_efficiency.py --model E-ZERO,E-ZERO-faithful --skip-unavailable",
 ]
+# Lag-Llama is not a pip package: both lists below run the authors' GitHub code at a
+# pinned commit. Defined here because TSFM_FIX, the first of the two, refers to it.
+LAG_LLAMA_REPO = ("https://github.com/time-series-foundation-models/lag-llama.git",
+                  "df7531a83a19b3c6a0222d703ca9bf59ef7a6ab9")
 # tsfmfix: the two foundation models the first tsfm run did not deliver.
 #  * Moirai-S: re-run after the sample-aggregation fix (median, as its authors evaluate; the mean
 #    of a heavy-tailed predictive distribution gave MSE up to 1e8 - notes section 12).
@@ -145,8 +149,6 @@ SMOKE = [
 #    TimesFM-1.0 (timesfm 1.x) and Lag-Llama (gluonts 0.14) have no builds for Kaggle's Python 3.13
 # uni2ts pins torch<2.5 / numpy 1.26 / scipy 1.11 (no Python 3.13 wheels); its code runs with current
 # versions, so it is installed without dependencies plus the modules it actually imports.
-LAG_LLAMA_REPO = ("https://github.com/time-series-foundation-models/lag-llama.git",
-                  "df7531a83a19b3c6a0222d703ca9bf59ef7a6ab9")
 TSFM = [
     dict(models=["Chronos-T", "Chronos-Bolt-T"], steps=["'chronos-forecasting>=1.5'"]),
     dict(models=["TTM-R1", "TTM-R2"], steps=["granite-tsfm"]),
