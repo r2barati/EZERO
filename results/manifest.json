@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-15T03:59:45Z",
-  "git_commit": "b2b92092fe96d2e1438e75a333c57085ede6f7a1",
+  "generated_at": "2026-11-15T06:29:45Z",
+  "git_commit": "dea00c45913ee3560b3aec969849580db7a4f69f",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -157,6 +157,15 @@
       ]
     },
     "full/train/L512": {
+      "Autoformer": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
       "DLinear": [
         "ETTh1",
         "ETTh2",
@@ -293,6 +302,15 @@
         "Weather"
       ],
       "E-ZERO-v3": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "FEDformer": [
         "ETTh1",
         "ETTh2",
         "ETTm1",
