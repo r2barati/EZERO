@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-15T06:29:45Z",
-  "git_commit": "dea00c45913ee3560b3aec969849580db7a4f69f",
+  "generated_at": "2026-11-15T21:40:36Z",
+  "git_commit": "9b9487110d73e92acfba5ff6eb3c1600e85e22da",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -328,6 +328,14 @@
         "Traffic",
         "Weather"
       ],
+      "Moirai-S": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Weather"
+      ],
       "Naive": [
         "ETTh1",
         "ETTh2",
@@ -364,6 +372,32 @@
         "Traffic",
         "Weather"
       ],
+      "TTM-R1": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TTM-R2": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TimesFM-1.0": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Weather"
+      ],
       "TimesNet": [
         "ETTh1",
         "ETTh2",
@@ -381,6 +415,32 @@
         "Electricity",
         "Traffic",
         "Weather"
+      ]
+    },
+    "last/train/L512": {
+      "Chronos-T": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TTM-R1": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TimesFM-1.0": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2"
       ]
     },
     "sub16/train/L512": {
@@ -545,15 +605,6 @@
         "Weather"
       ],
       "Mean": [
-        "ETTh1",
-        "ETTh2",
-        "ETTm1",
-        "ETTm2",
-        "Electricity",
-        "Traffic",
-        "Weather"
-      ],
-      "Moirai-S": [
         "ETTh1",
         "ETTh2",
         "ETTm1",
