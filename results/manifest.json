@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-11T11:39:57Z",
-  "git_commit": "ab7cf283bc142be570da1120c0dde65377030d72",
+  "generated_at": "2026-11-15T03:27:14Z",
+  "git_commit": "3fbb8efec01fa1b01319c5c65d28119127d56618",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -501,7 +501,23 @@
         "Traffic",
         "Weather"
       ],
+      "Lag-Llama": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Weather"
+      ],
       "Mean": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "Moirai-S": [
         "ETTh1",
         "ETTh2",
         "ETTm1",

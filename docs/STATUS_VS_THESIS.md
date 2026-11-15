@@ -36,8 +36,8 @@ Same 16 windows for every model (sub16), averaged over the 4 horizons:
 | TTM-R1 (thesis era) | **0.383** | 0.316 | 0.538 | 0.372 | **0.236** | 0.190 | 0.528 | 0.366 |
 | Chronos-T (thesis era) | 0.610 | 0.459 | 0.721 | 0.362 | 0.355 | 0.346 | 1.048 | 0.557 |
 | TimesFM-1.0 (thesis era) | 0.459 | 0.352 | **0.438** | 0.330 | 0.267 | **0.149** | **0.342** | **0.334** |
-| Lag-Llama (thesis era) | pending | | | | | | | |
-| Moirai-S (thesis era) | re-running | | | | | | | |
+| Lag-Llama (thesis era) | 0.446 | 0.406 | 1.646 | 0.392 | 0.570 | -- | -- | 0.692* |
+| Moirai-S (thesis era) | 0.485 | 0.511 | 0.837 | 0.374 | 0.322 | 0.246 | 0.627 | 0.486 |
 | TTM-R2 (post-thesis) | 0.394 | 0.324 | 0.411 | 0.312 | 0.232 | 0.200 | 0.543 | 0.345 |
 | Chronos-Bolt-T (post-thesis) | 0.436 | 0.345 | 0.385 | 0.295 | 0.284 | 0.167 | 0.406 | 0.331 |
 | TimesFM-2.5 (post-thesis) | 0.419 | 0.344 | 0.401 | 0.320 | 0.275 | 0.157 | 0.351 | 0.324 |
@@ -51,18 +51,32 @@ and Lag-Llama" and is "second only to TTM".
 - **TTM-R1: E-ZERO is behind on average** (0.414 vs 0.366) but ahead on ETTh2 and ETTm2, and level
   on ETTh1 within noise. "Second only to TTM" would hold if TimesFM did not exist.
 - **E-ZERO is the best thesis-era model on ETTh2 and ETTm2.** That is the defensible claim.
-- **Moirai-S and Lag-Llama are still open** (see below), so the final wording waits for them.
+- **Moirai-S: confirmed.** E-ZERO wins on 6 of 7 datasets (0.414 vs 0.486); Moirai-S is ahead only
+  on Electricity (0.246 vs 0.276). Note Traffic is in Moirai's own pre-training corpus, which its
+  authors exclude for that reason; the 0.627 here is reported but should not be read as zero-shot.
+- **Lag-Llama: confirmed on the five datasets it could be run on.** E-ZERO wins on all five
+  (0.359 against 0.692 over those five). *Its average is over 5 datasets, not 7, so it is not
+  comparable with the other rows and is marked.
+- **All six thesis-era models are now measured.** E-ZERO ranks 3rd of 6 on the average: behind
+  TimesFM-1.0 (0.334) and TTM-R1 (0.366), ahead of Moirai-S (0.486), Chronos-T (0.557) and
+  Lag-Llama (0.692).
 
 **Moirai-S was mis-evaluated here, not weak.** Our first run gave MSE up to 1e8 while MAE stayed
 moderate, the signature of a few extreme predictions. The cause: Moirai is probabilistic with a
 heavy-tailed predictive distribution, its authors evaluate the **median** of the sampled paths, and
-our wrapper took the **mean**, which a single extreme draw dominates. The numbers are quarantined in
-`results/failures/` and the model is re-running with median aggregation (`tsfmfix` stage).
+our wrapper took the **mean**, which a single extreme draw dominates. The faulty numbers are
+quarantined in `results/failures/`. Re-run with median aggregation (`tsfmfix`, commit 3fbb8ef) the
+MSE lands between 0.246 and 0.837 with an average of 0.486 - ordinary, and in the same range as the
+other models. Nothing about the model changed; only which functional of its predictive distribution
+we read. That single choice moved its reported error by eight orders of magnitude, which is worth
+remembering before reading any point metric computed from a probabilistic forecaster.
 
 **Lag-Llama is partly infeasible.** It costs about 54 min per ETT dataset and 2.7 h on Weather
 (21 channels) on a T4. Electricity (321 channels) and Traffic (862) would need an estimated 40+ h
-each, so they are not attempted; the other five datasets are re-running. Its coverage will be
-reported as 5 of 7 with the reason, rather than left blank.
+each, so they were not attempted. It is measured on the other five and reported as 5 of 7 with the
+reason, never left blank, and its average is marked as not comparable with the seven-dataset rows.
+Its cost is the reason: 19.1 s of GPU time per batch on the fixed workload, 1,600 times E-ZERO's
+11.9 ms and the slowest of every model measured here.
 
 ## 3. Against models trained on each dataset (thesis Table 3: "outperforms other architectures except on Electricity")
 
@@ -125,7 +139,9 @@ own comparison):
 **Status: partly supported.**
 - **Supported:**
   - E-ZERO is tiny (0.74M parameters).
-  - It is 4.6x faster than Chronos-Bolt on the GPU; timings for the larger thesis-era models are pending.
+  - It is 4.6x faster than Chronos-Bolt on the GPU, and faster than every thesis-era foundation
+    model now that all of them are timed: 11.9 ms per batch against 43.6 ms for Moirai-S,
+    443.7 ms for TimesFM-1.0, 2.55 s for Chronos-T and 19.1 s for Lag-Llama.
 - **Not supported:**
   - "Lowest inference time of all models": TTM is faster in our measurement and in the thesis's own Table 3.
   - "Nearly double the efficiency of TTM" contradicts the thesis's own Table 4, where lower is better and TTM scores 0.0031 against E-ZERO's 0.0065.
@@ -223,9 +239,15 @@ close to true** - but v3 is a 2026 successor, not the model the thesis evaluated
 - It comes within 11-22% of the best result any model reports on four of them.
 - It runs several times faster than the Chronos family.
 
-**Claims that depend on pending runs:**
-- That it beats the thesis-era foundation models (Chronos-T5 looks likely; Moirai, TimesFM and Lag-Llama are open).
-- (Answered: the ablations do not support "each component contributes"; see section 5.)
+**Answered since:**
+- It beats Chronos-T5-tiny, Moirai-S and Lag-Llama, and is behind TimesFM-1.0 and TTM-R1: 3rd of
+  the 6 thesis-era models on the average. All six are now measured.
+- The ablations do not support "each component contributes"; see section 5.
+
+**Claims that still depend on pending runs:**
+- The comparison against architectures trained on each dataset is missing TSMixer, TimeMixer,
+  TimesNet, FEDformer and Autoformer (`fullshot2`, `fullshot3`), and the reproduction check against
+  each model's own published protocol is missing (`tsfmval`, `fullval`).
 
 **Claims that should be withdrawn:**
 - The Table 2 absolute values.
