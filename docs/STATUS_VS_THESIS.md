@@ -84,16 +84,18 @@ Its cost is the reason: 19.1 s of GPU time per batch on the fixed workload, 1,60
 scaling, lookback 512, mean of horizons 96/192/336/720). E-ZERO is zero-shot; the other three were
 trained on each dataset:
 
-| MSE | E-ZERO | PatchTST | iTransformer | DLinear | SeasonalNaive |
-|---|---|---|---|---|---|
-| ETTh1 | 0.450 | **0.437** | 0.458 | 0.454 | 0.600 |
-| ETTh2 | **0.352** | 0.363 | 0.398 | 0.485 | 0.483 |
-| ETTm1 | 0.564 | **0.371** | 0.385 | 0.415 | 0.489 |
-| ETTm2 | **0.287** | 0.298 | 0.289 | 0.377 | 0.358 |
-| Weather | 0.271 | **0.228** | 0.242 | 0.270 | 0.371 |
-| Electricity | 0.286 | 0.167 | **0.163** | 0.171 | 0.330 |
-| Traffic | 0.759 | 0.426 | **0.407** | 0.528 | 1.161 |
-| Average | 0.424 | **0.327** | 0.334 | 0.386 | 0.542 |
+| MSE | E-ZERO | E-ZERO-v3 | PatchTST | iTransformer | TSMixer | DLinear | TimesNet | SeasonalNaive |
+|---|---|---|---|---|---|---|---|---|
+| ETTh1 | 0.450 | 0.408 | **0.437** | 0.458 | 0.474 | 0.454 | 0.606 | 0.600 |
+| ETTh2 | 0.352 | **0.340** | 0.363 | 0.398 | 0.381 | 0.485 | 0.489 | 0.483 |
+| ETTm1 | 0.564 | 0.451 | **0.371** | 0.385 | 0.418 | 0.415 | 0.476 | 0.489 |
+| ETTm2 | 0.287 | **0.276** | 0.298 | 0.289 | 0.292 | 0.377 | 0.330 | 0.358 |
+| Weather | 0.271 | 0.245 | **0.228** | 0.242 | 0.256 | 0.270 | 0.298 | 0.371 |
+| Electricity | 0.286 | 0.213 | 0.167 | **0.163** | 0.183 | 0.171 | 0.220 | 0.330 |
+| Traffic | 0.759 | 0.540 | 0.426 | **0.407** | 0.441 | 0.528 | 0.642 | 1.161 |
+| Average | 0.424 | 0.353 | **0.327** | 0.334 | 0.349 | 0.386 | 0.437 | 0.542 |
+
+TimeMixer is missing: see the note below. FEDformer and Autoformer are running (`fullshot3`).
 
 **Are the baselines trained well enough for this to be fair?** At lookback 512 our runs land near the
 published numbers: iTransformer is 4.6% *better* than its paper's values (89% of cells within 10%),
@@ -106,9 +108,21 @@ with the official per-dataset settings. Full detail: `paper/tables/tableV_reprod
   that dataset, and is within 3% of the best on ETTh1 and level with DLinear on Weather.
 - It loses clearly on ETTm1, Electricity and Traffic: the many-channel datasets and the one where
   the thesis itself expected to lose.
-- On average it trails PatchTST by 30% and iTransformer by 27%.
+- On average the 2024 configuration trails PatchTST by 30% and iTransformer by 27%.
+- **E-ZERO-v3, used zero-shot, beats TimesNet (0.353 against 0.437) and DLinear (0.386) and is
+  within 1% of TSMixer (0.349)** - all three trained on each dataset. It remains behind PatchTST
+  and iTransformer, and the whole of that remaining gap is Electricity and Traffic.
 - The thesis claim "outperforms other architectures except on Electricity" does not hold. "Matches
   or beats models trained on the target data on 4 of 7 benchmarks, without ever seeing them" does.
+
+**TimeMixer is withheld.** Its run diverged at horizon 192 on ETTm2 (MSE 1.1e6) and Weather
+(5.7e5) under the paper recipe this repository uses for it (learning rate 1e-2 with a one-cycle
+schedule), and then ran out of GPU memory on Electricity: it is channel-independent, so 321 and 862
+channels multiply the batch. Eighteen of its twenty completed rows look ordinary, but they come from
+the same configuration that produced the other two, so none of them is published. All twenty are in
+`results/failures/bench_TimeMixer_diverged-h192.csv` with this note; its cost measurement, which is a
+forward pass and unaffected, is kept. It needs a re-run with a lower learning rate and a channel
+batch cap before it can appear in any table.
 
 Comparison with the values each model's own paper reports (different lookbacks, as in the thesis's
 own comparison):

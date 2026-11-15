@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-15T03:27:14Z",
-  "git_commit": "3fbb8efec01fa1b01319c5c65d28119127d56618",
+  "generated_at": "2026-11-15T03:59:45Z",
+  "git_commit": "b2b92092fe96d2e1438e75a333c57085ede6f7a1",
   "model_roster_count": 36,
   "models": [
     "E-ZERO",
@@ -329,6 +329,24 @@
         "Weather"
       ],
       "SeasonalNaive": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TSMixer": [
+        "ETTh1",
+        "ETTh2",
+        "ETTm1",
+        "ETTm2",
+        "Electricity",
+        "Traffic",
+        "Weather"
+      ],
+      "TimesNet": [
         "ETTh1",
         "ETTh2",
         "ETTm1",
